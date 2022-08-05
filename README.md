@@ -1,6 +1,6 @@
 # Purestochastic
 
-[![Documentation Status]()
+[![Documentation Status](https://readthedocs.org/projects/purestochastic/badge/?version=latest)](https://purestochastic.readthedocs.io/en/latest/?badge=latest)
 
 Purestochastic lets you deal with the uncertainty associated with the prediction of your machine learning model. It makes you able to use all the tools of the [Tensorflow](https://www.tensorflow.org/) library and adds functionnality to be able to construct stochastic model easily. You can use a ``low-level`` interface by constructing model on your own way or a ``high-level`` interface by converting standard model into stochastic model.
 
