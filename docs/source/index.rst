@@ -31,4 +31,5 @@ You can use a ``low-level`` interface by constructing model on your own way or a
 .. warning::
    At present, the library is only constructed for the regression problem. At future, 
    it can be adapted to the classification problem.
-
+   
+Purestochastic has its documentation hosted on Read the Docs.
