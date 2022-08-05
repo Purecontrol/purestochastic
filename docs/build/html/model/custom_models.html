@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Models &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utils" href="../utils/utils.html" />
+    <link rel="prev" title="Custom Activations" href="custom_activations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> purestochastic
+            <img src="../_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#multiswag">5. MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="model.html">Model</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="gaussian_regression.html">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_activations.html">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_activations.html#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiswag">MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../utils/losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utils/losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utils/metrics.html">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="model.html">Model</a> &raquo;</li>
+      <li>Custom Models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/model/custom_models.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="custom-models">
+<h1>Custom Models<a class="headerlink" href="#custom-models" title="Permalink to this heading">¶</a></h1>
+<p>This module contains all the custom stochastic models. It helps the user to choose a pre-implemented model
+and to use directly on its own use case. The first class <code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code> is an abstract class on which
+all other class are based on.</p>
+<p>Each custom model has a custom class that is a subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code> and a high-level function that allows
+to convert to usual object of type <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model">tf.keras.Model</a>
+or <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Sequential">tf.keras.SequentialModel</a> to the corresponding
+model.</p>
+<p>The list of available models is :</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#stochastic-model" id="id13">Stochastic Model</a></p></li>
+<li><p><a class="reference internal" href="#mvem" id="id14">MVEM</a></p></li>
+<li><p><a class="reference internal" href="#deepensemble" id="id15">DeepEnsemble</a></p></li>
+<li><p><a class="reference internal" href="#swag" id="id16">SWAG</a></p></li>
+<li><p><a class="reference internal" href="#multiswag" id="id17">MultiSWAG</a></p></li>
+</ul>
+</div>
+<section id="stochastic-model">
+<h2><a class="toc-backref" href="#id13">Stochastic Model</a><a class="headerlink" href="#stochastic-model" title="Permalink to this heading">¶</a></h2>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code> is a subclass of <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model">tf.keras.Model</a> that
+was defined in order to add stochastic metrics. It’s an abstract class that can’t be instanciate. All other custom models
+are subclasses of <code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you create a custom stochastic model, you may want it to be a subclass of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code>.</p>
+</div>
+<p>Ths class is useful to integrate <strong>stochatic metrics</strong> into the training and testing process.
+For example, the piece of code below shows how to use the <strong>stochastic metrics</strong> in a custom model :</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">stochastic_metrics</span><span class="o">=</span><span class="s1">&#39;picp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="go">Epoch 1/6</span>
+<span class="go">1/1 [==============================] - 4s 4s/step - loss: 1.5937 - picp: 1.0000</span>
+<span class="go">Epoch 2/6</span>
+<span class="go">1/1 [==============================] - 0s 9ms/step - loss: 1.1870 - picp: 1.0000</span>
+<span class="go">Epoch 3/6</span>
+<span class="go">1/1 [==============================] - 0s 10ms/step - loss: 1.1034 - picp: 1.0000</span>
+<span class="go">Epoch 4/6</span>
+<span class="go">1/1 [==============================] - 0s 6ms/step - loss: 1.0789 - picp: 0.9500</span>
+<span class="go">Epoch 5/6</span>
+<span class="go">1/1 [==============================] - 0s 5ms/step - loss: 1.0209 - picp: 0.8500</span>
+<span class="go">Epoch 6/6</span>
+<span class="go">1/1 [==============================] - 0s 6ms/step - loss: 0.9594 - picp: 0.9000</span>
+</pre></div>
+</div>
+<p>An explanation of the class <code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code> is defined below.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="purestochastic.model.base_uncertainty_models.StochasticModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">purestochastic.model.base_uncertainty_models.</span></span><span class="sig-name descname"><span class="pre">StochasticModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/base_uncertainty_models.html#StochasticModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.base_uncertainty_models.StochasticModel" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#purestochastic.model.base_uncertainty_models.StochasticModel" title="purestochastic.model.base_uncertainty_models.StochasticModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code></a> allows to make stochastic training and inference features.</p>
+<p><a class="reference internal" href="#purestochastic.model.base_uncertainty_models.StochasticModel" title="purestochastic.model.base_uncertainty_models.StochasticModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code></a> is a subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">keras.Model</span></code> that allows to construct stochastic
+model. Stochastic model often outputs the parameters of a parametric distribution or quantiles of a
+generic distribution. For example, it outputs the mean and the variance of a Gaussian Distribution.</p>
+<p>However, with standard class <code class="xref py py-class docutils literal notranslate"><span class="pre">keras.Model</span></code>, all the metrics need to take the same input values.
+Nevertheless, deterministic and stochastic metrics don’t take the same input values. Therefore,
+<a class="reference internal" href="#purestochastic.model.base_uncertainty_models.StochasticModel" title="purestochastic.model.base_uncertainty_models.StochasticModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code></a> adds the possibility to have deterministic as well as stochastic metrics.
+Stochastic metrics need to be specified when <code class="docutils literal notranslate"><span class="pre">model.compile</span></code> is called with <code class="docutils literal notranslate"><span class="pre">stochastic_metrics</span></code>
+or <code class="docutils literal notranslate"><span class="pre">stochastic_weigthed_metrics</span></code> arguments.</p>
+<p>The class is abstract and can’t be instanciate. Subclass need to override their own
+<code class="docutils literal notranslate"><span class="pre">compute_metrics(self,</span> <span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">prediction,</span> <span class="pre">sample_weight)</span></code> method that will called
+the parent method with the appropriate <cite>y_pred</cite> and <cite>stochastic_predictions</cite> arguments.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">compile(stochastic_metrics=None,</span> <span class="pre">stochastic_weigthed_metrics=None):</span></span></dt>
+<dd><p>Compile the model and add stochastic metrics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">compute_metrics(x,</span> <span class="pre">y,</span> <span class="pre">y_pred,</span> <span class="pre">stochastic_predictions,</span> <span class="pre">sample_weight):</span></span></dt>
+<dd><p>Compute the values of the deterministic and stochastic metrics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">reset_metrics():</span></span></dt>
+<dd><p>Reset the state of deterministic and stochastic metrics</p>
+</dd></dl>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All the stochastic metrics need to take the same input values. They have to be consistent
+together.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.base_uncertainty_models.StochasticModel.compute_metrics">
+<span class="sig-name descname"><span class="pre">compute_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stochastic_predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/base_uncertainty_models.html#StochasticModel.compute_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.base_uncertainty_models.StochasticModel.compute_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the metrics.</p>
+<p>The method called the parent method <code class="docutils literal notranslate"><span class="pre">compute_metrics</span></code> to compute the
+deterministic metrics and then compute the stochastic metrics
+manually.</p>
+<p>The methods takes one additional parameter <code class="docutils literal notranslate"><span class="pre">stochastic_predictions</span></code> that it’s
+specified by methods of subclass. This has to be the same for all the
+stochastic metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>y</strong> (<em>tf.Tensor</em>) – Target data.</p></li>
+<li><p><strong>y_pred</strong> (<em>tf.Tensor</em>) – Mean prediction for y.</p></li>
+<li><p><strong>stochastic_predictions</strong> (<em>tf.Tensor</em>) – Stochastic predictions for y.</p></li>
+<li><p><strong>sample_weight</strong> – Sample weights for weighting the metrics.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>metric_results</strong> – Value of each metric.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="mvem">
+<h2><a class="toc-backref" href="#id14">MVEM</a><a class="headerlink" href="#mvem" title="Permalink to this heading">¶</a></h2>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>Add a class for MVEM which deals with compute_metrics</p>
+</div>
+</section>
+<section id="deepensemble">
+<h2><a class="toc-backref" href="#id15">DeepEnsemble</a><a class="headerlink" href="#deepensemble" title="Permalink to this heading">¶</a></h2>
+<p>The DeepEnsemble model is an ensemble of Deep Learning model. The idea is to train the same model multiple times with
+different random seeds and then average the results in order to have diverse predictions. It’s then possible to combine
+the predictions. For more details, see the papers <a class="reference external" href="https://arxiv.org/abs/1612.01474">Simple and Scalable Predictive Uncertainty Estimation using Deep Ensembles</a> or <a class="reference external" href="http://arxiv.org/abs/1912.02757">Deep Ensembles: A Loss Landscape Perspective</a>.</p>
+<figure class="align-center" id="id11">
+<a class="reference internal image-reference" href="../_images/DeepEnsemble.png"><img alt="../_images/DeepEnsemble.png" src="../_images/DeepEnsemble.png" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-text">Cartoon illustration of the performance of the DeepEnsemble model from the article <strong>Deep Ensembles: A Loss Landscape Perspective</strong>.</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The DeepEnsemble model seems to work better if the kernel initializer is not set to <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/initializers/glorot_uniform">‘glorot_uniform’</a>.
+(the default value) but to <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/initializers/random_normal">‘random_normal’</a> with a high variance <code class="docutils literal notranslate"><span class="pre">stddev</span></code>.</p>
+</div>
+<p>Here are some <strong>examples</strong> using the <code class="xref py py-class docutils literal notranslate"><span class="pre">DeepEnsembleModel</span></code> :</p>
+<ul class="simple">
+<li><p>With <strong>high-level</strong> API (recommended usage) :</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,))</span>
+<span class="linenos">2</span><span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="linenos">3</span><span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense2Dto3D</span><span class="p">(</span><span class="n">output_dim</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">MeanVarianceActivation</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="linenos">4</span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+<span class="hll"><span class="linenos">5</span><span class="n">DeepEnsemble</span> <span class="o">=</span> <span class="n">toDeepEnsemble</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nb_models</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<ul class="simple">
+<li><p>With <strong>low-level</strong> layers :</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>    <span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,))</span>
+<span class="linenos">2</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">Dense2Dto3D</span><span class="p">(</span><span class="n">nb_models</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="linenos">3</span>    <span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense3Dto4D</span><span class="p">(</span><span class="n">output_dim</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">MeanVarianceActivation</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="hll"><span class="linenos">4</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">DeepEnsembleModel</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">DeepEnsembleModel</span></code> and the method <code class="docutils literal notranslate"><span class="pre">toDeepEnsemble</span></code> are described above.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="purestochastic.model.deep_ensemble.DeepEnsembleModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">purestochastic.model.deep_ensemble.</span></span><span class="sig-name descname"><span class="pre">DeepEnsembleModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/deep_ensemble.html#DeepEnsembleModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.deep_ensemble.DeepEnsembleModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implementation of the DeepEnsemble model.</p>
+<p>The Deep Ensemble <a class="footnote-reference brackets" href="#id4" id="id3">1</a> is an ensemble of Deep Learning model trained independently and
+combined for prediction in order to estimate uncertainty.</p>
+<p>The model can be constructed manually or it’s possible to use the method <code class="docutils literal notranslate"><span class="pre">toDeepEnsemble</span></code>
+to convert a simple <code class="xref py py-class docutils literal notranslate"><span class="pre">keras.Model</span></code> object into a <a class="reference internal" href="#purestochastic.model.deep_ensemble.DeepEnsembleModel" title="purestochastic.model.deep_ensemble.DeepEnsembleModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DeepEnsembleModel</span></code></a> object.
+This class don’t need specific loss function and can’t use all of the tensorflow loss
+function and also custom loss functions.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">compute_loss(x=None,</span> <span class="pre">y=None,</span> <span class="pre">y_pred=None,</span> <span class="pre">sample_weight=None):</span></span></dt>
+<dd><p>Compute the loss independently for each model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_combine_predictions(predictions,</span> <span class="pre">stacked):</span></span></dt>
+<dd><p>Combine the predictions made by the models.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">compute_metrics(x,</span> <span class="pre">y,</span> <span class="pre">predictions,</span> <span class="pre">sample_weight):</span></span></dt>
+<dd><p>Specify the mean and stochastic part of the predictions to compute the metrics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">predict(x):</span></span></dt>
+<dd><p>Compute the predictions of the model thanks to the <cite>_combine_predictions</cite> method.</p>
+</dd></dl>
+
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id3">1</a></span></dt>
+<dd><p>Balaji Lakshminarayanan, Alexander Pritzel et Charles Blundell. « Simple and scalable
+predictive uncertainty estimation using deep ensembles ». In : Advances in Neural Information
+Processing Systems 2017-Decem.Nips (2017), p. 6403-6414. issn : 10495258. arXiv : 1612.01474.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.deep_ensemble.DeepEnsembleModel._combine_predictions">
+<span class="sig-name descname"><span class="pre">_combine_predictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stacked</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/deep_ensemble.html#DeepEnsembleModel._combine_predictions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.deep_ensemble.DeepEnsembleModel._combine_predictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combine the predictions of all the models in order to quantify the uncertainty.</p>
+<p>This method combines the prediction of all the models in order to quantify uncertainty.
+The computation of uncertainty and the mean prediction is different according to the
+structure of the network. For the moment, there are 2 possibilities (B = number of models):</p>
+<blockquote>
+<div><ul>
+<li><p>Mean Variance Activation (see method <code class="docutils literal notranslate"><span class="pre">MeanVarianceActivation</span></code>)):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Mean : <span class="math notranslate nohighlight">\(\hat{\mu} = \dfrac{1}{B} \sum_{i=1}^{B} \hat{\mu}_i\)</span></p></li>
+<li><p>Epistemic Variance : <span class="math notranslate nohighlight">\(\hat{\sigma}^2_{epi} = \dfrac{1}{B} \sum_{i=1}^{B} (\hat{y}_i - \hat{\mu})^2\)</span></p></li>
+<li><p>Aleatoric Variance : <span class="math notranslate nohighlight">\(\hat{\sigma}^2_{alea} = \dfrac{1}{B} \sum_{i=1}^{B} (\sigma^2_i)\)</span></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>No specific structure :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Mean : <span class="math notranslate nohighlight">\(\hat{y} = \dfrac{1}{B} \sum_{i=1}^{B} \hat{y}_i\)</span></p></li>
+<li><p>Variance : <span class="math notranslate nohighlight">\(\hat{\sigma}^2 = \dfrac{1}{B} \sum_{i=1}^{B} (\hat{y}_i - \hat{y})^2\)</span></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>In the future, it will be possible to add other possibilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>tf.Tensor</em>) – Predictions returned by the model (output of <code class="docutils literal notranslate"><span class="pre">model(x)</span></code>)</p></li>
+<li><p><strong>stacked</strong> (<em>boolean</em>) – Boolean to indicate wheter the output should be stacked in a single tensor or not.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Predictions that have been combined. If <code class="docutils literal notranslate"><span class="pre">stacked</span></code> is True, the output is a one tensor.</p></li>
+<li><p><em>Otherwise, the output is a list of tensors.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.deep_ensemble.DeepEnsembleModel.compute_loss">
+<span class="sig-name descname"><span class="pre">compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/deep_ensemble.html#DeepEnsembleModel.compute_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.deep_ensemble.DeepEnsembleModel.compute_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom <code class="docutils literal notranslate"><span class="pre">compute_loss</span></code> function.</p>
+<p>This method overrides the <code class="docutils literal notranslate"><span class="pre">compute_loss</span></code> function so that the class doesn’t
+need specific loss function. It computes the loss for each model independently.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>y</strong> (<em>tf.Tensor</em>) – Target data.</p></li>
+<li><p><strong>y_pred</strong> (<em>tf.Tensor</em>) – Predictions returned by the model (output of <code class="docutils literal notranslate"><span class="pre">model(x)</span></code>)</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Sample weights for weighting the loss function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>The total loss.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.deep_ensemble.DeepEnsembleModel.compute_metrics">
+<span class="sig-name descname"><span class="pre">compute_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/deep_ensemble.html#DeepEnsembleModel.compute_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.deep_ensemble.DeepEnsembleModel.compute_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom <code class="docutils literal notranslate"><span class="pre">compute_metrics</span></code> method.</p>
+<p>As stated in the parent method <code class="docutils literal notranslate"><span class="pre">compute_metrics</span></code>, this method called the
+parent function with the appropriate <code class="docutils literal notranslate"><span class="pre">y_pred</span></code> and <code class="docutils literal notranslate"><span class="pre">stochastic_predictions</span></code>
+arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>y</strong> (<em>tf.Tensor</em>) – Target data.</p></li>
+<li><p><strong>predictions</strong> (<em>tf.Tensor</em>) – Predictions returned by the model (output of <code class="docutils literal notranslate"><span class="pre">model(x)</span></code>)</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Sample weights for weighting the loss function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>See parent method.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.deep_ensemble.DeepEnsembleModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/deep_ensemble.html#DeepEnsembleModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.deep_ensemble.DeepEnsembleModel.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combine predictions made by all the models.</p>
+<p>This method just called the parent’s method and then combine predictions in order to quantify uncertainty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>kwargs</strong> (<em>optional</em>) – Other Arguments of the <cite>predict</cite> parent’s method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Predictions made by the Deep Ensemble model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="purestochastic.model.deep_ensemble.toDeepEnsemble">
+<span class="sig-prename descclassname"><span class="pre">purestochastic.model.deep_ensemble.</span></span><span class="sig-name descname"><span class="pre">toDeepEnsemble</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_models</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/deep_ensemble.html#toDeepEnsemble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.deep_ensemble.toDeepEnsemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a regular model into a deep ensemble model.</p>
+<p>This method intends to be high-level interface to construct
+a Deep Ensemble model from a regular model. At present, only
+the densely-connected NN is compatible with a fully parallelizable
+implementation. Other architecture are just concatenated models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<em>tf.keras.Sequential or tf.keras.Model</em>) – a tensorflow model</p></li>
+<li><p><strong>nb_models</strong> (<em>int</em>) – the number of models</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a Deep Ensemble Model</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#purestochastic.model.deep_ensemble.DeepEnsembleModel" title="purestochastic.model.deep_ensemble.DeepEnsembleModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">DeepEnsembleModel</span></code></a></p>
+</dd>
+</dl>
+<div class="admonition-todo admonition" id="id5">
+<p class="admonition-title">Todo</p>
+<p>Add support for other architectures</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="swag">
+<h2><a class="toc-backref" href="#id16">SWAG</a><a class="headerlink" href="#swag" title="Permalink to this heading">¶</a></h2>
+<p>The SWAG model is a bayesian model and especially a bayesian model averaging with variational inference.
+The model fits a the posterio distribution of the parameter of the model during the training of the model
+exploiting specific properties of the optimization process. For more details, see the papers
+<a class="reference external" href="https://papers.nips.cc/paper/2019/file/118921efba23fc329e6560b27861f0c2-Paper.pdf">A Simple Baseline for Bayesian Uncertainty in Deep Learning</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>It’s important to fix the learning rate of the second optimization process quite high so that the parameters
+are enough diverse. It’s not a problem is the loss is not stable, that is the loss increases and decreases
+itertively.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method uses two optimization process. The first one is the pretaining with the argument given in the <code class="docutils literal notranslate"><span class="pre">compile</span></code> method. The second one is the
+training of the model with the argument given in the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method.</p>
+</div>
+<p>Here are some <strong>examples</strong> using the <code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code> :</p>
+<ul class="simple">
+<li><p>With <strong>high-level</strong> API (recommended usage) :</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,))</span>
+<span class="linenos">2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="linenos">3</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense2Dto3D</span><span class="p">(</span><span class="n">output_dim</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">MeanVarianceActivation</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="linenos">4</span> <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+<span class="hll"><span class="linenos">5</span> <span class="n">SWAG</span> <span class="o">=</span> <span class="n">toSWAG</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<ul class="simple">
+<li><p>With <strong>low-level</strong> layers :</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,))</span>
+<span class="linenos">2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="linenos">3</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense2Dto3D</span><span class="p">(</span><span class="n">output_dim</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">MeanVarianceActivation</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="hll"><span class="linenos">4</span> <span class="n">model</span> <span class="o">=</span> <span class="n">SWAGModel</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code> and the methods <code class="docutils literal notranslate"><span class="pre">toSWAG</span></code> and <code class="docutils literal notranslate"><span class="pre">SWAGCallback</span></code> are described above.
+The principal logic of the SWAG algorithm is in the <code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGCallback</span></code> class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="purestochastic.model.swag.SWAGModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">purestochastic.model.swag.</span></span><span class="sig-name descname"><span class="pre">SWAGModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#SWAGModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.SWAGModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implementation of the SWAG Model.</p>
+<p>The SWAG <a class="footnote-reference brackets" href="#id7" id="id6">2</a> (Stochastic Weight Averaging Gaussian) is a model to make bayesian inference and
+training to quantify uncertainty. For more details, see <a class="reference internal" href="#purestochastic.model.swag.SWAGCallback" title="purestochastic.model.swag.SWAGCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGCallback</span></code></a>.</p>
+<p>The model can be constructed manually or it’s possible to use the method <cite>toSWAG</cite>
+to convert a simple <code class="xref py py-class docutils literal notranslate"><span class="pre">keras.Model</span></code> object into a <a class="reference internal" href="#purestochastic.model.swag.SWAGModel" title="purestochastic.model.swag.SWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code></a> object.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">fit(X,</span> <span class="pre">y,</span> <span class="pre">start_averaging=10,</span> <span class="pre">learning_rate=0.001,</span> <span class="pre">update_frequency=1,</span> <span class="pre">K=10):</span></span></dt>
+<dd><p>Trains the model with the SWAG algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_sample_prediction(data,</span> <span class="pre">S,</span> <span class="pre">verbose=0):</span></span></dt>
+<dd><p>Sample different prediction according to the posterior distribution of the parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_combine_predictions(predictions,</span> <span class="pre">stacked):</span></span></dt>
+<dd><p>Combine the sampled predictions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">compute_metrics(x,</span> <span class="pre">y,</span> <span class="pre">predictions,</span> <span class="pre">sample_weight):</span></span></dt>
+<dd><p>Specify the mean and stochastic part of the predictions to compute the metrics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">predict(data,</span> <span class="pre">S=5,</span> <span class="pre">verbose=0):</span></span></dt>
+<dd><p>Computes the predictions of the model with the SWAG algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">evaluate(x=None,</span> <span class="pre">y=None,</span> <span class="pre">S=5,</span> <span class="pre">sample_weight=None):</span></span></dt>
+<dd><p>Evaluate the model with the SWAG algorithm.</p>
+</dd></dl>
+
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id7"><span class="brackets">2</span><span class="fn-backref">(<a href="#id6">1</a>,<a href="#id8">2</a>)</span></dt>
+<dd><p>Wesley J. Maddox et al. « A simple baseline for Bayesian uncertainty in deep learning ». In :
+Advances in Neural Information Processing Systems 32.NeurIPS (2019), p. 1-25. issn : 10495258.
+arXiv : 1902.02476.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.SWAGModel._combine_predictions">
+<span class="sig-name descname"><span class="pre">_combine_predictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stacked</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#SWAGModel._combine_predictions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.SWAGModel._combine_predictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bayesian Model Averaging of the S predictions.</p>
+<p>This method follows the <code class="docutils literal notranslate"><span class="pre">_sample_prediction</span></code> method. It takes in input the batch of S predictions
+sampled from <code class="docutils literal notranslate"><span class="pre">_sample_prediction</span></code> method. Then, it averages the predictions in order to compute
+the mean and the uncertainty associated with the prediction. The computation of uncertainty and the
+mean prediction is different according to the structure of the network. For the moment, there are 2
+possibilities (S=number of samples):</p>
+<ul>
+<li><p>Mean Variance Activation (see method <code class="docutils literal notranslate"><span class="pre">MeanVarianceActivation</span></code>)):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Mean : <span class="math notranslate nohighlight">\(\hat{\mu} = \dfrac{1}{S} \sum_{i=1}^{S} \hat{\mu}_i\)</span></p></li>
+<li><p>Epistemic Variance : <span class="math notranslate nohighlight">\(\hat{\sigma}^2_{epi} = \dfrac{1}{S} \sum_{i=1}^{S} (\hat{y}_i - \hat{\mu})^2\)</span></p></li>
+<li><p>Aleatoric Variance : <span class="math notranslate nohighlight">\(\hat{\sigma}^2_{alea} = \dfrac{1}{S} \sum_{i=1}^{S} (\sigma^2_i)\)</span></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>No specific structure</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Mean : <span class="math notranslate nohighlight">\(\hat{y} = \dfrac{1}{S} \sum_{i=1}^{S} \hat{y}_i\)</span></p></li>
+<li><p>Variance : <span class="math notranslate nohighlight">\(\hat{\sigma}^2 = \dfrac{1}{S} \sum_{i=1}^{S} (\hat{y}_i - \hat{y})^2\)</span></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>In the future, it would be possible to add other possibilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>tf.Tensor</em>) – Batch of the S predictions computed by <code class="docutils literal notranslate"><span class="pre">_sample_prediction</span></code>.</p></li>
+<li><p><strong>stacked</strong> (<em>boolean</em>) – Boolean to indicate wheter the output should be stacked in a single tensor or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.SWAGModel._sample_prediction">
+<span class="sig-name descname"><span class="pre">_sample_prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#SWAGModel._sample_prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.SWAGModel._sample_prediction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample predictions according to the posterior distribution of the parameters.</p>
+<p>In the SWAG algorithm, the posterior distribution of the parameters is approximated
+as a Gaussian Distribution. The mean and the covariance are specified in the report
+associated with the code or in the article <a class="footnote-reference brackets" href="#id7" id="id8">2</a>. The mean has been stored in the variable
+<code class="docutils literal notranslate"><span class="pre">SWA_weights</span></code>. The diagonal and the Kth-rank approximation of the covariance matrix have
+been stored respectively in <code class="docutils literal notranslate"><span class="pre">SWA_cov</span></code> and <code class="docutils literal notranslate"><span class="pre">deviation_matrix</span></code>.</p>
+<p>The method samples the weights and computes the prediction associated multiple times.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>tf.Tensor</em>) – Input data (equivalent to x).</p></li>
+<li><p><strong>S</strong> (<em>int</em>) – The number of samples used in the Monte Carlo method.</p></li>
+<li><p><strong>verbose</strong> (<em>int, default:0</em>) – The verbosity level.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>preds</strong> – The batch of S predictions.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.SWAGModel.compute_metrics">
+<span class="sig-name descname"><span class="pre">compute_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#SWAGModel.compute_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.SWAGModel.compute_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom <code class="docutils literal notranslate"><span class="pre">compute_metrics</span></code> method.</p>
+<p>As stated in the parent method <code class="docutils literal notranslate"><span class="pre">compute_metrics</span></code>, this method called the
+parent function with the appropriate <code class="docutils literal notranslate"><span class="pre">y_pred</span></code> and <code class="docutils literal notranslate"><span class="pre">stochastic_predictions</span></code>
+arguments.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Unless the model predicts aleatoric uncertainty, the model can’t compute
+stochastic metrics before the end of the training.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>y</strong> (<em>tf.Tensor</em>) – Target data.</p></li>
+<li><p><strong>predictions</strong> (<em>tf.Tensor</em>) – Predictions returned by the model (output of <cite>model(x)</cite>)</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Sample weights for weighting the loss function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>See parent method.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.SWAGModel.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#SWAGModel.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.SWAGModel.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> method.</p>
+<p>It returns the loss value &amp; metrics values for the model in test mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>y</strong> (<em>tf.Tensor</em>) – Target data</p></li>
+<li><p><strong>S</strong> (<em>int, default:5</em>) – The number of samples used in the Monte Carlo method.</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Sample weights for weighting the loss function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict containing the values of the metrics and loss of the model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.SWAGModel.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_averaging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#SWAGModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.SWAGModel.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the model with the SWAG algorithm.</p>
+<p>The model is trained in two parts :</p>
+<ul class="simple">
+<li><p>Before <code class="docutils literal notranslate"><span class="pre">start_averaging</span></code> epochs, the model is trained normally. It’s defined as
+the pretraining of the model and the training uses the optimizer and learning rate
+specified in the <code class="docutils literal notranslate"><span class="pre">compile</span></code> function.</p></li>
+<li><p>After <code class="docutils literal notranslate"><span class="pre">start_averaging</span></code> epochs, the model is trained with the SWAG callback. In other
+words, at the end of specific epochs (according to parameters), the parameters of the
+model are saved. At the end of the training, the callback computes the parameters of
+the approximated posterior gaussian distribution. The parameters are then used in
+<code class="docutils literal notranslate"><span class="pre">_sample_prediction</span></code> in order to sample different predictions. At present, the optimizer
+is necessarily the SGD optimizer.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">src.model.swag.SWAGCallback</span></code></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – The input data.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – The target data.</p></li>
+<li><p><strong>start_averaging</strong> (<em>int</em>) – The number of epochs to pretrain the model.</p></li>
+<li><p><strong>learning_rate</strong> (<em>float</em>) – The learning rate of the SWAG algorithm (second part).</p></li>
+<li><p><strong>update_frequency</strong> (<em>int</em>) – The number of epochs between each save of parameters of the SWAG algorithm.</p></li>
+<li><p><strong>K</strong> (<em>int</em>) – The number of samples used to compute the covariance matrix.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>History of the SWAG’s training.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.SWAGModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#SWAGModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.SWAGModel.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample predictions and combine them.</p>
+<p>This method defines the inference step of the SWAG algorithm. First, it
+samples predictions of the model with the <code class="docutils literal notranslate"><span class="pre">_sample_prediction</span></code> method.
+Then, the predictions are combined with the method <code class="docutils literal notranslate"><span class="pre">_combine_predictions</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>numpy.ndarray</em>) – The input data.</p></li>
+<li><p><strong>S</strong> (<em>int, default:5</em>) – The number of samples used in the Monte Carlo method.</p></li>
+<li><p><strong>verbose</strong> (<em>int, default:0</em>) – The verbosity level.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>The predictions of the model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="purestochastic.model.swag.toSWAG">
+<span class="sig-prename descclassname"><span class="pre">purestochastic.model.swag.</span></span><span class="sig-name descname"><span class="pre">toSWAG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#toSWAG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.toSWAG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a regular model into a SWAG model.</p>
+<p>This method intends to be high-level interface to construct
+a SWAG model from a regular model. At present, only
+the densely-connected NN is compatible with a fully parallelizable
+implementation. Other architecture are just concatenated models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tf.keras.Sequential</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">tf.keras.Model</span></code>) – a tensorflow model</p></li>
+<li><p><strong>nb_models</strong> (<em>int</em>) – the number of models</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a SWAG Model</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#purestochastic.model.swag.SWAGModel" title="purestochastic.model.swag.SWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="purestochastic.model.swag.SWAGCallback">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">purestochastic.model.swag.</span></span><span class="sig-name descname"><span class="pre">SWAGCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_frequency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#SWAGCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.SWAGCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approximation of the posterior distribution of parameters as a gaussian distribution.</p>
+<p>Callback used in the class <a class="reference internal" href="#purestochastic.model.swag.SWAGModel" title="purestochastic.model.swag.SWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code></a> and <a class="reference internal" href="#purestochastic.model.swag.MultiSWAGModel" title="purestochastic.model.swag.MultiSWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiSWAGModel</span></code></a>. It allows to approximate the
+posterior distribution of the parameters as a gaussian distribution. The parameters of the
+gaussian distribution are computed as follows :</p>
+<ul class="simple">
+<li><p>The mean of the gaussian is the mean of the parameters (first moment) found during the training process. Mathematically, it is defined as :</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\theta_{SWA} = \frac{1}{T} \sum_{t=1}^T \theta_t\]</div>
+<ul class="simple">
+<li><p>The covariance matrix is constructed by taking half of a diagonal approximation and half of a low-rank approximation of the covariance matrix. The diagonal approximation is computed at the end of the training by using the first and second order moments of the parameters :</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\Sigma_{Diag} = diag(\bar{\theta}^2-\theta_{SWA}^2)\]</div>
+<p>The low-rank approximation is constructed by using the difference of the last K values of the
+parameters with the mean value of the parameters :</p>
+<div class="math notranslate nohighlight">
+\[\Sigma_{low-rank} = \frac{1}{K-1}.\hat{D}\hat{D}^T \text{ avec chaque colonne de D } D_t=(\theta_t - \bar{\theta}_t)\]</div>
+<p>To sample from this gaussian distribution, the SWAGModel and MultiSWAGModel use the following equation :</p>
+<div class="math notranslate nohighlight">
+\[\theta_j = \theta_{SWA} +\frac{1}{\sqrt{2}}.\Sigma_{diag}^{\frac{1}{2}}n_1 + \frac{1}{\sqrt{2(K-1)}}\hat{D}n_2, ~~ n_1, n_2 \sim \mathcal{N}(0,I)\]</div>
+<p>It is then sufficient to store the matrix D, the first order moments of the parameters as well as the
+diagonal approximation of the covariance at the end of the training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>learning_rate</strong> (<em>float</em>) – The learning rate of the optimizer.</p></li>
+<li><p><strong>update_frequency</strong> (<em>int</em>) – The number of epochs between two updates of the first and second moments of the parameters.</p></li>
+<li><p><strong>K</strong> (<em>int</em>) – The number of samples used to compute the second order moments.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.SWAGCallback.on_epoch_end">
+<span class="sig-name descname"><span class="pre">on_epoch_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#SWAGCallback.on_epoch_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.SWAGCallback.on_epoch_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates first and second order moments as well as deviation matrix.</p>
+<p>Every <code class="docutils literal notranslate"><span class="pre">update_frequency</span></code> epochs, the first and second order moments as well as deviation matrix are updated :</p>
+<div class="math notranslate nohighlight">
+\[\bar{\theta} = \frac{n \bar{\theta} + \theta_{epochs}}{n+1}\]</div>
+<div class="math notranslate nohighlight">
+\[\bar{\theta}^2 = \frac{n \bar{\theta}^2 + \theta_{epochs}^2}{n+1}\]</div>
+<div class="math notranslate nohighlight">
+\[\text{APPEND_COL}(\hat{D}, \theta_{epochs}-\bar{\theta})\]</div>
+<p>If the matrix D has more than K columns, the oldest columns is removed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epoch</strong> (<em>int</em>) – The number of the actual epoch.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.SWAGCallback.on_train_end">
+<span class="sig-name descname"><span class="pre">on_train_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#SWAGCallback.on_train_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.SWAGCallback.on_train_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute and store the variables needed to sample the posterior distribution.</p>
+<p>The mean of the gaussian distribution is saved in the attribute <code class="docutils literal notranslate"><span class="pre">SWA_weights</span></code> of
+the model. The deviation matrix used in the covariance matrix is saved in the
+attribute <code class="docutils literal notranslate"><span class="pre">deviation_matrix</span></code> of the model. Finally, the root of the diagonal
+matrix used in the covariance matrix is computed and saved in the attribute
+<code class="docutils literal notranslate"><span class="pre">SWA_cov</span></code> of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>logs</strong> (<em>optional</em>) – See tf.keras.callbacks.Callback</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="multiswag">
+<h2><a class="toc-backref" href="#id17">MultiSWAG</a><a class="headerlink" href="#multiswag" title="Permalink to this heading">¶</a></h2>
+<p>The MultiSWAG model was developped in order to have the advantages of the SWAG model and the
+DeepEnsemble model. Therefore, it’s an ensemble of bayesian deep learning models. For more
+details, see <a class="reference external" href="https://arxiv.org/pdf/2002.08791.pdf">Bayesian deep learning and a probabilistic perspective of generalization</a>.</p>
+<figure class="align-center" id="id12">
+<a class="reference internal image-reference" href="../_images/MultiSWAG.png"><img alt="../_images/MultiSWAG.png" src="../_images/MultiSWAG.png" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-text">Cartoon illustration of comparison between the SWAG, DeepEnsemble model and the MultiSWAG model from the paper <strong>Bayesian deep learning and a probabilistic perspective of generalization</strong>.</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Here are some <strong>examples</strong> using the <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiSWAGModel</span></code> :</p>
+<ul class="simple">
+<li><p>With <strong>high-level</strong> API (recommended usage) :</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,))</span>
+<span class="linenos">2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="linenos">3</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense2Dto3D</span><span class="p">(</span><span class="n">output_dim</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">MeanVarianceActivation</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="linenos">4</span> <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+<span class="hll"><span class="linenos">5</span> <span class="n">DeepEnsemble</span> <span class="o">=</span> <span class="n">toMultiSWAG</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nb_models</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<ul class="simple">
+<li><p>With <strong>low-level</strong> layers :</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,))</span>
+<span class="linenos">2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Dense2Dto3D</span><span class="p">(</span><span class="n">nb_models</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="linenos">3</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense3Dto4D</span><span class="p">(</span><span class="n">output_dim</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">MeanVarianceActivation</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="hll"><span class="linenos">4</span> <span class="n">model</span> <span class="o">=</span> <span class="n">MultiSWAGModel</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiSWAGModel</span></code> and the method <code class="docutils literal notranslate"><span class="pre">toMultiSWAG</span></code> are described above.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="purestochastic.model.swag.MultiSWAGModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">purestochastic.model.swag.</span></span><span class="sig-name descname"><span class="pre">MultiSWAGModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#MultiSWAGModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.MultiSWAGModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implementation of the MultiSWAG Model.</p>
+<p>The MultiSWAG <a class="footnote-reference brackets" href="#id10" id="id9">3</a> (Multi Stochastic Weight Averaging Gaussian) is an ensemble of
+SWAG Model. It’s a mix between a DeepEnsemble and SWAG Model. For more details,
+see <a class="reference internal" href="#purestochastic.model.swag.SWAGCallback" title="purestochastic.model.swag.SWAGCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGCallback</span></code></a>, <a class="reference internal" href="#purestochastic.model.swag.SWAGModel" title="purestochastic.model.swag.SWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code></a> and <code class="xref py py-class docutils literal notranslate"><span class="pre">DeepEnsembleModel</span></code>.</p>
+<p>The model can be constructed manually or it’s possible to use the method <code class="docutils literal notranslate"><span class="pre">toMultiSWAG</span></code>
+to convert a simple <code class="xref py py-class docutils literal notranslate"><span class="pre">keras.Model</span></code> object into a <cite>:class:MultiSWAGModel</cite> object. This class don’t
+need specific loss function and can’t use all of the tensorflow loss function and also
+custom loss functions.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">fit(X,</span> <span class="pre">y,</span> <span class="pre">start_averaging=10,</span> <span class="pre">learning_rate=0.001,</span> <span class="pre">update_frequency=1,</span> <span class="pre">K=10):</span></span></dt>
+<dd><p>Trains the model with the MultiSWAG algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_sample_prediction(data,</span> <span class="pre">S,</span> <span class="pre">verbose=0):</span></span></dt>
+<dd><p>Sample different prediction according to the posterior distribution of the parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_combine_predictions(predictions,</span> <span class="pre">stacked):</span></span></dt>
+<dd><p>Combine the sampled predictions made by all models.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">compute_metrics(x,</span> <span class="pre">y,</span> <span class="pre">predictions,</span> <span class="pre">sample_weight):</span></span></dt>
+<dd><p>Specify the mean and stochastic part of the predictions to compute the metrics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">evaluate(x=None,</span> <span class="pre">y=None,</span> <span class="pre">S=5,</span> <span class="pre">sample_weight=None):</span></span></dt>
+<dd><p>Evaluate the model with the MultiSWAG algorithm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">predict(data,</span> <span class="pre">S=5,</span> <span class="pre">verbose=0):</span></span></dt>
+<dd><p>Computes the predictions of the model with the MultiSWAG algorithm.</p>
+</dd></dl>
+
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id9">3</a></span></dt>
+<dd><p>Andrew Gordon Wilson et Pavel Izmailov. « Bayesian deep learning and a probabilistic
+perspective of generalization ». In : Advances in Neural Information Processing Systems 2020-
+Decem.3 (2020). issn : 10495258. arXiv : 2002.08791.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.MultiSWAGModel._combine_predictions">
+<span class="sig-name descname"><span class="pre">_combine_predictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampled</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stacked</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#MultiSWAGModel._combine_predictions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.MultiSWAGModel._combine_predictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bayesian Model Averaging of the S predictions of the B models.</p>
+<p>It’s a little bit different from the function in <a class="reference internal" href="#purestochastic.model.swag.SWAGModel" title="purestochastic.model.swag.SWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code></a>. There is 2 cases :</p>
+<ul class="simple">
+<li><p>If sampled is False, the parameters of the posterior distribution have not been computed
+yet and so it’s impossible to sample predictions. Therefore, the function just combines
+the predictions made by all the models as in the <code class="xref py py-class docutils literal notranslate"><span class="pre">DeepEnsembleModel</span></code>.</p></li>
+<li><p>If sampled is True, the parameters have been computed. So, this method follows the
+<code class="docutils literal notranslate"><span class="pre">_sample_prediction</span></code> method. It takes in input the batch of S predictions for each model
+sampled from <code class="docutils literal notranslate"><span class="pre">_sample_prediction</span></code> method. Then, it averages the predictions over the samples and
+the models in order to compute the mean and the uncertainty associated with the prediction.</p></li>
+</ul>
+<p>The computation of uncertainty and the mean prediction is different according to the structure
+of the network. For the moment, there are 2 possibilities (B = number of models, S = number of samples) :</p>
+<blockquote>
+<div><ul>
+<li><p>Mean Variance Activation (see method <code class="docutils literal notranslate"><span class="pre">MeanVarianceActivation</span></code>)):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Mean : <span class="math notranslate nohighlight">\(\hat{\mu} = \dfrac{1}{B*S} \sum_{i=1}^{B} \sum_{j=1}^{S} \hat{\mu}_{i,j}\)</span></p></li>
+<li><p>Epistemic Variance : <span class="math notranslate nohighlight">\(\hat{\sigma}^2_{epi} = \dfrac{1}{B*S} \sum_{i=1}^{B} \sum_{j=1}^{S} (\hat{y}_{i,j} - \hat{\mu})^2\)</span></p></li>
+<li><p>Aleatoric Variance : <span class="math notranslate nohighlight">\(\hat{\sigma}^2_{alea} = \dfrac{1}{B*S} \sum_{i=1}^{B} \sum_{j=1}^{S} (\sigma^2_{i,j})\)</span></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>No specific structure :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Mean : <span class="math notranslate nohighlight">\(\hat{y} = \dfrac{1}{B*S} \sum_{i=1}^{B} \sum_{j=1}^{S} \hat{y}_{i,j}\)</span></p></li>
+<li><p>Variance : <span class="math notranslate nohighlight">\(\hat{\sigma}^2 = \dfrac{1}{B*S} \sum_{i=1}^{B} \sum_{j=1}^{S} (\hat{y}_{i,j} - \hat{y})^2\)</span></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>In the future, it would be possible to add other possibilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>tf.Tensor</em>) – Batch of the S predictions for each model computed by <code class="docutils literal notranslate"><span class="pre">_sample_prediction</span></code>.</p></li>
+<li><p><strong>sampled</strong> (<em>boolean</em>) – Boolean to indicate wheter the input have been sampled.</p></li>
+<li><p><strong>stacked</strong> (<em>boolean</em>) – Boolean to indicate wheter the output should be stacked in a single tensor or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.MultiSWAGModel._sample_prediction">
+<span class="sig-name descname"><span class="pre">_sample_prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#MultiSWAGModel._sample_prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.MultiSWAGModel._sample_prediction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample predictions according to the posterior distribution of the parameters.</p>
+<p>It’s the same function as in <a class="reference internal" href="#purestochastic.model.swag.SWAGModel" title="purestochastic.model.swag.SWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code></a>. In the MultiSWAG algorithm, the posterior
+distribution of the parameters is approximated as a Gaussian Distribution. The mean
+and the covariance are specified in the report associated with the code or in the
+article. The mean has been stored in the variable <code class="docutils literal notranslate"><span class="pre">SWA_weights</span></code>. The diagonal and the
+Kth-rank approximation of the covariance matrix have been stored respectively in
+<code class="docutils literal notranslate"><span class="pre">SWA_cov</span></code> and <code class="docutils literal notranslate"><span class="pre">deviation_matrix</span></code>.</p>
+<p>The method samples the weights and computes the prediction associated multiple times
+for each model independently.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>tf.Tensor</em>) – Input data (equivalent to x).</p></li>
+<li><p><strong>S</strong> (<em>int</em>) – The number of samples used in the Monte Carlo method.</p></li>
+<li><p><strong>verbose</strong> (<em>int, default:0</em>) – The verbosity level.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>preds</strong> – The batch of S predictions.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.MultiSWAGModel.compute_loss">
+<span class="sig-name descname"><span class="pre">compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#MultiSWAGModel.compute_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.MultiSWAGModel.compute_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom <code class="docutils literal notranslate"><span class="pre">compute_loss</span></code> function.</p>
+<p>This method overrides the <code class="docutils literal notranslate"><span class="pre">compute_loss</span></code> function so that the class doesn’t
+need specific loss function. It computes the loss for each model independently.
+It’s the same function as in <code class="xref py py-class docutils literal notranslate"><span class="pre">DeepEnsembleModel</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>y</strong> (<em>tf.Tensor</em>) – Target data.</p></li>
+<li><p><strong>y_pred</strong> (<em>tf.Tensor</em>) – Predictions returned by the model (output of <code class="docutils literal notranslate"><span class="pre">model(x)</span></code>)</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Sample weights for weighting the loss function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>The total loss.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.MultiSWAGModel.compute_metrics">
+<span class="sig-name descname"><span class="pre">compute_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#MultiSWAGModel.compute_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.MultiSWAGModel.compute_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom <code class="docutils literal notranslate"><span class="pre">compute_metrics</span></code> method.</p>
+<p>As stated in the parent method <code class="docutils literal notranslate"><span class="pre">compute_metrics</span></code>, this method called the
+parent function with the appropriate <code class="docutils literal notranslate"><span class="pre">y_pred</span></code> and <code class="docutils literal notranslate"><span class="pre">stochastic_predictions</span></code>
+arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>y</strong> (<em>tf.Tensor</em>) – Target data.</p></li>
+<li><p><strong>predictions</strong> (<em>tf.Tensor</em>) – Predictions returned by the model (output of <cite>model(x)</cite>)</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Sample weights for weighting the loss function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>See parent method.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.MultiSWAGModel.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#MultiSWAGModel.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.MultiSWAGModel.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> method.</p>
+<p>It returns the loss value &amp; metrics values for the model in test mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>y</strong> (<em>tf.Tensor</em>) – Target data</p></li>
+<li><p><strong>S</strong> (<em>int, default:5</em>) – The number of samples used in the Monte Carlo method.</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Sample weights for weighting the loss function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict containing the values of the metrics and loss of the model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.MultiSWAGModel.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_averaging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#MultiSWAGModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.MultiSWAGModel.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the model with the MultiSWAG algorithm.</p>
+<p>It’s the same function as in <a class="reference internal" href="#purestochastic.model.swag.SWAGModel" title="purestochastic.model.swag.SWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code></a> but with multiple models trained independently.
+The models are trained in two parts :</p>
+<ul class="simple">
+<li><p>Before <code class="docutils literal notranslate"><span class="pre">start_averaging</span></code> epochs, the models are trained normally. It’s defined as
+the pretraining of the models and the training uses the optimizer and learning rate
+specified in the <code class="docutils literal notranslate"><span class="pre">compile</span></code> function.</p></li>
+<li><p>After <code class="docutils literal notranslate"><span class="pre">start_averaging</span></code> epochs, the models are trained with the SWAG callback. In other
+words, at the end of specific epochs (according to parameters), the parameters of the
+models are saved. At the end of the training, the callback computes the parameters of
+the approximated posterior gaussian distribution. The parameters are then used in
+<code class="docutils literal notranslate"><span class="pre">_sample_prediction</span></code> in order to sample different predictions. At present, the optimizer
+is necessarily the SGD optimizer. For more details, see <a class="reference internal" href="#purestochastic.model.swag.SWAGCallback" title="purestochastic.model.swag.SWAGCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGCallback</span></code></a>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – The input data.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – The target data.</p></li>
+<li><p><strong>start_averaging</strong> (<em>int</em>) – The number of epochs to pretrain the model.</p></li>
+<li><p><strong>learning_rate</strong> (<em>float</em>) – The learning rate of the MultiSWAG algorithm (second part).</p></li>
+<li><p><strong>update_frequency</strong> (<em>int</em>) – The number of epochs between each save of parameters of the MultiSWAG algorithm.</p></li>
+<li><p><strong>K</strong> (<em>int</em>) – The number of samples used to compute the covariance matrix.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>History of the MultiSWAG’s training.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.swag.MultiSWAGModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#MultiSWAGModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.MultiSWAGModel.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample predictions and combine them.</p>
+<p>It’s the same function as in <a class="reference internal" href="#purestochastic.model.swag.SWAGModel" title="purestochastic.model.swag.SWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code></a> This method defines the inference
+step of the MultiSWAG algorithm. First, it samples predictions of each model
+with the <code class="docutils literal notranslate"><span class="pre">_sample_prediction</span></code> method. Then, all the predictions are combined
+with the method <code class="docutils literal notranslate"><span class="pre">_combine_predictions</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>np.ndarray</em>) – The input data.</p></li>
+<li><p><strong>S</strong> (<em>int, default:5</em>) – The number of samples used in the Monte Carlo method.</p></li>
+<li><p><strong>verbose</strong> (<em>int, default:0</em>) – The verbosity level.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>The predictions of the model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="purestochastic.model.swag.toMultiSWAG">
+<span class="sig-prename descclassname"><span class="pre">purestochastic.model.swag.</span></span><span class="sig-name descname"><span class="pre">toMultiSWAG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_models</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/swag.html#toMultiSWAG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.swag.toMultiSWAG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a regular model into a MultiSWAG model.</p>
+<p>This method intends to be high-level interface to construct
+a MultiSWAG model from a regular model. At present, only
+the densely-connected NN is compatible with a fully parallelizable
+implementation. Other architecture are just concatenated models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tf.keras.Sequential</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">tf.keras.Model</span></code>) – a tensorflow model</p></li>
+<li><p><strong>nb_models</strong> (<em>int</em>) – the number of models</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a MultiSWAG Model</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#purestochastic.model.swag.MultiSWAGModel" title="purestochastic.model.swag.MultiSWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiSWAGModel</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="custom_activations.html" class="btn btn-neutral float-left" title="Custom Activations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../utils/utils.html" class="btn btn-neutral float-right" title="Utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

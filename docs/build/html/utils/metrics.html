@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metrics &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Losses" href="losses.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> purestochastic
+            <img src="../_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#multiswag">5. MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../model/model.html">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../model/gaussian_regression.html">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../model/custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../model/custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../model/custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../model/custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../model/custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../model/custom_activations.html">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../model/custom_activations.html#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../model/custom_models.html">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../model/custom_models.html#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../model/custom_models.html#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../model/custom_models.html#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../model/custom_models.html#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../model/custom_models.html#multiswag">MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="utils.html">Utils</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cwc">CWC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="utils.html">Utils</a> &raquo;</li>
+      <li>Metrics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/utils/metrics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="metrics">
+<h1>Metrics<a class="headerlink" href="#metrics" title="Permalink to this heading">¶</a></h1>
+<p>Implementation of new stochastic metrics. The metrics assume that the predictions are the
+parameters of a gaussian distribution. These metrics have to be specified with the arguments
+<code class="docutils literal notranslate"><span class="pre">stochastic_metrics</span></code> or <code class="docutils literal notranslate"><span class="pre">stochastic_weighted_metrics</span></code> when calling the method <code class="docutils literal notranslate"><span class="pre">compile</span></code>
+in a subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code> :</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">src.common.metrics</span> <span class="kn">import</span> <span class="n">PredictionIntervalCoverageProbability</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">src.model.base_uncertainty_models</span> <span class="kn">import</span> <span class="n">StochasticModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">issubclass</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">StochasticModel</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">stochastic_metrics</span><span class="o">=</span><span class="p">[</span><span class="n">PredictionIntervalCoverageProbability</span><span class="p">()])</span>
+</pre></div>
+</div>
+<p>The metrics <code class="xref py py-class docutils literal notranslate"><span class="pre">PICP</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PINAW</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">CWC</span></code> suppose predictions given in <code class="docutils literal notranslate"><span class="pre">update_state</span></code>
+are different according the argument <code class="docutils literal notranslate"><span class="pre">input_type</span></code> :</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">input_type=&quot;gaussian&quot;</span></code>, the predictions need to be the means and the variances of a gaussian distribution defined as :</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\hat{\mu} = \text{predictions}[ : , \cdots , :  , 0]\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{\sigma}^2 = \text{predictions}[ : , \cdots , : , 1]\)</span></p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">input_type=&quot;pi&quot;</span></code>, the predictions need to be the lower and upper bounds of the predictions defined as :</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\hat{y}_{lower} = \text{predictions}[ : , \cdots , :  , 0]\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{y}_{upper} = \text{predictions}[ : , \cdots , : , 1]\)</span></p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p>Here is the list of the new metrics :</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#picp" id="id7">PICP</a></p></li>
+<li><p><a class="reference internal" href="#pinaw" id="id8">PINAW</a></p></li>
+<li><p><a class="reference internal" href="#cwc" id="id9">CWC</a></p></li>
+</ul>
+</div>
+<section id="picp">
+<h2><a class="toc-backref" href="#id7">PICP</a><a class="headerlink" href="#picp" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="purestochastic.common.metrics.PredictionIntervalCoverageProbability">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">purestochastic.common.metrics.</span></span><span class="sig-name descname"><span class="pre">PredictionIntervalCoverageProbability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/common/metrics.html#PredictionIntervalCoverageProbability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.common.metrics.PredictionIntervalCoverageProbability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prediction Interval Coverage Probability metric.</p>
+<p>A prediction interval <span class="math notranslate nohighlight">\([\hat{\underline{y_i}}, \hat{\bar{y_i}}]\)</span> is constructed so that with
+probability <code class="docutils literal notranslate"><span class="pre">p</span></code>, <span class="math notranslate nohighlight">\(y_i\)</span> is included in the interval. The PICP <a class="footnote-reference brackets" href="#id2" id="id1">1</a> (Prediction Interval Coverage
+Probability) aims at computing the true percentage of values included in the interval. Mathematically,
+it is defined as :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}PICP=\frac{1}{n} \displaystyle\sum_{i=1}^{n} c_j ~~\text{ avec } c_j = \left\{    \begin{array}{ll}
+1 &amp;\text{ si }  y_i\in [\underline{\hat{y}_i} ,\overline{\hat{y}_i}]\\
+0 &amp;\text{ si }  y_i \not \in [\underline{\hat{y}_i} ,\overline{\hat{y}_i}]
+\end{array}
+\right.\end{split}\]</div>
+<p>The best PICP is a percentage that is equal to <code class="docutils literal notranslate"><span class="pre">p</span></code>. If <code class="docutils literal notranslate"><span class="pre">y</span></code> is not a 1d array, the batch dimension needs
+to be the first and the output value is the mean over all other dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str, default: ‘picp’</em>) – String name of the metric instance.</p></li>
+<li><p><strong>p</strong> (<em>float, default: 0.95</em>) – Probability of values included in the interval associated
+with the predicted parameters of the gaussian distribution.</p></li>
+<li><p><strong>input_type</strong> (<em>{“gaussian”, “pi”}, default: “gaussian”</em>) – Type of input to the metric. If “gaussian”, the metric assumes the predictions are given in
+the mean and the variance of a gaussian distribution. If “pi”, the metric assumes the predictions are
+given in the lower and upper bound of the prediction interval.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Abbas Khosravi, Saeid Nahavandi et Doug Creighton. « A prediction interval-based ap-
+proach to determine optimal structures of neural network metamodels ». In : Expert Syst. Appl.
+37 (mars 2010), p. 2377-2387. doi : 10.1016/j.eswa.2009.07.059.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.common.metrics.PredictionIntervalCoverageProbability.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/common/metrics.html#PredictionIntervalCoverageProbability.update_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.common.metrics.PredictionIntervalCoverageProbability.update_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accumulates picp statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (shape= <code class="docutils literal notranslate"><span class="pre">[batch</span> <span class="pre">size,</span> <span class="pre">d_0,</span> <span class="pre">...,</span>&#160; <span class="pre">d_N]</span></code>) – The ground truth values.</p></li>
+<li><p><strong>predictions</strong> (shape= <code class="docutils literal notranslate"><span class="pre">[batch</span> <span class="pre">size,</span> <span class="pre">d_0,</span> <span class="pre">...,</span>&#160; <span class="pre">d_N,</span> <span class="pre">2]</span></code>) – The predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Optional weighting of each example.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Update op.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="pinaw">
+<h2><a class="toc-backref" href="#id8">PINAW</a><a class="headerlink" href="#pinaw" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="purestochastic.common.metrics.PredictionIntervalNormalizedAverageWidth">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">purestochastic.common.metrics.</span></span><span class="sig-name descname"><span class="pre">PredictionIntervalNormalizedAverageWidth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/common/metrics.html#PredictionIntervalNormalizedAverageWidth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.common.metrics.PredictionIntervalNormalizedAverageWidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prediction Interval Normalized Average Width metric.</p>
+<p>The PINAW <a class="footnote-reference brackets" href="#id4" id="id3">2</a> (Prediction Interval Normalized Average Width) computes the average
+width of prediction intervals (<span class="math notranslate nohighlight">\([\hat{\underline{y_i}}, \hat{\bar{y_i}}]\)</span>)
+normalized by a the distance between the maximum and minimum value of y.
+Mathematically, it is defined as :</p>
+<div class="math notranslate nohighlight">
+\[PINAW=\frac{1}{R*n}\displaystyle\sum_{i=1}^n[\overline{\hat{y}_i}- \underline{\hat{y}_i}]\]</div>
+<p>avec <span class="math notranslate nohighlight">\(R=\max(y)-\min(y)\)</span>.</p>
+<p>The best PINAW is the minimum value. If <code class="docutils literal notranslate"><span class="pre">y</span></code> is not a 1d array, the batch dimension needs
+to be the first and the output value is the mean over all other dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str, default: ‘pinaw’</em>) – String name of the metric instance.</p></li>
+<li><p><strong>p</strong> (<em>float, default: 0.95</em>) – Probability of values included in the interval associated
+with the predicted parameters of the gaussian distribution.</p></li>
+<li><p><strong>input_type</strong> (<em>{“gaussian”, “pi”}, default: “gaussian”</em>) – Type of input to the metric. If “gaussian”, the metric assumes the predictions are given in
+the mean and the variance of a gaussian distribution. If “pi”, the metric assumes the predictions are
+given in the lower and upper bound of the prediction interval.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dd><p>Abbas Khosravi et al. « Comprehensive Review of Neural Network-Based Prediction Intervals
+and New Advances ». In : IEEE Transactions on Neural Networks 22.9 (2011), p. 1341-1356.
+doi : 10.1109/TNN.2011.2162110.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.common.metrics.PredictionIntervalNormalizedAverageWidth.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/common/metrics.html#PredictionIntervalNormalizedAverageWidth.update_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.common.metrics.PredictionIntervalNormalizedAverageWidth.update_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accumulates pinaw statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (shape= <code class="docutils literal notranslate"><span class="pre">[batch</span> <span class="pre">size,</span> <span class="pre">d_0,</span> <span class="pre">...,</span>&#160; <span class="pre">d_N]</span></code>) – The ground truth values.</p></li>
+<li><p><strong>predictions</strong> (shape= <code class="docutils literal notranslate"><span class="pre">[batch</span> <span class="pre">size,</span> <span class="pre">d_0,</span> <span class="pre">...,</span>&#160; <span class="pre">d_N,</span> <span class="pre">2]</span></code>) – The predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Optional weighting of each example.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Update op.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cwc">
+<h2><a class="toc-backref" href="#id9">CWC</a><a class="headerlink" href="#cwc" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="purestochastic.common.metrics.CoverageWidthBasedCriterion">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">purestochastic.common.metrics.</span></span><span class="sig-name descname"><span class="pre">CoverageWidthBasedCriterion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/common/metrics.html#CoverageWidthBasedCriterion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.common.metrics.CoverageWidthBasedCriterion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coverage Width Based Criterion metric.</p>
+<p>The CWC <a class="footnote-reference brackets" href="#id6" id="id5">3</a> (Coverage Width Based Criterion) was defined to find a trade-off between
+the PICP and the PINAW. Mathematically, it is defined as :</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}CWC = PINAW(1+\gamma(PICP)e^{\eta(\mu-PICP)} ) ~~ \text{ avec } \gamma(PICP) = \left\{    \begin{array}{ll}
+1 &amp;\text{ si } ~~ PICP &lt; \mu\\
+0 &amp;\text{ si }~~  PICP \geq \mu
+\end{array}
+\right.\end{split}\]</div>
+<p>The operation can be explained in two parts :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If the PICP is higher than p, the CWC is equaled to the PINAW metric so that the size of the prediction interval decreases.</p></li>
+<li><p>If the PICP is lower than p, the exponential term becomes very large and the most influent criterion is the PICP that the size of the prediction interval increases.</p></li>
+</ul>
+</div></blockquote>
+<p>The best CWC is the minimum value. If <code class="docutils literal notranslate"><span class="pre">y</span></code> is not a 1d array, the batch dimension needs
+to be the first and the output value is the mean over all other dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str, default: ‘cwc’</em>) – String name of the metric instance.</p></li>
+<li><p><strong>p</strong> (<em>float, default: 0.95</em>) – Probability of values included in the interval associated
+with the predicted parameters of the gaussian distribution.</p></li>
+<li><p><strong>eta</strong> (<em>positive float, default: 50</em>) – Penalty value when the PICP is lower than p.</p></li>
+<li><p><strong>input_type</strong> (<em>{“gaussian”, “pi”}, default: “gaussian”</em>) – Type of input to the metric. If “gaussian”, the metric assumes the predictions are given in
+the mean and the variance of a gaussian distribution. If “pi”, the metric assumes the predictions are
+given in the lower and upper bound of the prediction interval.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">input_type=&quot;pi&quot;</span></code>, it’s important that the <code class="docutils literal notranslate"><span class="pre">p</span></code> specified in the constructor is the same as the one used to
+construct the prediction interval. Otherwise, the CWC will be wrong.</p>
+</div>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
+<dd><p>Abbas Khosravi et al. « Comprehensive Review of Neural Network-Based Prediction Intervals
+and New Advances ». In : IEEE Transactions on Neural Networks 22.9 (2011), p. 1341-1356.
+doi : 10.1109/TNN.2011.2162110.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.common.metrics.CoverageWidthBasedCriterion.update_state">
+<span class="sig-name descname"><span class="pre">update_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/common/metrics.html#CoverageWidthBasedCriterion.update_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.common.metrics.CoverageWidthBasedCriterion.update_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accumulates cwc statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (shape= <code class="docutils literal notranslate"><span class="pre">[batch</span> <span class="pre">size,</span> <span class="pre">d_0,</span> <span class="pre">...</span> <span class="pre">,</span>&#160; <span class="pre">d_N]</span></code>) – The ground truth values.</p></li>
+<li><p><strong>predictions</strong> (shape= <code class="docutils literal notranslate"><span class="pre">[batch</span> <span class="pre">size,</span> <span class="pre">d_0,</span> <span class="pre">...</span> <span class="pre">,</span>&#160; <span class="pre">d_N,</span> <span class="pre">2]</span></code>) – The predicted values.</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Optional weighting of each example.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="losses.html" class="btn btn-neutral float-left" title="Losses" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

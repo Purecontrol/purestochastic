@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic examples &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Model" href="model/model.html" />
+    <link rel="prev" title="Motivations and Goals" href="motivation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> purestochastic
+            <img src="_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiswag">5. MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model/model.html">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="model/gaussian_regression.html">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model/custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model/custom_activations.html">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_activations.html#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="model/custom_models.html">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_models.html#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_models.html#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_models.html#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_models.html#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_models.html#multiswag">MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utils/utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/metrics.html">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/metrics.html#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/metrics.html#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Basic examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="basic-examples">
+<h1>Basic examples<a class="headerlink" href="#basic-examples" title="Permalink to this heading">¶</a></h1>
+<p>To illustrate the use of the package, we use a simple dataset taken from the article <a class="footnote-reference brackets" href="#id3" id="id1">1</a> and used in the presentation of the
+Deep Ensemble model <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
+<section id="toy-dataset">
+<h2>1. Toy dataset<a class="headerlink" href="#toy-dataset" title="Permalink to this heading">¶</a></h2>
+<p>This dataset consists of 20 training examples randomly selected according to the relationship</p>
+<div class="math notranslate nohighlight">
+\[y = x^3 + \epsilon, ~~ \epsilon \sim \mathcal{N}(0, 9)\]</div>
+<p>with <span class="math notranslate nohighlight">\(x\)</span> in the range <span class="math notranslate nohighlight">\([-4, 4]\)</span>. We use the following code to generate the dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Generate the dataset</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">8</span> <span class="o">-</span><span class="mi">4</span> <span class="p">;</span> <span class="n">X_graph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span> <span class="p">;</span> <span class="n">y_graph</span> <span class="o">=</span> <span class="n">X_graph</span><span class="o">**</span><span class="mi">3</span>
+
+<span class="c1"># Plot the dataset</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_graph</span><span class="p">,</span> <span class="n">y_graph</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;y = x^3&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Données&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/toy_dataset.png"><img alt="toy dataset" class="align-center" src="_images/toy_dataset.png" style="width: 600px;" /></a>
+</section>
+<section id="deepensemble-1">
+<h2>2. DeepEnsemble 1<a class="headerlink" href="#deepensemble-1" title="Permalink to this heading">¶</a></h2>
+<p>At present, there is 2 way to use the Deep Ensemble model. It’s possible to predict the mean
+and the variance or just predict the mean for each model. Here we present the first example
+predicting only the mean.</p>
+<p>Firstly, it’s necessary to construct the structure of one model. In this first case, it is easy as
+the model is just a regular deterministic model. We use the following code to create the model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.initializers</span> <span class="kn">import</span> <span class="n">RandomNormal</span>
+
+<span class="c1"># Specify input and output shape</span>
+<span class="n">input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="p">;</span> <span class="n">output_shape</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Specify the initialisation of the weights</span>
+<span class="n">ki</span> <span class="o">=</span> <span class="n">RandomNormal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="c1"># Create one model</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hidden_layer&quot;</span><span class="p">,</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">ki</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">output_shape</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">ki</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The kernel initializer is used to have a larger variance of the weights and thus
+a better diversity in the models.</p>
+</div>
+<p>Now, thanks to the package <code class="xref py py-mod docutils literal notranslate"><span class="pre">Purestochastic</span></code>, it’s possible to convert directly the model
+into a Deep Ensemble model :</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">purestochastic.model.deep_ensemble</span> <span class="kn">import</span> <span class="n">toDeepEnsemble</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nb_models</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deep_ensemble</span> <span class="o">=</span> <span class="n">toDeepEnsemble</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nb_models</span><span class="o">=</span><span class="n">nb_models</span><span class="p">)</span>
+<span class="go">Your network is compatible with a fully parallelizable implementation.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deep_ensemble</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="go">Model: &quot;deep_ensemble_model&quot;</span>
+<span class="go">_________________________________________________________________</span>
+<span class="go">Layer (type)                        Output Shape        Param #</span>
+<span class="go">=================================================================</span>
+<span class="go">input (InputLayer)                  [(None, 1)]         0</span>
+<span class="go">ensemble_hidden_layer (Dense2Dto3D)  (None, 5, 100)     1000</span>
+<span class="go">ensemble_output (Dense3Dto3D)        (None, 5, 1)       505</span>
+<span class="go">=================================================================</span>
+<span class="go">Total params: 1,505</span>
+<span class="go">Trainable params: 1,505</span>
+<span class="go">Non-trainable params: 0</span>
+<span class="go">_________________________________________________________________</span>
+</pre></div>
+</div>
+<p>Then, you have to compile the model and launch the training as usual with keras API. You have
+the possibility to put the model into an <code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianRegression</span></code> object that will allow
+you to make all the pre-processing and post-processing of the data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.keras.opitimizers</span> <span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">from</span> <span class="nn">purestochastic.model.base_uncertainty_models</span> <span class="kn">import</span> <span class="n">GaussianRegression</span>
+
+<span class="c1"># Compile the model</span>
+<span class="n">deep_ensemble</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s2">&quot;mse&quot;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.02</span><span class="p">))</span>
+
+<span class="c1"># Create a GaussianRegression task</span>
+<span class="n">reg</span> <span class="o">=</span> <span class="n">GaussianRegression</span><span class="p">(</span><span class="n">deep_ensemble</span><span class="p">)</span>
+
+<span class="c1"># Train the model for 40 epochs</span>
+<span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For the <code class="docutils literal notranslate"><span class="pre">predict</span></code> method, it’s the same as usual except that the output is tuple of 2 values with the mean and the variance.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y_mean</span><span class="p">,</span> <span class="n">y_var</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_graph</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_mean</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(500, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_var</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(500, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_graph</span><span class="p">,</span> <span class="n">y_mean</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Predicted&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_graph</span><span class="p">,</span> <span class="n">y_graph</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Truth&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">X_graph</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">y_mean</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.96</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">y_var</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">y_mean</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.96</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">y_var</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Données&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="_images/deep_ensemble1.png"><img alt="deep ensemble 1" src="_images/deep_ensemble1.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">Predictions of the regular Deep Ensemble model on the Toy dataset.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>All the code to reproduce the example is available in <a class="reference download internal" download="" href="_downloads/be7747e64962b22c818a8452fb9b50e2/deep_ensemble1.py"><code class="xref download docutils literal notranslate"><span class="pre">deep_ensemble1.py</span></code></a>.</p>
+</section>
+<section id="deepensemble-2">
+<h2>3. DeepEnsemble 2<a class="headerlink" href="#deepensemble-2" title="Permalink to this heading">¶</a></h2>
+<p>In the previous section, we have presented the first way of using the Deep Ensemble model using a regular network.
+However, the previous model assumes that the data is sampled from a homoscedastic Gaussian distribution and this is a
+strong assumption. To overcome this issue, the second way is to use a model that predicts the mean and the variance of
+a predicted gaussian random value for each data point. To build this model, we use the following code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.initializers</span> <span class="kn">import</span> <span class="n">RandomNormal</span>
+<span class="kn">from</span> <span class="nn">purestochastic.model.layers</span> <span class="kn">import</span> <span class="n">Dense2Dto3D</span>
+<span class="kn">from</span> <span class="nn">purestochastic.model.activations</span> <span class="kn">import</span> <span class="n">MeanVarianceActivation</span>
+
+<span class="c1"># Specify input and output shape</span>
+<span class="n">input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="p">;</span> <span class="n">output_shape</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Specify the initialisation of the weights</span>
+<span class="n">ki</span> <span class="o">=</span> <span class="n">RandomNormal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">8888</span><span class="p">)</span>
+
+<span class="c1"># Create one model</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hidden_layer&quot;</span><span class="p">,</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">ki</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense2Dto3D</span><span class="p">(</span><span class="n">output_shape</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">MeanVarianceActivation</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">ki</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We use the <code class="xref py py-class docutils literal notranslate"><span class="pre">Dense2Dto3D</span></code> layer to predict the mean and the variance of the gaussian random value.
+It’s useful to structure the output.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>To enforce the positivity of the variance, we use the activation function <code class="xref py py-func docutils literal notranslate"><span class="pre">MeanVarianceActivation()</span></code>
+on the output layer. The model is equivalent to a MVEM model.</p>
+</div>
+<p>Then, it is nearly the same as before except that we can’t use the MSE loss function. When the model outputs the mean and the variance,
+a good choice is to optimize the Gaussian Negative Log Likelihood function defined by the package as <code class="xref py py-func docutils literal notranslate"><span class="pre">gaussian_negative_log_likelihood()</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">purestochastic.common.losses</span> <span class="kn">import</span> <span class="n">gaussian_negative_log_likelihood</span>
+<span class="kn">from</span> <span class="nn">purestochastic.model.activations</span> <span class="kn">import</span> <span class="n">MeanVarianceActivation</span>
+
+<span class="n">nb_models</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">deep_ensemble</span> <span class="o">=</span> <span class="n">toDeepEnsemble</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nb_models</span><span class="o">=</span><span class="n">nb_models</span><span class="p">)</span>
+
+<span class="c1"># Compile the model</span>
+<span class="n">deep_ensemble</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">gaussian_negative_log_likelihood</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.02</span><span class="p">))</span>
+
+<span class="c1"># Create a GaussianRegression task</span>
+<span class="n">reg</span> <span class="o">=</span> <span class="n">GaussianRegression</span><span class="p">(</span><span class="n">deep_ensemble</span><span class="p">)</span>
+
+<span class="c1"># Train the model for 40 epochs</span>
+<span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, when we use the <code class="xref py py-func docutils literal notranslate"><span class="pre">predict()</span></code> function, we get now a tuple of 3 values. Indeed, with the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">MeanVarianceActivation()</span></code> activation function and the <code class="xref py py-class docutils literal notranslate"><span class="pre">DeepEnsemble</span></code> model, the variance
+can be separated into an epistemic and an aleatoric component. The prediction interval represented
+in the figure below are the one computed only with the aleatoric component and the one computed with
+the total variance.</p>
+<figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="_images/deep_ensemble2.png"><img alt="deep ensemble 2" src="_images/deep_ensemble2.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">Predictions of the MVEM Deep Ensemble model on the Toy dataset.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>All the code to reproduce the example is available in <a class="reference download internal" download="" href="_downloads/e849fff0385aafe7472b27d620580649/deep_ensemble2.py"><code class="xref download docutils literal notranslate"><span class="pre">deep_ensemble2.py</span></code></a>.</p>
+</section>
+<section id="swag">
+<h2>4. SWAG<a class="headerlink" href="#swag" title="Permalink to this heading">¶</a></h2>
+<p>For other models, it’s similar as DeepEnsemble. The difference for each model is the <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> parameters that we can specify for the methods
+<code class="docutils literal notranslate"><span class="pre">fit</span></code> and <code class="docutils literal notranslate"><span class="pre">predict</span></code>. For instance, the parameter <code class="docutils literal notranslate"><span class="pre">start_averaging</span></code> of the method <code class="docutils literal notranslate"><span class="pre">fit</span></code> in the <code class="xref py py-class docutils literal notranslate"><span class="pre">SWAGModel</span></code> is important and need
+to be specify to have good results :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train the model for 55 epochs</span>
+<span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.008</span><span class="p">,</span> <span class="n">start_averaging</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id7">
+<a class="reference internal image-reference" href="_images/swag.png"><img alt="deep ensemble 2" src="_images/swag.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">Predictions of the SWAG model on the Toy dataset.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>All the code to reproduce the example is available in <a class="reference download internal" download="" href="_downloads/ad3f1af0ece98374004a5a2bb72be464/swag.py"><code class="xref download docutils literal notranslate"><span class="pre">swag.py</span></code></a>.</p>
+</section>
+<section id="multiswag">
+<h2>5. MultiSWAG<a class="headerlink" href="#multiswag" title="Permalink to this heading">¶</a></h2>
+<p>The class <code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code> allows to use metrics during the training of the model. For example, if we want to see the
+evolution of the PICP (Prediction Interval Coverage Probability) during the training, it is sufficient to add it during the
+call to the method <code class="docutils literal notranslate"><span class="pre">compile</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">purestochastic.common.metrics</span> <span class="kn">import</span> <span class="n">PredictionIntervalCoverageProbability</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">multi_swag</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">gaussian_negative_log_likelihood</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.02</span><span class="p">),</span> <span class="n">stochastic_metrics</span><span class="o">=</span><span class="p">[</span><span class="n">PredictionIntervalCoverageProbability</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reg</span> <span class="o">=</span> <span class="n">GaussianRegression</span><span class="p">(</span><span class="n">multi_swag</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.008</span><span class="p">,</span> <span class="n">start_averaging</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="go">Epoch 1/40</span>
+<span class="go">1/1 [==============================] - 3s 3s/step - loss: 2.6212 - picp: 0.9000</span>
+<span class="go">Epoch 2/40</span>
+<span class="go">1/1 [==============================] - 0s 6ms/step - loss: 1.3922 - picp: 1.0000</span>
+<span class="go">Epoch 3/40</span>
+<span class="go">1/1 [==============================] - 0s 10ms/step - loss: 1.0888 - picp: 1.0000</span>
+<span class="go">Epoch 4/40</span>
+<span class="go">1/1 [==============================] - 0s 9ms/step - loss: 1.0117 - picp: 1.0000</span>
+<span class="go">Epoch 5/40</span>
+<span class="go">1/1 [==============================] - 0s 7ms/step - loss: 1.0116 - picp: 1.0000</span>
+<span class="go">Epoch 6/40</span>
+<span class="go">1/1 [==============================] - 0s 9ms/step - loss: 1.0726 - picp: 1.0000</span>
+<span class="go">Epoch 7/40</span>
+<span class="go">1/1 [==============================] - 0s 8ms/step - loss: 1.0793 - picp: 1.0000</span>
+<span class="go">Epoch 8/40</span>
+<span class="go">1/1 [==============================] - 0s 5ms/step - loss: 1.0857 - picp: 1.0000</span>
+<span class="go">Epoch 9/40</span>
+<span class="go">1/1 [==============================] - 0s 6ms/step - loss: 1.0608 - picp: 1.0000</span>
+<span class="go">Epoch 10/40</span>
+<span class="go">1/1 [==============================] - 0s 9ms/step - loss: 1.0468 - picp: 1.0000</span>
+<span class="go">Epoch 11/40</span>
+<span class="go">1/1 [==============================] - 0s 13ms/step - loss: 1.0081 - picp: 1.0000</span>
+<span class="go">Epoch 12/40</span>
+<span class="go">1/1 [==============================] - 0s 9ms/step - loss: 0.9568 - picp: 0.9500</span>
+<span class="go">Epoch 13/40</span>
+<span class="go">1/1 [==============================] - 0s 8ms/step - loss: 0.9007 - picp: 0.9500</span>
+<span class="go">Epoch 14/40</span>
+<span class="go">1/1 [==============================] - 0s 7ms/step - loss: 0.8316 - picp: 0.9500</span>
+<span class="go">Epoch 15/40</span>
+<span class="go">1/1 [==============================] - 0s 5ms/step - loss: 0.7517 - picp: 0.9500</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>With this functionnality, it is also possible to save the training history of the model with stochastic metrics. It is possible to
+know the values of the metrics at the end of the training with the method <code class="docutils literal notranslate"><span class="pre">evaluate</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reg</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X_graph</span><span class="p">,</span> <span class="n">y_graph</span><span class="p">)</span>
+<span class="go">{&#39;loss&#39;: -0.6353859901428223, &#39;picp&#39;: 0.6538169980049133}</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id8">
+<a class="reference internal image-reference" href="_images/multi_swag.png"><img alt="MultiSWAG" src="_images/multi_swag.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">Predictions of the regular MultiSWAG model on the Toy dataset.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>All the code to reproduce the example is available in <a class="reference download internal" download="" href="_downloads/209d3fae77e00a10f3fffa00f1c14be9/multi_swag.py"><code class="xref download docutils literal notranslate"><span class="pre">multi_swag.py</span></code></a>.</p>
+<h2>References</h2><dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>José Miguel Hernández-Lobato et Ryan P. Adams. « Probabilistic backpropagation for sca-
+lable learning of Bayesian neural networks ». In : 32nd International Conference on Machine
+Learning, ICML 2015 3 (2015), p. 1861-1869. arXiv : 1502.05336.</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Balaji Lakshminarayanan, Alexander Pritzel et Charles Blundell. « Simple and scalable
+predictive uncertainty estimation using deep ensembles ». In : Advances in Neural Information
+Processing Systems 2017-Decem.Nips (2017), p. 6403-6414. issn : 10495258. arXiv : 1612.01474.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="motivation.html" class="btn btn-neutral float-left" title="Motivations and Goals" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model/model.html" class="btn btn-neutral float-right" title="Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

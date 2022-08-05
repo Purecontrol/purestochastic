@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>purestochastic.model.deep_ensemble &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> purestochastic
+            <img src="../../../_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#multiswag">5. MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../model/model.html">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/gaussian_regression.html">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_activations.html">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_activations.html#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_models.html">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#multiswag">MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/metrics.html">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>purestochastic.model.deep_ensemble</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for purestochastic.model.deep_ensemble</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">purestochastic.model.layers</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">purestochastic.model.activations</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">purestochastic.model.base_uncertainty_models</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">InputLayer</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Input</span>
+<span class="kn">from</span> <span class="nn">purestochastic.common.metrics</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="DeepEnsembleModel"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.deep_ensemble.DeepEnsembleModel">[docs]</a><span class="k">class</span> <span class="nc">DeepEnsembleModel</span><span class="p">(</span><span class="n">StochasticModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Implementation of the DeepEnsemble model.</span>
+
+<span class="sd">    The Deep Ensemble [1]_ is an ensemble of Deep Learning model trained independently and </span>
+<span class="sd">    combined for prediction in order to estimate uncertainty.</span>
+
+<span class="sd">    The model can be constructed manually or it&#39;s possible to use the method ``toDeepEnsemble``</span>
+<span class="sd">    to convert a simple :class:`keras.Model` object into a :class:`DeepEnsembleModel` object. </span>
+<span class="sd">    This class don&#39;t need specific loss function and can&#39;t use all of the tensorflow loss </span>
+<span class="sd">    function and also custom loss functions.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    compute_loss(x=None, y=None, y_pred=None, sample_weight=None):</span>
+<span class="sd">        Compute the loss independently for each model.</span>
+<span class="sd">    _combine_predictions(predictions, stacked):</span>
+<span class="sd">        Combine the predictions made by the models.</span>
+<span class="sd">    compute_metrics(x, y, predictions, sample_weight):</span>
+<span class="sd">        Specify the mean and stochastic part of the predictions to compute the metrics.</span>
+<span class="sd">    predict(x):</span>
+<span class="sd">        Compute the predictions of the model thanks to the `_combine_predictions` method.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Balaji Lakshminarayanan, Alexander Pritzel et Charles Blundell. « Simple and scalable</span>
+<span class="sd">        predictive uncertainty estimation using deep ensembles ». In : Advances in Neural Information</span>
+<span class="sd">        Processing Systems 2017-Decem.Nips (2017), p. 6403-6414. issn : 10495258. arXiv : 1612.01474.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DeepEnsembleModel.compute_loss"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.deep_ensemble.DeepEnsembleModel.compute_loss">[docs]</a>    <span class="k">def</span> <span class="nf">compute_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Custom ``compute_loss`` function.</span>
+
+<span class="sd">        This method overrides the ``compute_loss`` function so that the class doesn&#39;t </span>
+<span class="sd">        need specific loss function. It computes the loss for each model independently.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        x : tf.Tensor</span>
+<span class="sd">            Input data.</span>
+<span class="sd">        y : tf.Tensor</span>
+<span class="sd">            Target data.</span>
+<span class="sd">        y_pred : tf.Tensor</span>
+<span class="sd">            Predictions returned by the model (output of ``model(x)``)</span>
+<span class="sd">        sample_weight : optional</span>
+<span class="sd">           Sample weights for weighting the loss function.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        The total loss.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Define a function that computes the loss for one model</span>
+        <span class="k">def</span> <span class="nf">compute_loss_single_model</span><span class="p">(</span><span class="n">ytilde</span><span class="p">):</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compiled_loss</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ytilde</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">,</span> <span class="n">regularization_losses</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">losses</span><span class="p">)</span>
+
+        <span class="c1"># Parallelization of the computation</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">vectorized_map</span><span class="p">(</span><span class="n">compute_loss_single_model</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_pred</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">)])</span> <span class="p">)))</span></div>
+
+<div class="viewcode-block" id="DeepEnsembleModel._combine_predictions"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.deep_ensemble.DeepEnsembleModel._combine_predictions">[docs]</a>    <span class="k">def</span> <span class="nf">_combine_predictions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">stacked</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot; Combine the predictions of all the models in order to quantify the uncertainty.</span>
+<span class="sd">        </span>
+<span class="sd">        This method combines the prediction of all the models in order to quantify uncertainty.</span>
+<span class="sd">        The computation of uncertainty and the mean prediction is different according to the </span>
+<span class="sd">        structure of the network. For the moment, there are 2 possibilities (B = number of models): </span>
+
+<span class="sd">            * Mean Variance Activation (see method ``MeanVarianceActivation``)): </span>
+
+<span class="sd">                * Mean : :math:`\hat{\mu} = \dfrac{1}{B} \sum_{i=1}^{B} \hat{\mu}_i`</span>
+<span class="sd">                * Epistemic Variance : :math:`\hat{\sigma}^2_{epi} = \dfrac{1}{B} \sum_{i=1}^{B} (\hat{y}_i - \hat{\mu})^2`</span>
+<span class="sd">                * Aleatoric Variance : :math:`\hat{\sigma}^2_{alea} = \dfrac{1}{B} \sum_{i=1}^{B} (\sigma^2_i)`</span>
+<span class="sd">            * No specific structure : </span>
+<span class="sd">            </span>
+<span class="sd">                * Mean : :math:`\hat{y} = \dfrac{1}{B} \sum_{i=1}^{B} \hat{y}_i`</span>
+<span class="sd">                * Variance : :math:`\hat{\sigma}^2 = \dfrac{1}{B} \sum_{i=1}^{B} (\hat{y}_i - \hat{y})^2`</span>
+
+<span class="sd">        In the future, it will be possible to add other possibilities.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        predictions : tf.Tensor</span>
+<span class="sd">            Predictions returned by the model (output of ``model(x)``)</span>
+<span class="sd">        stacked : boolean</span>
+<span class="sd">            Boolean to indicate wheter the output should be stacked in a single tensor or not.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Predictions that have been combined. If ``stacked`` is True, the output is a one tensor.</span>
+<span class="sd">        Otherwise, the output is a list of tensors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Case 1 : The Deep Ensemble outputs a variance and a mean for each model</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_config</span><span class="p">()[</span><span class="s1">&#39;activation&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;MeanVarianceActivation&#39;</span><span class="p">:</span>
+
+            <span class="c1"># Compute the mean accros the model</span>
+            <span class="n">mean_prediction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">predictions</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Compute the variance accros the model</span>
+            <span class="n">mean_variance_epistemic</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">predictions</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">mean_prediction</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">mean_variance_aleatoric</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">predictions</span><span class="p">[:,:,:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">mean_variance</span> <span class="o">=</span> <span class="n">mean_variance_epistemic</span> <span class="o">+</span> <span class="n">mean_variance_aleatoric</span>
+
+            <span class="k">if</span> <span class="n">stacked</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">mean_prediction</span><span class="p">,</span> <span class="n">mean_variance</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">mean_prediction</span><span class="p">,</span> <span class="n">mean_variance_epistemic</span><span class="p">,</span> <span class="n">mean_variance_aleatoric</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        
+        <span class="c1"># Case 2 : The Deep Ensemble has a standard structure</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1"># Compute the mean accros the model</span>
+            <span class="n">mean_prediction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Compute the variance accros the model</span>
+            <span class="n">mean_variance</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">mean_prediction</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">stacked</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">mean_prediction</span><span class="p">,</span> <span class="n">mean_variance</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">mean_prediction</span><span class="p">,</span> <span class="n">mean_variance</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DeepEnsembleModel.compute_metrics"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.deep_ensemble.DeepEnsembleModel.compute_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">compute_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Custom ``compute_metrics`` method.</span>
+<span class="sd">        </span>
+<span class="sd">        As stated in the parent method ``compute_metrics``, this method called the </span>
+<span class="sd">        parent function with the appropriate ``y_pred`` and ``stochastic_predictions`` </span>
+<span class="sd">        arguments.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        x : tf.Tensor</span>
+<span class="sd">            Input data.</span>
+<span class="sd">        y : tf.Tensor</span>
+<span class="sd">            Target data.</span>
+<span class="sd">        predictions : tf.Tensor</span>
+<span class="sd">            Predictions returned by the model (output of ``model(x)``)</span>
+<span class="sd">        sample_weight : optional</span>
+<span class="sd">           Sample weights for weighting the loss function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        See parent method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">y_pred</span><span class="p">,</span> <span class="n">stochastic_predictions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_predictions</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">DeepEnsembleModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">compute_metrics</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">stochastic_predictions</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeepEnsembleModel.predict"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.deep_ensemble.DeepEnsembleModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Combine predictions made by all the models.</span>
+
+<span class="sd">        This method just called the parent&#39;s method and then combine predictions in order to quantify uncertainty.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : tf.Tensor</span>
+<span class="sd">            Input data.</span>
+<span class="sd">        kwargs : optional</span>
+<span class="sd">            Other Arguments of the `predict` parent&#39;s method.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Predictions made by the Deep Ensemble model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Compute the predictions</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">DeepEnsembleModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_predictions</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="toDeepEnsemble"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.deep_ensemble.toDeepEnsemble">[docs]</a><span class="k">def</span> <span class="nf">toDeepEnsemble</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">nb_models</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a regular model into a deep ensemble model.</span>
+
+<span class="sd">    This method intends to be high-level interface to construct</span>
+<span class="sd">    a Deep Ensemble model from a regular model. At present, only</span>
+<span class="sd">    the densely-connected NN is compatible with a fully parallelizable </span>
+<span class="sd">    implementation. Other architecture are just concatenated models.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    net : tf.keras.Sequential or tf.keras.Model</span>
+<span class="sd">        a tensorflow model</span>
+
+<span class="sd">    nb_models : int</span>
+<span class="sd">        the number of models</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    :class:`DeepEnsembleModel`</span>
+<span class="sd">        a Deep Ensemble Model</span>
+
+<span class="sd">    TODO</span>
+<span class="sd">    ----</span>
+<span class="sd">    Add support for other architectures</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># If the model is not built, raises a ValueError to</span>
+    <span class="c1"># ask to build the model</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">net</span><span class="o">.</span><span class="n">built</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+          <span class="s1">&#39;This model has not yet been built. &#39;</span>
+          <span class="s1">&#39;Build the model first by calling `build()` or by calling &#39;</span>
+          <span class="s1">&#39;the model on a batch of data.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Check whether the net is compatible with the fully parallelizable implementation</span>
+    <span class="n">is_compatible</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">layer</span> <span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer</span><span class="p">,(</span><span class="n">Dense</span><span class="p">,</span> <span class="n">Dense2Dto3D</span><span class="p">,</span><span class="n">InputLayer</span><span class="p">)),</span> <span class="n">net</span><span class="o">.</span><span class="n">layers</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="n">is_compatible</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Your network is compatible with a fully parallelizable implementation.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># The net can come from a tf.keras.Sequential or tf.keras.Model.</span>
+        <span class="c1"># The DeepEnsembleModel is a subclass of tf.keras.Model so it needs</span>
+        <span class="c1"># an Input layer. That&#39;s why, if the original net is from tf.keras.Sequential</span>
+        <span class="c1"># and doesn&#39;t contain an Input layer, we have to add it from the shape given</span>
+        <span class="c1"># in the first layer.</span>
+        <span class="n">first_layer</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">first_layer</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_layer</span><span class="p">,</span> <span class="n">InputLayer</span><span class="p">):</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
+            <span class="n">net</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;batch_input_shape&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">:],</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;input&#39;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">inputs</span>
+
+        <span class="c1"># Iterate over all layers to convert them to the right type</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+            <span class="n">config</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ensemble_&#39;</span> <span class="o">+</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="c1"># Convert Dense layer to Dense2Dto3D or Dense3Dto3D according to the input shape.</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">Dense</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;units_dim1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nb_models</span>
+                    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;units_dim2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">)</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="n">Dense2Dto3D</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="n">Dense3Dto3D</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+            <span class="c1"># Convert Dense2Dto3D to Dense3Dto4D.</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">Dense2Dto3D</span><span class="p">):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">Dense3Dto4D</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        
+        <span class="c1"># Return and construct an instance of the DeepEnsembleModel</span>
+        <span class="k">return</span> <span class="n">DeepEnsembleModel</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Your network is not compatible with a fully parallelizable implementation. The&#39;</span>
+        <span class="sa">f</span><span class="s1">&#39;Deep Ensemble will just be a concatenation of the same model multiple times.&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

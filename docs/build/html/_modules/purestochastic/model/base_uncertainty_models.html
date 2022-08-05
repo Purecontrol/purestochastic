@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>purestochastic.model.base_uncertainty_models &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> purestochastic
+            <img src="../../../_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#multiswag">5. MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../model/model.html">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/gaussian_regression.html">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_activations.html">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_activations.html#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_models.html">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#multiswag">MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/metrics.html">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>purestochastic.model.base_uncertainty_models</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for purestochastic.model.base_uncertainty_models</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">keras.engine</span> <span class="kn">import</span> <span class="n">compile_utils</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">purestochastic.model.activations</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="StochasticModel"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.base_uncertainty_models.StochasticModel">[docs]</a><span class="k">class</span> <span class="nc">StochasticModel</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; :class:`StochasticModel` allows to make stochastic training and inference features.</span>
+
+<span class="sd">    :class:`StochasticModel` is a subclass of :class:`keras.Model` that allows to construct stochastic </span>
+<span class="sd">    model. Stochastic model often outputs the parameters of a parametric distribution or quantiles of a </span>
+<span class="sd">    generic distribution. For example, it outputs the mean and the variance of a Gaussian Distribution. </span>
+<span class="sd">    </span>
+<span class="sd">    However, with standard class :class:`keras.Model`, all the metrics need to take the same input values. </span>
+<span class="sd">    Nevertheless, deterministic and stochastic metrics don&#39;t take the same input values. Therefore, </span>
+<span class="sd">    :class:`StochasticModel` adds the possibility to have deterministic as well as stochastic metrics. </span>
+<span class="sd">    Stochastic metrics need to be specified when ``model.compile`` is called with ``stochastic_metrics`` </span>
+<span class="sd">    or ``stochastic_weigthed_metrics`` arguments. </span>
+
+<span class="sd">    The class is abstract and can&#39;t be instanciate. Subclass need to override their own</span>
+<span class="sd">    ``compute_metrics(self, x, y, prediction, sample_weight)`` method that will called</span>
+<span class="sd">    the parent method with the appropriate `y_pred` and `stochastic_predictions` arguments.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    compile(stochastic_metrics=None, stochastic_weigthed_metrics=None):</span>
+<span class="sd">        Compile the model and add stochastic metrics.</span>
+<span class="sd">    compute_metrics(x, y, y_pred, stochastic_predictions, sample_weight):</span>
+<span class="sd">        Compute the values of the deterministic and stochastic metrics.</span>
+<span class="sd">    reset_metrics():</span>
+<span class="sd">        Reset the state of deterministic and stochastic metrics</span>
+
+<span class="sd">    Warning</span>
+<span class="sd">    --------</span>
+<span class="sd">    All the stochastic metrics need to take the same input values. They have to be consistent</span>
+<span class="sd">    together.     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stochastic_metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stochastic_weigthed_metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Configures the model for training.</span>
+
+<span class="sd">        The method called the parent method ``compile`` and add additionnal variables</span>
+<span class="sd">        for stochastic metrics compatibility.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stochastic_metrics : keras.metrics.Metric</span>
+<span class="sd">            List of  stochastic metrics to be evaluated by the model during training</span>
+<span class="sd">            and testing.</span>
+<span class="sd">        stochastic_weigthed_metrics : keras.metrics.Metric</span>
+<span class="sd">            List of  stochastic metrics to be evaluated and weighted by the model during </span>
+<span class="sd">            training and testing.</span>
+<span class="sd">        **kwargs : </span>
+<span class="sd">            Arguments supported by ``compile`` parent method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">StochasticModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">from_serialized</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;from_serialized&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compiled_stochastic_metrics</span> <span class="o">=</span> <span class="n">compile_utils</span><span class="o">.</span><span class="n">MetricsContainer</span><span class="p">(</span><span class="n">stochastic_metrics</span><span class="p">,</span> <span class="n">stochastic_weigthed_metrics</span><span class="p">,</span> <span class="n">output_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">output_names</span><span class="p">,</span> <span class="n">from_serialized</span><span class="o">=</span><span class="n">from_serialized</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stochastic_metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compiled_stochastic_metrics</span><span class="o">.</span><span class="n">_metrics</span> <span class="k">if</span> <span class="n">stochastic_metrics</span><span class="o">!=</span><span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stochastic_metrics_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stochastic_metrics</span><span class="p">]</span> <span class="k">if</span> <span class="n">stochastic_metrics</span><span class="o">!=</span><span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="StochasticModel.compute_metrics"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.base_uncertainty_models.StochasticModel.compute_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">compute_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">stochastic_predictions</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Compute the metrics.</span>
+
+<span class="sd">        The method called the parent method ``compute_metrics`` to compute the</span>
+<span class="sd">        deterministic metrics and then compute the stochastic metrics </span>
+<span class="sd">        manually. </span>
+<span class="sd">        </span>
+<span class="sd">        The methods takes one additional parameter ``stochastic_predictions`` that it&#39;s</span>
+<span class="sd">        specified by methods of subclass. This has to be the same for all the </span>
+<span class="sd">        stochastic metrics.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : tf.Tensor</span>
+<span class="sd">            Input data.</span>
+<span class="sd">        y : tf.Tensor</span>
+<span class="sd">            Target data.</span>
+<span class="sd">        y_pred : tf.Tensor</span>
+<span class="sd">            Mean prediction for y.</span>
+<span class="sd">        stochastic_predictions : tf.Tensor</span>
+<span class="sd">            Stochastic predictions for y.</span>
+<span class="sd">        sample_weight : </span>
+<span class="sd">            Sample weights for weighting the metrics.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        metric_results : dict</span>
+<span class="sd">            Value of each metric.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Compute and collect deterministic metrics from y_pred</span>
+        <span class="n">metric_results</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">StochasticModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">compute_metrics</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">)</span>
+
+        <span class="c1"># Compute stochastic metrics from y_pred, stochastic_predictions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compiled_stochastic_metrics</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">stochastic_predictions</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">sample_weight</span><span class="p">)</span>
+
+        <span class="c1"># Collect results from stochastic metrics</span>
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stochastic_metrics</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">metric</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">metric_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">metric_results</span><span class="p">[</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+
+        <span class="k">return</span> <span class="n">metric_results</span></div>
+
+    <span class="k">def</span> <span class="nf">reset_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Resets the state of all the metrics in the model.</span>
+
+<span class="sd">        It&#39;s exactly the same as for :class:`keras.Model` except that it also resets the state </span>
+<span class="sd">        of stochastic metrics.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Reset deterministic metrics</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">:</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">reset_state</span><span class="p">()</span>
+
+        <span class="c1"># Reset stochastic metrics</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stochastic_metrics</span><span class="p">:</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">reset_state</span><span class="p">()</span></div>
+
+<span class="k">class</span> <span class="nc">Task</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class is the parent class of all other classes that have been built for a specific task. </span>
+<span class="sd">    This class is abstract and therefore cannot be instantiated. Subclass need to implement the</span>
+<span class="sd">    following methods : </span>
+<span class="sd">        * fit : model training</span>
+<span class="sd">        * predict : model&#39;s prediction</span>
+<span class="sd">        * evaluate : model&#39;s evaluation</span>
+<span class="sd">        * save_weights : save weights of model</span>
+<span class="sd">        * load_weights : load weights of model</span>
+
+<span class="sd">    Models are for now : GaussianRegression, TimeSeriesModel</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : tf.keras.StochasticModel or tf.keras.Model or tf.keras.Sequential</span>
+<span class="sd">        A statistic model.</span>
+<span class="sd">    stochastic : boolean</span>
+<span class="sd">        Specify if the model is stochastic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        
+        <span class="c1"># Store the model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+
+        <span class="c1"># If the model is a subclass of StochasticModel, it outputs a variance.</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">),</span> <span class="n">StochasticModel</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stochastic</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stochastic</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method should implement the model training.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method sould compute the model&#39;s prediction&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method should implement evaluation of the model.&quot;&quot;&quot;</span>
+    
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">save_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method should save all the layer weights&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">load_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method should load all the layer weights&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GaussianRegression"><a class="viewcode-back" href="../../../model/gaussian_regression.html#purestochastic.model.base_uncertainty_models.GaussianRegression">[docs]</a><span class="k">class</span> <span class="nc">GaussianRegression</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The class is designed for gaussian regression, in other words models that predict</span>
+<span class="sd">    the mean and the variance associated of a gaussian distribution associated with</span>
+<span class="sd">    the prediction. This class can work with deterministic and stochastic models.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GaussianRegression.fit"><a class="viewcode-back" href="../../../model/gaussian_regression.html#purestochastic.model.base_uncertainty_models.GaussianRegression.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">standardize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Train the model. It takes as input a matrix of input values X and a matrix of target values y.</span>
+<span class="sd">        If standardize is set to true, the input values are standardized.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : numpy.ndarray</span>
+<span class="sd">            a matrix of input values</span>
+<span class="sd">        y : numpy.ndarray</span>
+<span class="sd">            a matrix of target values</span>
+<span class="sd">        standardize : boolean</span>
+<span class="sd">            specify if the input and the target values have to be scaled</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A `History` object from the `fit` method of the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># If standardize is set to true, standardize input and target values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span> <span class="o">=</span> <span class="n">standardize</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scalerX</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalerX</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scalerY</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalerY</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="c1"># Fit the model</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="GaussianRegression.predict"><a class="viewcode-back" href="../../../model/gaussian_regression.html#purestochastic.model.base_uncertainty_models.GaussianRegression.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the model&#39;s prediction. It takes as input a matrix of input values X.</span>
+<span class="sd">        It outputs predictions made on the input values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : numpy.ndarray</span>
+<span class="sd">            a matrix of input values  </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        It always outputs a matrix for the mean predictions made on the input values. </span>
+<span class="sd">        It can also output the variance if the model output the variance.</span>
+<span class="sd">        It type_var==&quot;sum&quot;, the variance is the sum of the aleatoric and epistemic variances. </span>
+<span class="sd">        Otherwise, the two types are returned separately.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># If standardize is set to true, standardize input values</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span><span class="p">:</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalerX</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1">## Make predictions</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Unstandardize target values (different case according to the activation function)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unstandardize_prediction</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>  <span class="c1"># equivalent to tf.unstack(preds, axis=-1)</span></div>
+ 
+<div class="viewcode-block" id="GaussianRegression.unstandardize_prediction"><a class="viewcode-back" href="../../../model/gaussian_regression.html#purestochastic.model.base_uncertainty_models.GaussianRegression.unstandardize_prediction">[docs]</a>    <span class="k">def</span> <span class="nf">unstandardize_prediction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mean</span> <span class="p">,</span> <span class="n">variance_epi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variance_alea</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The goal of this method is to unstandardize the prediction wheter it&#39;s the variance</span>
+<span class="sd">        or the mean of the prediction.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mean : np.array</span>
+<span class="sd">            The predicted mean.</span>
+<span class="sd">        variance_epi : np.array (optional)</span>
+<span class="sd">            The predicted epistemic variance.</span>
+<span class="sd">        variance_alea : np.array (optional)</span>
+<span class="sd">            The predicted aleatoric variance.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        The prediction which have been unstandardize.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span><span class="p">:</span>
+
+            <span class="n">output_values</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalerY</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span> <span class="p">,)</span>
+
+            <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">variance_epi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">output_values</span> <span class="o">+=</span> <span class="p">(</span><span class="n">variance_epi</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalerY</span><span class="o">.</span><span class="n">scale_</span><span class="o">**</span><span class="mi">2</span><span class="p">),)</span>
+
+            <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">variance_alea</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">output_values</span> <span class="o">+=</span> <span class="p">(</span><span class="n">variance_alea</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalerY</span><span class="o">.</span><span class="n">scale_</span><span class="o">**</span><span class="mi">2</span><span class="p">),)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="n">output_values</span> <span class="o">=</span> <span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">variance_epi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">output_values</span> <span class="o">+=</span> <span class="p">(</span><span class="n">variance_epi</span><span class="p">,)</span>
+
+            <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">variance_alea</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">output_values</span> <span class="o">+=</span> <span class="p">(</span><span class="n">variance_alea</span><span class="p">,)</span>
+
+        <span class="k">return</span> <span class="n">output_values</span></div>
+
+<div class="viewcode-block" id="GaussianRegression.evaluate"><a class="viewcode-back" href="../../../model/gaussian_regression.html#purestochastic.model.base_uncertainty_models.GaussianRegression.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stochastic_metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the model. It takes as input a matrix of input values X and a matrix of target values y.</span>
+<span class="sd">        It computes different metrics on the model&#39;s predictions and the target values.</span>
+<span class="sd">        If evaluation metrics are not specified, the function uses the metrics given in the `compile` method</span>
+<span class="sd">        of the model. Metrics can be a list of metrics or a single metric and need to be separated between</span>
+<span class="sd">        deterministic metrics and stochastic metrics. For more information, see StochasticModel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : numpy.ndarray</span>
+<span class="sd">            a matrix of input values</span>
+<span class="sd">        y : numpy.ndarray</span>
+<span class="sd">            a matrix of target values</span>
+<span class="sd">        metrics : keras.metrics.Metric</span>
+<span class="sd">            a list of metrics to be computed on the model&#39;s predictions and the target values.</span>
+<span class="sd">        stochastic_metrics : keras.metrics.Metric</span>
+<span class="sd">            a list of metrics to be computed on the model&#39;s predictions and the target values.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A dictionary of metrics.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">metrics</span><span class="o">==</span><span class="kc">None</span> <span class="ow">and</span> <span class="n">stochastic_metrics</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalerX</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">scalerY</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+            <span class="c1"># Make predictions for input values</span>
+            <span class="n">preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">mean_prediction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">variance_prediction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">preds</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">variance_prediction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">convert_to_tensor</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+            <span class="c1"># # If evaluation_metrics is not a list, convert it into list</span>
+            <span class="c1"># if not isinstance(evaluation_metrics,list):</span>
+            <span class="c1">#     evaluation_metrics = [evaluation_metrics]</span>
+            
+            <span class="c1"># Compute predictions</span>
+            <span class="n">compiled_metrics</span> <span class="o">=</span> <span class="n">compile_utils</span><span class="o">.</span><span class="n">MetricsContainer</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+            <span class="n">compiled_metrics</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mean_prediction</span><span class="p">)</span> 
+            <span class="n">metrics</span> <span class="o">=</span> <span class="n">compiled_metrics</span><span class="o">.</span><span class="n">_metrics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">metrics</span><span class="o">!=</span><span class="kc">None</span> <span class="k">else</span> <span class="p">[]</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stochastic</span><span class="p">:</span>
+                <span class="n">compiled_stochastic_metrics</span> <span class="o">=</span> <span class="n">compile_utils</span><span class="o">.</span><span class="n">MetricsContainer</span><span class="p">(</span><span class="n">stochastic_metrics</span><span class="p">)</span>
+                <span class="n">compiled_stochastic_metrics</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">mean_prediction</span><span class="p">,</span> <span class="n">variance_prediction</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">stochastic_metrics</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
+                    <span class="n">metrics</span> <span class="o">+=</span> <span class="n">compiled_stochastic_metrics</span><span class="o">.</span><span class="n">_metrics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            
+            <span class="n">return_metrics</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">return_metrics</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">return_metrics</span><span class="p">[</span><span class="n">metric</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+
+            <span class="k">return</span> <span class="n">return_metrics</span></div>
+
+<div class="viewcode-block" id="GaussianRegression.save_weights"><a class="viewcode-back" href="../../../model/gaussian_regression.html#purestochastic.model.base_uncertainty_models.GaussianRegression.save_weights">[docs]</a>    <span class="k">def</span> <span class="nf">save_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the model&#39;s weights.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath : string</span>
+<span class="sd">            the path where the weights needs to be saved.</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            a dictionary of parameters to be passed to the `save_weights` method of the tf.keras.Model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Save the model&#39;s weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Save mean and variance of the standardization parameters</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="o">+</span><span class="s2">&quot;scalerX.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalerX</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="o">+</span><span class="s2">&quot;scalerY.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalerY</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GaussianRegression.load_weights"><a class="viewcode-back" href="../../../model/gaussian_regression.html#purestochastic.model.base_uncertainty_models.GaussianRegression.load_weights">[docs]</a>    <span class="k">def</span> <span class="nf">load_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads the model&#39;s weights.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath : string</span>
+<span class="sd">            the path where the weights are saved.</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            a dictionary of parameters to be passed to the `load_weights` method of the tf.keras.Model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Load mean and variance of the standardization parameters</span>
+
+        <span class="c1">#know if the file filepath+&quot;scalerX.pkl&quot; exists</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filepath</span><span class="o">+</span><span class="s2">&quot;scalerX.pkl&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">standardize</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="o">+</span><span class="s2">&quot;scalerX.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scalerX</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="o">+</span><span class="s2">&quot;scalerY.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scalerY</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Load the model&#39;s weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+<span class="c1"># class TimeSeriesTask(Task):</span>
+
+<span class="c1">#     def __init__(self, model, operator):</span>
+
+<span class="c1">#         super(TimeSeriesModel, self).__init__(model)</span>
+
+<span class="c1">#         # Specify if the model predict the mean and the variance or just the mean</span>
+<span class="c1">#         if len(self.model.get_layer(index=-1).output_shape) &gt;= 3 or (isinstance(self.model, (DeepEnsembleModel, SWAGModel, MultiSWAGModel))):</span>
+<span class="c1">#             self.var_output = True</span>
+<span class="c1">#         else:</span>
+<span class="c1">#             self.var_output = False</span>
+
+<span class="c1">#         # Specifying how to discretize the derivative</span>
+<span class="c1">#         self.operator = operator</span>
+
+<span class="c1">#     def fit(self, df, c_target, c_exogen, c_control, H=1, order=1, standardize=True, batch_size=16, epochs=1, tensorboard_path=None, verbose=0, **kwargs):</span>
+
+<span class="c1">#         # If standardize is set to true, standardize input and target values</span>
+<span class="c1">#         self.standardize = standardize</span>
+<span class="c1">#         if self.standardize:</span>
+<span class="c1">#             pro_df, self.scaler = normalize_df(df)</span>
+
+<span class="c1">#         self.order = order</span>
+<span class="c1">#         if H == 1: # and isinstance(self.model, (DeepEnsembleModel, SWAGModel, MultiSWAGModel)):</span>
+<span class="c1">#             X, y = convert_df_into_data(pro_df, c_target, c_exogen, c_control, operator=self.operator, order=self.order)</span>
+
+<span class="c1">#             return self.model.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=verbose, **kwargs)</span>
+<span class="c1">#         else:</span>
+<span class="c1">#             # Generate Integrated Data</span>
+<span class="c1">#             X_init, U, X = convert_df_into_integrated_data(pro_df, H, c_target, c_exogen, c_control)</span>
+
+<span class="c1">#             # Split dataset into batches</span>
+<span class="c1">#             train_dataset = tf.data.Dataset.from_tensor_slices((X_init, U, X))</span>
+<span class="c1">#             train_dataset = train_dataset.shuffle(buffer_size=1024).batch(batch_size)</span>
+
+<span class="c1">#             # Initialize tensorboard if specified</span>
+<span class="c1">#             if tensorboard_path is not None:</span>
+<span class="c1">#                 summary_writer = tf.summary.create_file_writer(tensorboard_path)</span>
+
+<span class="c1">#             # Train model</span>
+<span class="c1">#             for epoch in range(epochs):</span>
+
+<span class="c1">#                 if verbose:</span>
+<span class="c1">#                     print(&quot;\n####### Start of epoch %d #######&quot; % (epoch+1,))</span>
+
+<span class="c1">#                 # Initialize loss</span>
+<span class="c1">#                 total_loss = 0</span>
+
+<span class="c1">#                 # Iterate over the batches of the dataset.</span>
+<span class="c1">#                 for step, (X_init_batch, U_batch, X_batch) in enumerate(train_dataset):</span>
+
+<span class="c1">#                     #Initialize predictions</span>
+<span class="c1">#                     X_pred = tf.zeros(X_batch.shape)</span>
+<span class="c1">#                     input_val = tf.concat([X_init_batch,U_batch[:,0,:]],1)</span>
+
+<span class="c1">#                     #Forward and backward pass</span>
+<span class="c1">#                     with tf.GradientTape() as tape:</span>
+
+<span class="c1">#                         # Watch the matrix of predictions and the input values</span>
+<span class="c1">#                         tape.watch(X_pred)</span>
+<span class="c1">#                         tape.watch(input_val)</span>
+
+<span class="c1">#                         # First pass of single step</span>
+<span class="c1">#                         output = self.model(input_val, training=True, **kwargs)</span>
+<span class="c1">#                         if self.operator == &quot;shift&quot;:</span>
+<span class="c1">#                             X_pred = X_pred + tf.transpose(tf.stack( [tf.zeros_like(output),]*0 + [ X_init_batch + output,]+  [tf.zeros_like(output),]*(H-1)  ), (1,0,2))</span>
+<span class="c1">#                         elif self.operator == &quot;delta&quot;:</span>
+<span class="c1">#                             X_pred = X_pred + tf.transpose(tf.stack( [tf.zeros_like(output),]*0 + [ output,]+  [tf.zeros_like(output),]*(H-1)  ), (1,0,2))</span>
+                        
+<span class="c1">#                         # Iterate the H-1 pass of single step</span>
+<span class="c1">#                         for i in range(1,H):</span>
+
+<span class="c1">#                             # Format input val</span>
+<span class="c1">#                             input_val = tf.concat([X_pred[:,i-1,:],U_batch[:,i,:]],1)</span>
+
+<span class="c1">#                             # One pass of single step</span>
+<span class="c1">#                             output = self.model(input_val, training=True)</span>
+<span class="c1">#                             if self.operator == &quot;shift&quot;:</span>
+<span class="c1">#                                 X_pred = X_pred + tf.transpose(tf.stack( [tf.zeros_like(output),]*i + [X_pred[:,i-1,:] + output,]+  [tf.zeros_like(output),]*(H-i-1)  ), (1,0,2))</span>
+<span class="c1">#                             elif self.operator == &quot;delta&quot;:</span>
+<span class="c1">#                                 X_pred = X_pred + tf.transpose(tf.stack( [tf.zeros_like(output),]*i + [output,]+  [tf.zeros_like(output),]*(H-i-1)  ), (1,0,2))</span>
+                            
+<span class="c1">#                         # Compute the loss value of the batch</span>
+<span class="c1">#                         loss_value = self.model.loss(X_pred, X_batch)</span>
+                        
+<span class="c1">#                     # Add the batch loss to the loss</span>
+<span class="c1">#                     total_loss += loss_value</span>
+
+<span class="c1">#                     # Compute gradients and make one gradient step</span>
+<span class="c1">#                     grads = tape.gradient(loss_value, self.model.trainable_weights)</span>
+<span class="c1">#                     self.model.optimizer.apply_gradients(zip(grads, self.model.trainable_weights))</span>
+
+<span class="c1">#                     # Log every 200 batches.</span>
+<span class="c1">#                     if step % 200 == 0 and verbose:</span>
+<span class="c1">#                         print(</span>
+<span class="c1">#                             &quot;Training loss (for one batch) at step %d: %.4f&quot;</span>
+<span class="c1">#                             % (step, float(loss_value))</span>
+<span class="c1">#                         )</span>
+<span class="c1">#                         print(&quot;Seen so far: %d samples&quot; % ((step + 1) * batch_size))</span>
+
+<span class="c1">#                 # Log every epochs</span>
+<span class="c1">#                 if verbose:</span>
+<span class="c1">#                     print(f&quot;\n # Total loss at epoch {epoch+1} : {total_loss}.&quot;)</span>
+
+<span class="c1">#                 # Save model loss to tensorboard</span>
+<span class="c1">#                 if tensorboard_path is not None:</span>
+<span class="c1">#                     with summary_writer.as_default():</span>
+<span class="c1">#                         tf.summary.scalar(&quot;epoch_loss&quot;, total_loss, step=epoch)</span>
+
+<span class="c1">#                 # Save model weights to tensorboard</span>
+<span class="c1">#                 if tensorboard_path is not None:</span>
+<span class="c1">#                     with summary_writer.as_default():</span>
+<span class="c1">#                         for weight in self.model.trainable_weights:</span>
+<span class="c1">#                             tf.summary.histogram(weight.name, weight, step=epoch)</span>
+            
+<span class="c1">#     def predict(self, df, c_target, c_exogen, c_control, H=1, type_var=&quot;sum&quot;):</span>
+        
+<span class="c1">#         # Scale data</span>
+<span class="c1">#         if self.standardize:</span>
+<span class="c1">#             pro_df = df.copy()</span>
+<span class="c1">#             pro_df.iloc[:,:] = self.scaler.transform(df.iloc[:,:])</span>
+
+<span class="c1">#         # Create matrices of input and output</span>
+<span class="c1">#         X, _ = convert_df_into_data(pro_df, c_target, c_exogen, c_control, operator=self.operator, order=self.order)</span>
+
+<span class="c1">#         # Store the number of prediction to make</span>
+<span class="c1">#         N, _ = df.shape</span>
+
+<span class="c1">#         # Initialization of the indexes and prediction</span>
+<span class="c1">#         indexes = np.array([i for i in range(N-self.order) if i%H == 0])</span>
+<span class="c1">#         prediction = np.zeros((N-self.order,len(c_target)))</span>
+<span class="c1">#         if self.var_output:</span>
+<span class="c1">#             variance_epistemic = np.zeros((N-self.order,len(c_target)))</span>
+<span class="c1">#             variance_aleatoric = np.zeros((N-self.order,len(c_target)))</span>
+
+<span class="c1">#         for i in range(0,H):</span>
+
+<span class="c1">#             # Recovery of specific inputs of the model for the interation</span>
+<span class="c1">#             X_batch = X[indexes,:]</span>
+
+<span class="c1">#             # If it&#39;s not the first prediction, use the prediction made at the precedent iteration for the input of the model</span>
+<span class="c1">#             for j in range(min(i,self.order)):</span>
+<span class="c1">#                 X_batch[:,j*len(c_target):((j+1)*len(c_target))] = prediction[indexes-(j+1),:] </span>
+
+<span class="c1">#             # If it&#39;s the first prediction of the block, use the true value of the target</span>
+<span class="c1">#             if i==0:</span>
+<span class="c1">#                 preds = self.model.predict( X_batch, verbose=0) #A la base pas le .predict mais ne prend pas la fontion predict dans les classes sinon</span>
+<span class="c1">#                 if self.operator == &quot;shift&quot;:</span>
+
+<span class="c1">#                     # If the model predict uncertanties, store the variance</span>
+<span class="c1">#                     if self.var_output:</span>
+<span class="c1">#                         if preds.shape[2] == 2:</span>
+<span class="c1">#                             prediction[indexes], variance_epistemic[indexes] = preds[:,:,0] + X_batch[:,:len(c_target)], preds[:,:,1]</span>
+<span class="c1">#                         else:</span>
+<span class="c1">#                             prediction[indexes], variance_epistemic[indexes], variance_aleatoric[indexes] = preds[:,:,0] + X_batch[:,:len(c_target)], preds[:,:,1], preds[:,:,2]</span>
+<span class="c1">#                     else:</span>
+<span class="c1">#                         prediction[indexes] = preds + X_batch[:,c_target]</span>
+
+<span class="c1">#                 elif self.operator == &quot;delta&quot;:</span>
+                    
+<span class="c1">#                     # If the model predict uncertanties, store the variance</span>
+<span class="c1">#                     if self.var_output:</span>
+<span class="c1">#                         if preds.shape[2] == 2:</span>
+<span class="c1">#                             prediction[indexes], variance_epistemic[indexes] = preds[:,:,0], preds[:,:,1]</span>
+<span class="c1">#                         else:</span>
+<span class="c1">#                             prediction[indexes], variance_epistemic[indexes], variance_aleatoric[indexes] = preds[:,:,0], preds[:,:,1], preds[:,:,2]</span>
+<span class="c1">#                     else:</span>
+<span class="c1">#                         prediction[indexes] = preds</span>
+
+<span class="c1">#             # Otherwise, use the prediction made at the precedent iteration</span>
+<span class="c1">#             else:</span>
+<span class="c1">#                 preds = self.model.predict( X_batch , verbose=0)</span>
+<span class="c1">#                 if self.operator == &quot;shift&quot;:</span>
+
+<span class="c1">#                     # If the model predict uncertanties, store the variance</span>
+<span class="c1">#                     if self.var_output:</span>
+<span class="c1">#                         if preds.shape[2] == 2:</span>
+<span class="c1">#                             prediction[indexes], variance_epistemic[indexes] = preds[:,:,0] + prediction[indexes-1], preds[:,:,1]</span>
+<span class="c1">#                         else:</span>
+<span class="c1">#                             prediction[indexes], variance_epistemic[indexes], variance_aleatoric[indexes] = preds[:,:,0] + prediction[indexes-1], preds[:,:,1], preds[:,:,2]</span>
+<span class="c1">#                     else:</span>
+<span class="c1">#                         prediction[indexes] = prediction[indexes-1] + preds</span>
+                
+<span class="c1">#                 elif self.operator == &quot;delta&quot;:</span>
+                    
+<span class="c1">#                     # If the model predict uncertanties, store the variance</span>
+<span class="c1">#                     if self.var_output:</span>
+<span class="c1">#                         if preds.shape[2] == 2:</span>
+<span class="c1">#                             prediction[indexes], variance_epistemic[indexes] = preds[:,:,0], preds[:,:,1]</span>
+<span class="c1">#                         else:</span>
+<span class="c1">#                             prediction[indexes], variance_epistemic[indexes], variance_aleatoric[indexes] = preds[:,:,0], preds[:,:,1], preds[:,:,2]</span>
+<span class="c1">#                     else:</span>
+<span class="c1">#                         prediction[indexes] = preds</span>
+            
+<span class="c1">#             # Update the indexes and remove the last index if it&#39;s too high</span>
+<span class="c1">#             indexes = indexes + 1</span>
+<span class="c1">#             if indexes[-1] &gt;= (N-self.order):</span>
+<span class="c1">#                 indexes = indexes[:-1]</span>
+
+<span class="c1">#         # Rescale all the values</span>
+<span class="c1">#         if self.standardize:</span>
+<span class="c1">#             prediction = prediction*self.scaler.scale_[c_target] + self.scaler.mean_[c_target] </span>
+<span class="c1">#             if self.var_output:</span>
+<span class="c1">#                 if self.operator == &quot;delta&quot;:</span>
+<span class="c1">#                     variance_epistemic = variance_epistemic*(self.scaler.scale_[c_target]**2)</span>
+<span class="c1">#                     variance_aleatoric = variance_aleatoric*(self.scaler.scale_[c_target]**2)</span>
+<span class="c1">#                 elif self.operator == &quot;shift&quot;:</span>
+<span class="c1">#                     variance_epistemic = variance_epistemic*(self.scaler.scale_[c_target]**2)/2</span>
+<span class="c1">#                     variance_aleatoric = variance_aleatoric*(self.scaler.scale_[c_target]**2)/2</span>
+
+<span class="c1">#         # Return the prediction and the variance only if the model predict uncertanties</span>
+<span class="c1">#         prediction = np.vstack((np.repeat(np.NaN,len(c_target)*self.order).reshape(self.order,-1),prediction))</span>
+<span class="c1">#         if self.var_output:</span>
+<span class="c1">#             variance_epistemic = np.vstack((np.repeat(np.NaN,len(c_target)*self.order).reshape(self.order,-1),variance_epistemic))</span>
+<span class="c1">#             variance_aleatoric = np.vstack((np.repeat(np.NaN,len(c_target)*self.order).reshape(self.order,-1),variance_aleatoric))</span>
+
+        
+<span class="c1">#         if self.var_output:</span>
+<span class="c1">#             if preds.shape[2] == 2:</span>
+<span class="c1">#                 return prediction, variance_epistemic</span>
+<span class="c1">#             else:</span>
+<span class="c1">#                 if type_var == &quot;sum&quot;:</span>
+<span class="c1">#                     return prediction, variance_epistemic + variance_aleatoric</span>
+<span class="c1">#                 elif type_var == &quot;sep&quot;:</span>
+<span class="c1">#                     return prediction, variance_epistemic, variance_aleatoric</span>
+<span class="c1">#         else:</span>
+<span class="c1">#             return prediction  </span>
+
+<span class="c1">#     def evaluate(self):</span>
+<span class="c1">#         pass</span>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

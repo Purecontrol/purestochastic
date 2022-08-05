@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>purestochastic.common.losses &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> purestochastic
+            <img src="../../../_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#multiswag">5. MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../model/model.html">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/gaussian_regression.html">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_activations.html">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_activations.html#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_models.html">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#multiswag">MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/metrics.html">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>purestochastic.common.losses</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for purestochastic.common.losses</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="gaussian_negative_log_likelihood"><a class="viewcode-back" href="../../../utils/losses.html#purestochastic.common.losses.gaussian_negative_log_likelihood">[docs]</a><span class="nd">@tf</span><span class="o">.</span><span class="n">function</span>
+<span class="k">def</span> <span class="nf">gaussian_negative_log_likelihood</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">prediction</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gaussian negative log likelihood loss function.</span>
+
+<span class="sd">    The loss function computes the gaussian negative log likelihood between the ground truth values </span>
+<span class="sd">    :math:`y=(y_1, \ldots, y_n)` and the predictions which are the mean and the variance of a gaussian</span>
+<span class="sd">    distribution : </span>
+<span class="sd">    </span>
+<span class="sd">        * :math:`\hat{\mu} = \text{prediction}[ : , \cdots , :  , 0]`</span>
+
+<span class="sd">        * :math:`\hat{\sigma}^2 = \text{prediction}[ : , \cdots , : , 1]`</span>
+<span class="sd">    </span>
+<span class="sd">    Mathematically, the loss function is defined as : </span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \mathcal{L}(y, \hat{\mu}, \hat{\sigma}^2) = \frac{1}{2n} \displaystyle\sum_{i=1}^{n} \Bigg[\ln(\hat{\sigma}^2(x_i,\theta))+\frac{(y_i-\hat{\mu}(x_i,\theta))^2}{\hat{\sigma}^2(x_i,\theta)} \Bigg] + \frac{1}{2}\log(2 \pi)</span>
+<span class="sd">    </span>
+<span class="sd">    If ``y`` is not a 1D array, the batch dimension needs to be the first and the output value is</span>
+<span class="sd">    the mean over all other dimensions.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : tf.Tensor or np.ndarray</span>
+<span class="sd">        Ground truth values.</span>
+<span class="sd">    prediction : tf.Tensor or np.ndarray</span>
+<span class="sd">        The predicted values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tf.float32 </span>
+<span class="sd">        Value of the Gaussian negative log likelihood.</span>
+
+<span class="sd">    Input shape</span>
+<span class="sd">    -----------</span>
+<span class="sd">        (N+2)-D tensor with shape: ``[batch_size, d_0, ...,  d_N]``.</span>
+
+<span class="sd">    Output shape</span>
+<span class="sd">    ------------</span>
+<span class="sd">        (N+3)-D tensor with shape: ``[batch_size, d_0, ..., d_N, 2]``.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    The likelihood is a product of density functions and so the values can be between :math:`[0, \infty]`.</span>
+<span class="sd">    The negative log likelihood can thus be negative if the likelihood is greater than 1. Therefore, don&#39;t</span>
+<span class="sd">    worry if your loss function is negative, it&#39;s often the case.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Separate the mean and the variance</span>
+    <span class="n">mean</span><span class="p">,</span> <span class="n">var</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Compute the Gaussian Negative Log Likelihood</span>
+    <span class="n">log_var</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+    <span class="n">squared_error</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">log_var</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">squared_error</span><span class="p">,</span><span class="n">var</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span></div>
+
+
+<span class="c1"># @tf.function</span>
+<span class="c1"># def IMSE(Xhat, X):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Todo</span>
+<span class="c1">#     -----</span>
+<span class="c1">#     Add.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+
+<span class="c1">#     return tf.math.reduce_mean(tf.math.pow(Xhat-X,2))</span>
+
+<span class="c1"># @tf.function</span>
+<span class="c1"># def IMAE(Xhat, X):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Todo</span>
+<span class="c1">#     -----</span>
+<span class="c1">#     Add.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+    
+<span class="c1">#     N ,H , _ = X.shape</span>
+<span class="c1">#     return tf.math.reduce_sum(tf.math.abs(Xhat-X))/(N*H)</span>
+
+<span class="c1"># @tf.function</span>
+<span class="c1"># def INM(Xhat, Vhat, X):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Todo</span>
+<span class="c1">#     -----</span>
+<span class="c1">#     Add.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+    
+<span class="c1">#     _ , H, D , _  = Xhat.shape </span>
+
+<span class="c1">#     log_var = tf.math.log(Vhat)</span>
+<span class="c1">#     squared_error = tf.math.pow(tf.math.subtract(Xhat,X),2)</span>
+<span class="c1">#     return tf.math.reduce_mean(log_var + tf.math.divide(squared_error,Vhat))/2 + (1/2)*tf.math.log(2*np.pi) </span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GaussianRegression &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Custom Layers" href="custom_layers.html" />
+    <link rel="prev" title="Model" href="model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> purestochastic
+            <img src="../_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#multiswag">5. MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="model.html">Model</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_activations.html">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_activations.html#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_models.html">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_models.html#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_models.html#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_models.html#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_models.html#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_models.html#multiswag">MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../utils/losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utils/losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utils/metrics.html">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="model.html">Model</a> &raquo;</li>
+      <li>GaussianRegression</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/model/gaussian_regression.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gaussianregression">
+<h1>GaussianRegression<a class="headerlink" href="#gaussianregression" title="Permalink to this heading">¶</a></h1>
+<p>The gaussian regression model is an extension of the regression task. In regression,
+we try to predict the value of a target variable as a function of the values of
+the independent variables. However, the uncertainty of the prediction is not taken
+into account and it can be problematic during the modelisation. However, it is
+difficult to assess the quality of the uncertainty as this information is not really
+available.</p>
+<p>The uncertainty can be separated into two parts :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Aleatoric</span> <span class="pre">uncertainty</span></code> : the uncertainty linked to the distribution of the data</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Epistemic</span> <span class="pre">uncertainty</span></code> : the uncertainty related to the power of the model,
+the uncertainty related to the estimation of the model parameters and the uncertainty related to the collection of
+(incomplete, noisy, discordant, …).</p></li>
+</ul>
+</div></blockquote>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/uncertainty.jpg"><img alt="uncetainty" src="../_images/uncertainty.jpg" style="width: 500px;" /></a>
+<figcaption>
+<p><span class="caption-text">A schematic view of main differences between aleatoric and epistemic uncertainties from the article <strong>A Review of Uncertainty Quantification in Deep Learning: Techniques, Applications and Challenges</strong> <a class="footnote-reference brackets" href="#id2" id="id1">1</a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Modelling uncertainty can be done by modelling the distribution of the prediction.
+It is not possible to predict the whole distribution of the prediction. One solution
+is to predict some quantiles of the distribution and another solution is to predict
+the parameters of a known distribution. In the case of <code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianRegression</span></code>,
+this is the second solution and the model tries to predict the mean and the
+variance of a gaussian distribution associated with the prediction.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>According to the model, it is possible to separate the variance into an
+aleatoric and epistemic component. Therefore, the the number of outputs
+can be different.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>It is possible to use <code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianRegression</span></code> with a standard deterministic model.
+However, when you will call the method <code class="docutils literal notranslate"><span class="pre">predict`</span></code>, it will only send you the mean. It
+is useful to utilize the class to scale and unscale the data.</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="purestochastic.model.base_uncertainty_models.GaussianRegression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">purestochastic.model.base_uncertainty_models.</span></span><span class="sig-name descname"><span class="pre">GaussianRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/base_uncertainty_models.html#GaussianRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.base_uncertainty_models.GaussianRegression" title="Permalink to this definition">¶</a></dt>
+<dd><p>The class is designed for gaussian regression, in other words models that predict
+the mean and the variance associated of a gaussian distribution associated with
+the prediction. This class can work with deterministic and stochastic models.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.base_uncertainty_models.GaussianRegression.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stochastic_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/base_uncertainty_models.html#GaussianRegression.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.base_uncertainty_models.GaussianRegression.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the model. It takes as input a matrix of input values X and a matrix of target values y.
+It computes different metrics on the model’s predictions and the target values.
+If evaluation metrics are not specified, the function uses the metrics given in the <cite>compile</cite> method
+of the model. Metrics can be a list of metrics or a single metric and need to be separated between
+deterministic metrics and stochastic metrics. For more information, see StochasticModel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>numpy.ndarray</em>) – a matrix of input values</p></li>
+<li><p><strong>y</strong> (<em>numpy.ndarray</em>) – a matrix of target values</p></li>
+<li><p><strong>metrics</strong> (<em>keras.metrics.Metric</em>) – a list of metrics to be computed on the model’s predictions and the target values.</p></li>
+<li><p><strong>stochastic_metrics</strong> (<em>keras.metrics.Metric</em>) – a list of metrics to be computed on the model’s predictions and the target values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>A dictionary of metrics.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.base_uncertainty_models.GaussianRegression.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standardize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/base_uncertainty_models.html#GaussianRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.base_uncertainty_models.GaussianRegression.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the model. It takes as input a matrix of input values X and a matrix of target values y.
+If standardize is set to true, the input values are standardized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>numpy.ndarray</em>) – a matrix of input values</p></li>
+<li><p><strong>y</strong> (<em>numpy.ndarray</em>) – a matrix of target values</p></li>
+<li><p><strong>standardize</strong> (<em>boolean</em>) – specify if the input and the target values have to be scaled</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>A <cite>History</cite> object from the <cite>fit</cite> method of the model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.base_uncertainty_models.GaussianRegression.load_weights">
+<span class="sig-name descname"><span class="pre">load_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/base_uncertainty_models.html#GaussianRegression.load_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.base_uncertainty_models.GaussianRegression.load_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the model’s weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>string</em>) – the path where the weights are saved.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – a dictionary of parameters to be passed to the <cite>load_weights</cite> method of the tf.keras.Model.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.base_uncertainty_models.GaussianRegression.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/base_uncertainty_models.html#GaussianRegression.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.base_uncertainty_models.GaussianRegression.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the model’s prediction. It takes as input a matrix of input values X.
+It outputs predictions made on the input values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>numpy.ndarray</em>) – a matrix of input values</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>It always outputs a matrix for the mean predictions made on the input values.</em></p></li>
+<li><p><em>It can also output the variance if the model output the variance.</em></p></li>
+<li><p><em>It type_var==”sum”, the variance is the sum of the aleatoric and epistemic variances.</em></p></li>
+<li><p><em>Otherwise, the two types are returned separately.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.base_uncertainty_models.GaussianRegression.save_weights">
+<span class="sig-name descname"><span class="pre">save_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/base_uncertainty_models.html#GaussianRegression.save_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.base_uncertainty_models.GaussianRegression.save_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the model’s weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>string</em>) – the path where the weights needs to be saved.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – a dictionary of parameters to be passed to the <cite>save_weights</cite> method of the tf.keras.Model.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.base_uncertainty_models.GaussianRegression.unstandardize_prediction">
+<span class="sig-name descname"><span class="pre">unstandardize_prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variance_epi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variance_alea</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/base_uncertainty_models.html#GaussianRegression.unstandardize_prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.base_uncertainty_models.GaussianRegression.unstandardize_prediction" title="Permalink to this definition">¶</a></dt>
+<dd><p>The goal of this method is to unstandardize the prediction wheter it’s the variance
+or the mean of the prediction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mean</strong> (<em>np.array</em>) – The predicted mean.</p></li>
+<li><p><strong>variance_epi</strong> (<em>np.array (optional)</em>) – The predicted epistemic variance.</p></li>
+<li><p><strong>variance_alea</strong> (<em>np.array (optional)</em>) – The predicted aleatoric variance.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>The prediction which have been unstandardize.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<h2>References</h2><dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Moloud Abdar et al. « A review of uncertainty quantification in deep learning : Techniques,
+applications and challenges ». In : Information Fusion 76 (2021), p. 243-297. issn : 15662535.
+doi : 10.1016/j.inffus.2021.05.008. arXiv : 2011.06225.</p>
+</dd>
+</dl>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="model.html" class="btn btn-neutral float-left" title="Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="custom_layers.html" class="btn btn-neutral float-right" title="Custom Layers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

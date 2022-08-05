@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>purestochastic.model.layers &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> purestochastic
+            <img src="../../../_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#multiswag">5. MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../model/model.html">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/gaussian_regression.html">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_activations.html">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_activations.html#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_models.html">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#multiswag">MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/metrics.html">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>purestochastic.model.layers</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for purestochastic.model.layers</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">keras</span> <span class="kn">import</span> <span class="n">initializers</span><span class="p">,</span> <span class="n">regularizers</span><span class="p">,</span> <span class="n">constraints</span><span class="p">,</span> <span class="n">activations</span><span class="p">,</span> <span class="n">backend</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">InputSpec</span>
+<span class="kn">from</span> <span class="nn">keras.utils.generic_utils</span> <span class="kn">import</span> <span class="n">get_custom_objects</span>
+
+<div class="viewcode-block" id="Dense2Dto3D"><a class="viewcode-back" href="../../../model/custom_layers.html#purestochastic.model.layers.Dense2Dto3D">[docs]</a><span class="k">class</span> <span class="nc">Dense2Dto3D</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;An adaptation of the densely-connected NN layer that outputs a 3D tensor from a 2D tensor.</span>
+
+<span class="sd">    :class:`Dense2Dto3D` is a change of the :class:`Dense` layer when the kernel is a tensor of order 3.</span>
+<span class="sd">    It implements the dot product between the inputs and the kernel along the last axis of the inputs </span>
+<span class="sd">    and axis 0 of the kernel : </span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; output = activation(tensordot(input, kernel) + bias). </span>
+<span class="sd">    </span>
+<span class="sd">    It&#39;s like having a :class:`Dense` layer with ``units_dim1*units_dim2`` units followed by a :class:`Reshape` </span>
+<span class="sd">    layer with a target shape of ``(units_dim1, units_dim2)``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    units_dim1 : int</span>
+<span class="sd">        Dimensionality of the first dimension of the output space.</span>
+
+<span class="sd">    units_dim2 : int</span>
+<span class="sd">        Dimensionality of the second dimension of the output space.</span>
+
+<span class="sd">    activation : func or str, default: None</span>
+<span class="sd">        Activation function to use. If you don&#39;t specify anything, </span>
+<span class="sd">        no activation is applied (ie. &quot;linear&quot; activation: `a(x) = x`).</span>
+
+<span class="sd">    use_bias : boolean, default:True</span>
+<span class="sd">        Indicates whether the layer uses a bias matrix.</span>
+
+<span class="sd">    kernel_initializer : str or dict or func, default:&#39;glorot_uniform&#39;</span>
+<span class="sd">        Initializer for the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_initializer : str or dict or func, default:&#39;zeros&#39;</span>
+<span class="sd">        Initializer for the bias matrix.</span>
+
+<span class="sd">    kernel_regularizer : str or dict or func, optional</span>
+<span class="sd">        Regularizer function applied to the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_regularizer : str or dict or func, optional</span>
+<span class="sd">        Regularizer function applied to the bias matrix.</span>
+
+<span class="sd">    activity_regularizer : str or dict or func, optional</span>
+<span class="sd">        Regularizer function applied to the output of the layer (its &quot;activation&quot;).</span>
+
+<span class="sd">    kernel_constraint : str or dict or func, optional</span>
+<span class="sd">        Constraint function applied to the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_constraint : str or dict or func, optional</span>
+<span class="sd">        Constraint function applied to the bias matrix.</span>
+
+<span class="sd">    Input shape</span>
+<span class="sd">    -----------</span>
+<span class="sd">        2D tensor with shape: ``(batch_size, input_dim)``.</span>
+
+<span class="sd">    Output shape</span>
+<span class="sd">    ------------</span>
+<span class="sd">        3D tensor with shape: ``(batch_size, units_dim1, units_dim2)``.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">units_dim1</span><span class="p">,</span>
+                 <span class="n">units_dim2</span><span class="p">,</span>
+                 <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;glorot_uniform&#39;</span><span class="p">,</span>
+                 <span class="n">bias_initializer</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">,</span>
+                 <span class="n">kernel_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bias_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">activity_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">kernel_constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bias_constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># Superconstructor of the class tf.keras.layers.Layer</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Dense2Dto3D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">activity_regularizer</span><span class="o">=</span><span class="n">activity_regularizer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Specify the dimension of the layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">units_dim1</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units_dim1</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">units_dim1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">units_dim2</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units_dim2</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">units_dim2</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Received an invalid value for `units_dim1` or `units_dim2`&#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;, expected positive integers. Received: units_dim1=</span><span class="si">{</span><span class="n">units_dim1</span><span class="si">}</span><span class="s1">, units_dim2==</span><span class="si">{</span><span class="n">units_dim2</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Preprocess activation, bias, initialiers, regularizers, constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">activations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">activation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span> <span class="o">=</span> <span class="n">use_bias</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span> <span class="o">=</span> <span class="n">initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_initializer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span> <span class="o">=</span> <span class="n">initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_initializer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span> <span class="o">=</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_regularizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span> <span class="o">=</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_regularizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span> <span class="o">=</span> <span class="n">constraints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_constraint</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span> <span class="o">=</span> <span class="n">constraints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_constraint</span><span class="p">)</span>
+
+        <span class="c1"># Specify input shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates and initializes the kernel weight tensor and the bias </span>
+<span class="sd">        matrix of the layer. The rank of the input_shape needs to be 2.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_shape : tf.TensorShape</span>
+<span class="sd">            Shape of the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if the dtype is compatible</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">as_dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">or</span> <span class="n">backend</span><span class="o">.</span><span class="n">floatx</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">is_floating</span> <span class="ow">or</span> <span class="n">dtype</span><span class="o">.</span><span class="n">is_complex</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;A Dense layer can only be built with&#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39; a floating-point dtype. Received: dtype=</span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Check if the input shape is compatible</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="n">last_dim</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">last_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The last dimension of the inputs to a Dense layer &#39;</span>
+                        <span class="s1">&#39;should be defined. Found None. &#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39;Full input shape received: </span><span class="si">{</span><span class="n">input_shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="n">last_dim</span><span class="p">})</span>
+
+        <span class="c1"># Initialize kernel weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;kernel&#39;</span><span class="p">,</span>
+                        <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">last_dim</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span><span class="p">],</span>
+                        <span class="n">initializer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span><span class="p">,</span>
+                        <span class="n">regularizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span><span class="p">,</span>
+                        <span class="n">constraint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span><span class="p">,</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                        <span class="n">trainable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Initialize bias weights</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span>
+                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bias&#39;</span><span class="p">,</span>
+                            <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span><span class="p">],</span>
+                            <span class="n">initializer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span><span class="p">,</span>
+                            <span class="n">regularizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span><span class="p">,</span>
+                            <span class="n">constraint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span><span class="p">,</span>
+                            <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                            <span class="n">trainable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defines the dot product between the kernel and the input. </span>
+<span class="sd">        If `self.use_bias=True`, the output is summed with the bias matrix.</span>
+<span class="sd">        If `self.activation` is not None, an activation function is applied </span>
+<span class="sd">        element-wise on the output. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs : shape=[batch_size, input_dim]</span>
+<span class="sd">            Input tensor.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        outputs : shape=[batch_size, units_dim1, units_dim2]</span>
+<span class="sd">            Output tensor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Change input dtype if incompatible with layer</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">base_dtype</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_dtype_object</span><span class="o">.</span><span class="n">base_dtype</span><span class="p">:</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_compute_dtype_object</span><span class="p">)</span>
+
+        <span class="c1"># Tensor contraction between the inputs and the kernel on the axis i : </span>
+        <span class="c1"># outputs_{b,o,k} = \sum_{i} inputs_{b,i} kernel_{i,o,k} </span>
+        <span class="c1"># The abreviations are : </span>
+        <span class="c1"># b : batch</span>
+        <span class="c1"># i : last_dim of inputs</span>
+        <span class="c1"># o : self.units_dim1</span>
+        <span class="c1"># k : self.units_dim2</span>
+        <span class="c1"># The shape of the input is (num_batches, last_dim) and the shape</span>
+        <span class="c1"># output is (num_batches, self.units_dim1, self.units_dim2)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;bi,iok-&gt;bok&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">)</span>
+
+        <span class="c1"># Add bias. The shape of outputs is (num_batches, self.units_dim1, self.units_dim2)</span>
+        <span class="c1"># and of self.bias is (self.units_dim1, self.units_dim2). Consequently, broadcasting</span>
+        <span class="c1"># is used whithin the sum to output a tensor of shape </span>
+        <span class="c1"># (num_batches, self.units_dim1, self.units_dim2)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+
+        <span class="c1"># Apply activation function</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+
+        <span class="c1"># TODO : Create a 3d activation function</span>
+        <span class="c1"># outputs = tf.transpose(tf.stack([self.activation(outputs[:,:,0]) , outputs[:,:,1]]),(1,2,0))</span>
+        <span class="c1"># Always apply exponential for the variance so that the value is positive</span>
+        <span class="c1"># outputs = tf.transpose(tf.stack([outputs[:,:,0] , tf.keras.activations.exponential(outputs[:,:,1])]),(1,2,0))</span>
+
+        <span class="k">return</span> <span class="n">outputs</span>
+
+    <span class="k">def</span> <span class="nf">compute_output_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+
+        <span class="c1"># Check if the input_shape is of rank 2 and that </span>
+        <span class="c1"># the last dimension is not None</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">input_shape</span><span class="o">.</span><span class="n">with_rank</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The last dimension of the input shape of a Dense layer &#39;</span>
+                       <span class="s1">&#39;should be defined. Found None. &#39;</span>
+                       <span class="sa">f</span><span class="s1">&#39;Received: input_shape=</span><span class="si">{</span><span class="n">input_shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">input_shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># Call the method get_config of the superclass.</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Dense2Dto3D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+
+        <span class="c1"># Update the config to add the additional parameters</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s1">&#39;units_dim1&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span><span class="p">,</span>
+            <span class="s1">&#39;units_dim2&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span><span class="p">,</span>
+            <span class="s1">&#39;activation&#39;</span><span class="p">:</span> <span class="n">activations</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">),</span>
+            <span class="s1">&#39;use_bias&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">,</span>
+            <span class="s1">&#39;kernel_initializer&#39;</span><span class="p">:</span> <span class="n">initializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span><span class="p">),</span>
+            <span class="s1">&#39;bias_initializer&#39;</span><span class="p">:</span> <span class="n">initializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span><span class="p">),</span>
+            <span class="s1">&#39;kernel_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;bias_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;activity_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activity_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;kernel_constraint&#39;</span><span class="p">:</span> <span class="n">constraints</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span><span class="p">),</span>
+            <span class="s1">&#39;bias_constraint&#39;</span><span class="p">:</span> <span class="n">constraints</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span><span class="p">)</span>
+        <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">config</span></div>
+
+<div class="viewcode-block" id="Dense3Dto3D"><a class="viewcode-back" href="../../../model/custom_layers.html#purestochastic.model.layers.Dense3Dto3D">[docs]</a><span class="k">class</span> <span class="nc">Dense3Dto3D</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;An adaptation of the densely-connected NN layer that outputs a 3D tensor from a 3D tensor.</span>
+
+<span class="sd">    :class:`Dense3Dto3D` is a change of the :class:`Dense2Dto3D` layer when the input is a tensor of order 3.</span>
+<span class="sd">    It implements the dot product between the inputs and the kernel along the last axis of the inputs </span>
+<span class="sd">    and axis 1 of the kernel for each element in axis 1 of inputs and axis 0 of kernel : </span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; for d in range(nb_dense):</span>
+<span class="sd">    &gt;&gt;&gt;     output[:,d,:] = activation(tensordot(input[:,d,:], kernel[d,:,:]) + bias[d,:])</span>
+<span class="sd">            </span>
+<span class="sd">    It&#39;s like having several :class:`Dense` layers that have different inputs and which function independently.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    units : int</span>
+<span class="sd">        Dimensionality of the second dimension of the output space.</span>
+
+<span class="sd">    activation : func or str, default:None</span>
+<span class="sd">        Activation function to use. If you don&#39;t specify anything, </span>
+<span class="sd">        no activation is applied (ie. &quot;linear&quot; activation: `a(x) = x`).</span>
+
+<span class="sd">    use_bias : boolean, default:True</span>
+<span class="sd">        Indicates whether the layer uses a bias matrix.</span>
+
+<span class="sd">    kernel_initializer : str or dict or func, default:&#39;glorot_uniform&#39;</span>
+<span class="sd">        Initializer for the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_initializer : str or dict or func, default:&#39;zeros&#39;</span>
+<span class="sd">        Initializer for the bias matrix.</span>
+
+<span class="sd">    kernel_regularizer : str or dict or func, optional</span>
+<span class="sd">        Regularizer function applied to the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_regularizer : str or dict or func, optional</span>
+<span class="sd">        Regularizer function applied to the bias matrix.</span>
+
+<span class="sd">    activity_regularizer : str or dict or func, optional</span>
+<span class="sd">        Regularizer function applied to the output of the layer (its &quot;activation&quot;).</span>
+
+<span class="sd">    kernel_constraint : str or dict or func, optional</span>
+<span class="sd">        Constraint function applied to the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_constraint : str or dict or func, optional</span>
+<span class="sd">        Constraint function applied to the bias matrix.</span>
+
+<span class="sd">    Input shape</span>
+<span class="sd">    -----------</span>
+<span class="sd">        3D tensor with shape: ``[batch_size, nb_dense, input_dim]``.</span>
+
+<span class="sd">    Output shape</span>
+<span class="sd">    ------------</span>
+<span class="sd">        3D tensor with shape: ``[batch_size, nb_dense, units]``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">units</span><span class="p">,</span>
+                 <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;glorot_uniform&#39;</span><span class="p">,</span>
+                 <span class="n">bias_initializer</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">,</span>
+                 <span class="n">kernel_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bias_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">activity_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">kernel_constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bias_constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># Superconstructor of the class tf.keras.layers.Layer</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Dense3Dto3D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">activity_regularizer</span><span class="o">=</span><span class="n">activity_regularizer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Specify the dimension of the layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">units</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">units</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Received an invalid value for `units_dim1`&#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;, expected positive integers. Received: units=</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Preprocess activation, bias, initialiers, regularizers, constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">activations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">activation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span> <span class="o">=</span> <span class="n">use_bias</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span> <span class="o">=</span> <span class="n">initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_initializer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span> <span class="o">=</span> <span class="n">initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_initializer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span> <span class="o">=</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_regularizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span> <span class="o">=</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_regularizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span> <span class="o">=</span> <span class="n">constraints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_constraint</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span> <span class="o">=</span> <span class="n">constraints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_constraint</span><span class="p">)</span>
+
+        <span class="c1"># Specify input shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates and initializes the kernel weight tensor and the bias </span>
+<span class="sd">        matrix of the layer. The rank of the input_shape needs to be 3.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_shape : tf.TensorShape</span>
+<span class="sd">            Shape of the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if the dtype is compatible</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">as_dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">or</span> <span class="n">backend</span><span class="o">.</span><span class="n">floatx</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">is_floating</span> <span class="ow">or</span> <span class="n">dtype</span><span class="o">.</span><span class="n">is_complex</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;A Dense layer can only be built with&#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39; a floating-point dtype. Received: dtype=</span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Check if the input shape is compatible</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="n">nb_dense</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">last_dim</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">last_dim</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">nb_dense</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The two last dimension of the inputs to a Dense layer &#39;</span>
+                        <span class="s1">&#39;should be defined. Found None. &#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39;Full input shape received: </span><span class="si">{</span><span class="n">input_shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">{</span><span class="o">-</span><span class="mi">2</span> <span class="p">:</span> <span class="n">nb_dense</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="n">last_dim</span><span class="p">})</span>
+
+        <span class="c1"># Initialize kernel weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;kernel&#39;</span><span class="p">,</span>
+                        <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">nb_dense</span><span class="p">,</span> <span class="n">last_dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">],</span>
+                        <span class="n">initializer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span><span class="p">,</span>
+                        <span class="n">regularizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span><span class="p">,</span>
+                        <span class="n">constraint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span><span class="p">,</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                        <span class="n">trainable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Initialize bias weights</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span>
+                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bias&#39;</span><span class="p">,</span>
+                            <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">nb_dense</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">],</span>
+                            <span class="n">initializer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span><span class="p">,</span>
+                            <span class="n">regularizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span><span class="p">,</span>
+                            <span class="n">constraint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span><span class="p">,</span>
+                            <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                            <span class="n">trainable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defines the dot product between the kernel and the input independently</span>
+<span class="sd">        fro each element of axis 1 of inputs and axis 0 of kernel.</span>
+<span class="sd">        If `self.use_bias=True`, the output is summed with the bias matrix.</span>
+<span class="sd">        If `self.activation` is not None, an activation function is applied </span>
+<span class="sd">        element-wise on the output. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs : shape=(batch_size, nb_dense, input_dim)</span>
+<span class="sd">            Input tensor.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        outputs : shape=(batch_size, nb_dense, units)</span>
+<span class="sd">            Output tensor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Change input dtype if incompatible with layer</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">base_dtype</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_dtype_object</span><span class="o">.</span><span class="n">base_dtype</span><span class="p">:</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_compute_dtype_object</span><span class="p">)</span>
+
+        <span class="c1"># TODO : Compatibility with RaggedTensor and SparseTensor</span>
+        <span class="c1"># TODO : Describe more precisely the operations done here</span>
+
+        <span class="c1"># Tensor contraction between the inputs and the kernel on the axis i </span>
+        <span class="c1"># for each element of axis 1 of inputs and axis 0 of kernel: </span>
+        <span class="c1"># \forall d1, outputs_{b,d1,o} = \sum_{i} inputs_{b,d1,i} kernel_{d1,i,o} </span>
+        <span class="c1"># The abreviations are : </span>
+        <span class="c1"># b : batch</span>
+        <span class="c1"># d : number of dense layers</span>
+        <span class="c1"># i : last_dim of inputs</span>
+        <span class="c1"># o : self.units</span>
+        <span class="c1"># The shape of the input is (num_batches, nb_dense, last_dim) and the shape</span>
+        <span class="c1"># output is (num_batches, nb_dense, self.units)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;bdi,dio-&gt;bdo&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">)</span>
+
+        <span class="c1"># Add bias. The shape of outputs is (num_batches, nb_dense, self.units)</span>
+        <span class="c1"># and of self.bias is (nb_dense, self.units). Consequently, broadcasting</span>
+        <span class="c1"># is used whithin the sum to output a tensor of shape </span>
+        <span class="c1"># (num_batches, nb_dense, self.units)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+
+        <span class="c1"># Apply activation function</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">outputs</span>
+
+    <span class="k">def</span> <span class="nf">compute_output_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+
+        <span class="c1"># Check if the input_shape is of rank 3 and that </span>
+        <span class="c1"># the last dimension is not None</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">input_shape</span><span class="o">.</span><span class="n">with_rank</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The two last dimension of the input shape of a Dense layer &#39;</span>
+                       <span class="s1">&#39;should be defined. Found None. &#39;</span>
+                       <span class="sa">f</span><span class="s1">&#39;Received: input_shape=</span><span class="si">{</span><span class="n">input_shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">input_shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># Call the method get_config of the superclass.</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Dense3Dto3D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+
+        <span class="c1"># Update the config to add the additional parameters</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">,</span>
+            <span class="s1">&#39;activation&#39;</span><span class="p">:</span> <span class="n">activations</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">),</span>
+            <span class="s1">&#39;use_bias&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">,</span>
+            <span class="s1">&#39;kernel_initializer&#39;</span><span class="p">:</span> <span class="n">initializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span><span class="p">),</span>
+            <span class="s1">&#39;bias_initializer&#39;</span><span class="p">:</span> <span class="n">initializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span><span class="p">),</span>
+            <span class="s1">&#39;kernel_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;bias_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;activity_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activity_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;kernel_constraint&#39;</span><span class="p">:</span> <span class="n">constraints</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span><span class="p">),</span>
+            <span class="s1">&#39;bias_constraint&#39;</span><span class="p">:</span> <span class="n">constraints</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span><span class="p">)</span>
+        <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">config</span></div>
+
+<div class="viewcode-block" id="Dense3Dto2D"><a class="viewcode-back" href="../../../model/custom_layers.html#purestochastic.model.layers.Dense3Dto2D">[docs]</a><span class="k">class</span> <span class="nc">Dense3Dto2D</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;An adaptation of the densely-connected NN layer that outputs a 2D tensor from a 3D tensor.</span>
+
+<span class="sd">    :class:`Dense3Dto2D` is the inverse of the :class:`Dense2Dto3D` layer. It implements the dot product between </span>
+<span class="sd">    the inputs and the kernel along the two last axis of the inputs and the two first axis of the </span>
+<span class="sd">    kernel so that the inputs is projected in a 2D space </span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; output = activation(tensordot(input, kernel, axes=[[-2,-1], [0, 1]]) + bias). </span>
+<span class="sd">    </span>
+<span class="sd">    It&#39;s like having :class:`Reshape` layer with a target shape of ``(input_dim1*input_dim2)`` followed by a :class:`Dense` </span>
+<span class="sd">    layer with ``units`` units.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    units : int</span>
+<span class="sd">        Dimensionality of the dimension of the output space.</span>
+
+<span class="sd">    activation : func or str, default:None</span>
+<span class="sd">        Activation function to use. If you don&#39;t specify anything, </span>
+<span class="sd">        no activation is applied (ie. &quot;linear&quot; activation: `a(x) = x`).</span>
+
+<span class="sd">    use_bias : boolean, default:True</span>
+<span class="sd">        Indicates whether the layer uses a bias vector.</span>
+
+<span class="sd">    kernel_initializer : str or dict or func, default:&#39;glorot_uniform&#39;</span>
+<span class="sd">        Initializer for the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_initializer : str or dict or func, default:&#39;zeros&#39;</span>
+<span class="sd">        Initializer for the bias vector.</span>
+
+<span class="sd">    kernel_regularizer : str or dict or func, optional</span>
+<span class="sd">        Regularizer function applied to the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_regularizer : str or dict or func, optional</span>
+<span class="sd">        Regularizer function applied to the bias vector.</span>
+
+<span class="sd">    activity_regularizer : str or dict or func, optional</span>
+<span class="sd">        Regularizer function applied to the output of the layer (its &quot;activation&quot;).</span>
+
+<span class="sd">    kernel_constraint : str or dict or func, optional</span>
+<span class="sd">        Constraint function applied to the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_constraint : str or dict or func, optional</span>
+<span class="sd">        Constraint function applied to the bias vector.</span>
+
+<span class="sd">    Input shape</span>
+<span class="sd">    -----------</span>
+<span class="sd">        3D tensor with shape: ``(batch_size, input_dim1, input_dim2)``.</span>
+
+<span class="sd">    Output shape</span>
+<span class="sd">    ------------</span>
+<span class="sd">        2D tensor with shape: ``(batch_size, units)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">units</span><span class="p">,</span>
+                 <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;glorot_uniform&#39;</span><span class="p">,</span>
+                 <span class="n">bias_initializer</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">,</span>
+                 <span class="n">kernel_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bias_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">activity_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">kernel_constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bias_constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># Superconstructor of the class tf.keras.layers.Layer</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Dense3Dto2D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">activity_regularizer</span><span class="o">=</span><span class="n">activity_regularizer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Specify the dimension of the layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">units</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">units</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Received an invalid value for `units`&#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;, expected positive integers. Received: units=</span><span class="si">{</span><span class="n">units</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Preprocess activation, bias, initialiers, regularizers, constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">activations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">activation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span> <span class="o">=</span> <span class="n">use_bias</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span> <span class="o">=</span> <span class="n">initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_initializer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span> <span class="o">=</span> <span class="n">initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_initializer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span> <span class="o">=</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_regularizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span> <span class="o">=</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_regularizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span> <span class="o">=</span> <span class="n">constraints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_constraint</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span> <span class="o">=</span> <span class="n">constraints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_constraint</span><span class="p">)</span>
+
+        <span class="c1"># Specify input shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates and initializes the kernel weight tensor and the bias </span>
+<span class="sd">        matrix of the layer. The rank of the input_shape needs to be 3.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_shape : tf.TensorShape</span>
+<span class="sd">            Shape of the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if the dtype is compatible</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">as_dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">or</span> <span class="n">backend</span><span class="o">.</span><span class="n">floatx</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">is_floating</span> <span class="ow">or</span> <span class="n">dtype</span><span class="o">.</span><span class="n">is_complex</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;A Dense layer can only be built with&#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39; a floating-point dtype. Received: dtype=</span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Check if the input shape is compatible</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="n">input_dim1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">input_dim2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">input_dim1</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">input_dim2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The two last dimension of the inputs to a Dense layer &#39;</span>
+                        <span class="s1">&#39;should be defined. Found None. &#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39;Full input shape received: </span><span class="si">{</span><span class="n">input_shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">{</span><span class="o">-</span><span class="mi">2</span> <span class="p">:</span> <span class="n">input_dim1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="n">input_dim2</span><span class="p">})</span>
+
+        <span class="c1"># Initialize kernel weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;kernel&#39;</span><span class="p">,</span>
+                        <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">input_dim1</span><span class="p">,</span>  <span class="n">input_dim2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">],</span>
+                        <span class="n">initializer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span><span class="p">,</span>
+                        <span class="n">regularizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span><span class="p">,</span>
+                        <span class="n">constraint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span><span class="p">,</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                        <span class="n">trainable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Initialize bias weights</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span>
+                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bias&#39;</span><span class="p">,</span>
+                            <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">],</span>
+                            <span class="n">initializer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span><span class="p">,</span>
+                            <span class="n">regularizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span><span class="p">,</span>
+                            <span class="n">constraint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span><span class="p">,</span>
+                            <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                            <span class="n">trainable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defines the dot product between the kernel and the input on the two last</span>
+<span class="sd">        axis of the inputs and the two first axis of the kernel.</span>
+<span class="sd">        If `self.use_bias=True`, the output is summed with the bias matrix.</span>
+<span class="sd">        If `self.activation` is not None, an activation function is applied </span>
+<span class="sd">        element-wise on the output. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs : shape=(batch_size, input_dim1, input_dim2)</span>
+<span class="sd">            Input tensor.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        outputs : shape=(batch_size, units)</span>
+<span class="sd">            Output tensor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Change input dtype if incompatible with layer</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">base_dtype</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_dtype_object</span><span class="o">.</span><span class="n">base_dtype</span><span class="p">:</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_compute_dtype_object</span><span class="p">)</span>
+
+        <span class="c1"># Tensor contraction between the inputs and the kernel on the axis i and j : </span>
+        <span class="c1"># outputs_{b,o} = \sum_{i,j} inputs_{b,i,j} kernel_{i,j,o} </span>
+        <span class="c1"># The abreviations are : </span>
+        <span class="c1"># b : batch</span>
+        <span class="c1"># i : input_dim1</span>
+        <span class="c1"># j: input_dim2</span>
+        <span class="c1"># o : self.units</span>
+        <span class="c1"># The shape of the input is (num_batches, input_dim1, input_dim2) and the shape</span>
+        <span class="c1"># output is (num_batches, self.units)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;bij,ijo-&gt;bo&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">)</span>
+
+        <span class="c1"># Add bias. The shape of outputs is (num_batches, self.units)</span>
+        <span class="c1"># and of self.bias is (self.units). Consequently, broadcasting</span>
+        <span class="c1"># is used whithin the sum to output a tensor of shape </span>
+        <span class="c1"># (num_batches, self.units)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+
+        <span class="c1"># Apply activation function</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">outputs</span>
+
+    <span class="k">def</span> <span class="nf">compute_output_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+
+        <span class="c1"># Check if the input_shape is of rank 3 and that </span>
+        <span class="c1"># the last dimension is not None</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">input_shape</span><span class="o">.</span><span class="n">with_rank</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The two last dimension of the input shape of a Dense layer &#39;</span>
+                       <span class="s1">&#39;should be defined. Found None. &#39;</span>
+                       <span class="sa">f</span><span class="s1">&#39;Received: input_shape=</span><span class="si">{</span><span class="n">input_shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">input_shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># Call the method get_config of the superclass.</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Dense3Dto2D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+
+        <span class="c1"># Update the config to add the additional parameters</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span><span class="p">,</span>
+            <span class="s1">&#39;activation&#39;</span><span class="p">:</span> <span class="n">activations</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">),</span>
+            <span class="s1">&#39;use_bias&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">,</span>
+            <span class="s1">&#39;kernel_initializer&#39;</span><span class="p">:</span> <span class="n">initializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span><span class="p">),</span>
+            <span class="s1">&#39;bias_initializer&#39;</span><span class="p">:</span> <span class="n">initializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span><span class="p">),</span>
+            <span class="s1">&#39;kernel_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;bias_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;activity_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activity_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;kernel_constraint&#39;</span><span class="p">:</span> <span class="n">constraints</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span><span class="p">),</span>
+            <span class="s1">&#39;bias_constraint&#39;</span><span class="p">:</span> <span class="n">constraints</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span><span class="p">)</span>
+        <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">config</span></div>
+
+<div class="viewcode-block" id="Dense3Dto4D"><a class="viewcode-back" href="../../../model/custom_layers.html#purestochastic.model.layers.Dense3Dto4D">[docs]</a><span class="k">class</span> <span class="nc">Dense3Dto4D</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;An adaptation of the densely-connected NN layer that outputs a 4D tensor from a 3D tensor.</span>
+
+<span class="sd">    :class:`Dense3Dto4D` is the same adaptation from :class:`Dense` to :class:`Dense2Dto3D` layer but from the layer</span>
+<span class="sd">    :class:`Dense3Dto3D` this time with a kernel of order 4. It implements the dot product between the </span>
+<span class="sd">    inputs and the kernel along the last axis of the inputs and axis 1 of the kernel for each </span>
+<span class="sd">    element in axis 1 of inputs and axis 0 of kernel : </span>
+
+<span class="sd">    &gt;&gt;&gt; for d in range(nb_dense):</span>
+<span class="sd">    &gt;&gt;&gt;     output[:,d,:,:] = activation(tensordot(input[:,d,:,:], kernel[d,:,:,:]) + bias[d,:,:])</span>
+<span class="sd">            </span>
+<span class="sd">    It&#39;s like having several :class:`Dense` and :class:`Reshape` layers that have different inputs and which function </span>
+<span class="sd">    independently with ``units_dim1*units_dim2`` units followed by a :class:`Reshape` layer with a target shape </span>
+<span class="sd">    of ``(units_dim1, units_dim2)``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    units_dim1 : int</span>
+<span class="sd">        Dimensionality of the first dimension of the output space.</span>
+
+<span class="sd">    units_dim2 : int</span>
+<span class="sd">        Dimensionality of the second dimension of the output space.</span>
+
+<span class="sd">    activation : func or str, default:None</span>
+<span class="sd">        Activation function to use. If you don&#39;t specify anything, </span>
+<span class="sd">        no activation is applied (ie. &quot;linear&quot; activation: `a(x) = x`).</span>
+
+<span class="sd">    use_bias : boolean, default:True</span>
+<span class="sd">        Indicates whether the layer uses a bias tensor.</span>
+
+<span class="sd">    kernel_initializer : str or dict or func, default:&#39;glorot_uniform&#39;</span>
+<span class="sd">        Initializer for the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_initializer : str or dict or func, default:&#39;zeros&#39;</span>
+<span class="sd">        Initializer for the bias tensor.</span>
+
+<span class="sd">    kernel_regularizer : str or dict or func, default:None</span>
+<span class="sd">        Regularizer function applied to the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_regularizer : str or dict or func, default:None</span>
+<span class="sd">        Regularizer function applied to the bias tensor.</span>
+
+<span class="sd">    activity_regularizer : str or dict or func, default:None</span>
+<span class="sd">        Regularizer function applied to the output of the layer (its &quot;activation&quot;).</span>
+
+<span class="sd">    kernel_constraint : str or dict or func, default:None</span>
+<span class="sd">        Constraint function applied to the `kernel` weights tensor.</span>
+
+<span class="sd">    bias_constraint : str or dict or func, default:None</span>
+<span class="sd">        Constraint function applied to the bias tensor.</span>
+
+<span class="sd">    Input shape</span>
+<span class="sd">    -----------</span>
+<span class="sd">        3D tensor with shape: ``(batch_size, nb_dense, input_dim)``.</span>
+
+<span class="sd">    Output shape</span>
+<span class="sd">    ------------</span>
+<span class="sd">        4D tensor with shape: ``(batch_size, nb_dense, units_dim1, units_dim2)``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">units_dim1</span><span class="p">,</span>
+                 <span class="n">units_dim2</span><span class="p">,</span>
+                 <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;glorot_uniform&#39;</span><span class="p">,</span>
+                 <span class="n">bias_initializer</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">,</span>
+                 <span class="n">kernel_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bias_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">activity_regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">kernel_constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">bias_constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># Superconstructor of the class tf.keras.layers.Layer</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Dense3Dto4D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">activity_regularizer</span><span class="o">=</span><span class="n">activity_regularizer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Specify the dimension of the layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">units_dim1</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units_dim1</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">units_dim1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">units_dim2</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units_dim2</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">units_dim2</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Received an invalid value for `units_dim1` or `units_dim2`&#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;, expected positive integers. Received: units_dim1=</span><span class="si">{</span><span class="n">units_dim1</span><span class="si">}</span><span class="s1">, units_dim2==</span><span class="si">{</span><span class="n">units_dim2</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Preprocess activation, bias, initialiers, regularizers, constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">activations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">activation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span> <span class="o">=</span> <span class="n">use_bias</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span> <span class="o">=</span> <span class="n">initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_initializer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span> <span class="o">=</span> <span class="n">initializers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_initializer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span> <span class="o">=</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_regularizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span> <span class="o">=</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_regularizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span> <span class="o">=</span> <span class="n">constraints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kernel_constraint</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span> <span class="o">=</span> <span class="n">constraints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">bias_constraint</span><span class="p">)</span>
+
+        <span class="c1"># Specify input shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates and initializes the kernel weight tensor and the bias </span>
+<span class="sd">        matrix of the layer. The rank of the input_shape needs to be 3.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_shape : tf.TensorShape</span>
+<span class="sd">            Shape of the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if the dtype is compatible</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">as_dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">or</span> <span class="n">backend</span><span class="o">.</span><span class="n">floatx</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">is_floating</span> <span class="ow">or</span> <span class="n">dtype</span><span class="o">.</span><span class="n">is_complex</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;A Dense layer can only be built with&#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39; a floating-point dtype. Received: dtype=</span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Check if the input shape is compatible</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="n">nb_dense</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">last_dim</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">last_dim</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">nb_dense</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The two last dimension of the inputs to a Dense layer &#39;</span>
+                        <span class="s1">&#39;should be defined. Found None. &#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39;Full input shape received: </span><span class="si">{</span><span class="n">input_shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span> <span class="o">=</span> <span class="n">InputSpec</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">{</span><span class="o">-</span><span class="mi">2</span> <span class="p">:</span> <span class="n">nb_dense</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="n">last_dim</span><span class="p">})</span>
+
+        <span class="c1"># Initialize kernel weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;kernel&#39;</span><span class="p">,</span>
+                        <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">nb_dense</span><span class="p">,</span> <span class="n">last_dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span><span class="p">],</span>
+                        <span class="n">initializer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span><span class="p">,</span>
+                        <span class="n">regularizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span><span class="p">,</span>
+                        <span class="n">constraint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span><span class="p">,</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                        <span class="n">trainable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Initialize bias weights</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span>
+                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bias&#39;</span><span class="p">,</span>
+                            <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">nb_dense</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span><span class="p">],</span>
+                            <span class="n">initializer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span><span class="p">,</span>
+                            <span class="n">regularizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span><span class="p">,</span>
+                            <span class="n">constraint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span><span class="p">,</span>
+                            <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                            <span class="n">trainable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defines the dot product between the kernel and the input independently</span>
+<span class="sd">        fro each element of axis 1 of inputs and axis 0 of kernel.</span>
+<span class="sd">        If `self.use_bias=True`, the output is summed with the bias matrix.</span>
+<span class="sd">        If `self.activation` is not None, an activation function is applied </span>
+<span class="sd">        element-wise on the output. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inputs : shape=(batch_size, nb_dense, input_dim)</span>
+<span class="sd">            Input tensor.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        outputs : shape=(batch_size, units_dim1, units_dim2)</span>
+<span class="sd">            Output tensor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Change input dtype if incompatible with layer</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">base_dtype</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_dtype_object</span><span class="o">.</span><span class="n">base_dtype</span><span class="p">:</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_compute_dtype_object</span><span class="p">)</span>
+
+        <span class="c1"># Tensor contraction between the inputs and the kernel on the axis i </span>
+        <span class="c1"># for each element of axis 1 of inputs and axis 0 of kernel: </span>
+        <span class="c1"># \forall d1, outputs_{b,d1,o,u} = \sum_{i} inputs_{b,d1,i} kernel_{d1,i,o,u} </span>
+        <span class="c1"># The abreviations are : </span>
+        <span class="c1"># b : batch</span>
+        <span class="c1"># d : number of dense layers</span>
+        <span class="c1"># i : last_dim of inputs</span>
+        <span class="c1"># o : self.units_dim1</span>
+        <span class="c1"># u : self.units_dim2</span>
+        <span class="c1"># The shape of the input is (num_batches, nb_dense, last_dim) and the shape</span>
+        <span class="c1"># output is (num_batches, nb_dense, self.units_dim1, self.units_dim2)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;bdi,diou-&gt;bdou&#39;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">)</span>
+
+        <span class="c1"># Add bias. The shape of outputs is (num_batches, nb_dense, self.units_dim1, self.units_dim2)</span>
+        <span class="c1"># and of self.bias is (nb_dense, self.units_dim1, self.units_dim2). Consequently, broadcasting</span>
+        <span class="c1"># is used whithin the sum to output a tensor of shape </span>
+        <span class="c1"># (num_batches, nb_dense, self.units_dim1, self.units_dim2)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+
+        <span class="c1"># Apply activation function</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">outputs</span>
+
+    <span class="k">def</span> <span class="nf">compute_output_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+
+        <span class="c1"># Check if the input_shape is of rank 3 and that </span>
+        <span class="c1"># the last dimension is not None</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">TensorShape</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">input_shape</span><span class="o">.</span><span class="n">with_rank</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The two last dimension of the input shape of a Dense layer &#39;</span>
+                       <span class="s1">&#39;should be defined. Found None. &#39;</span>
+                       <span class="sa">f</span><span class="s1">&#39;Received: input_shape=</span><span class="si">{</span><span class="n">input_shape</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">input_shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># Call the method get_config of the superclass.</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Dense3Dto4D</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+
+        <span class="c1"># Update the config to add the additional parameters</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s1">&#39;units_dim1&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim1</span><span class="p">,</span>
+            <span class="s1">&#39;units_dim2&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">units_dim2</span><span class="p">,</span>
+            <span class="s1">&#39;activation&#39;</span><span class="p">:</span> <span class="n">activations</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">),</span>
+            <span class="s1">&#39;use_bias&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">,</span>
+            <span class="s1">&#39;kernel_initializer&#39;</span><span class="p">:</span> <span class="n">initializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span><span class="p">),</span>
+            <span class="s1">&#39;bias_initializer&#39;</span><span class="p">:</span> <span class="n">initializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_initializer</span><span class="p">),</span>
+            <span class="s1">&#39;kernel_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;bias_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;activity_regularizer&#39;</span><span class="p">:</span> <span class="n">regularizers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activity_regularizer</span><span class="p">),</span>
+            <span class="s1">&#39;kernel_constraint&#39;</span><span class="p">:</span> <span class="n">constraints</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span><span class="p">),</span>
+            <span class="s1">&#39;bias_constraint&#39;</span><span class="p">:</span> <span class="n">constraints</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_constraint</span><span class="p">)</span>
+        <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">config</span></div>
+
+<span class="c1"># Add custom layers to tensorflow for serializing</span>
+<span class="n">get_custom_objects</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Dense2Dto3D&#39;</span><span class="p">:</span> <span class="n">Dense2Dto3D</span><span class="p">})</span>
+<span class="n">get_custom_objects</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Dense3Dto3D&#39;</span><span class="p">:</span> <span class="n">Dense3Dto3D</span><span class="p">})</span>
+<span class="n">get_custom_objects</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Dense3Dto2D&#39;</span><span class="p">:</span> <span class="n">Dense3Dto2D</span><span class="p">})</span>
+<span class="n">get_custom_objects</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Dense3Dto4D&#39;</span><span class="p">:</span> <span class="n">Dense3Dto4D</span><span class="p">})</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

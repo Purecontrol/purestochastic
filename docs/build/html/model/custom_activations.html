@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Activations &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Custom Models" href="custom_models.html" />
+    <link rel="prev" title="Custom Layers" href="custom_layers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> purestochastic
+            <img src="../_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#multiswag">5. MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="model.html">Model</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="gaussian_regression.html">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom_models.html">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom_models.html#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_models.html#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_models.html#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_models.html#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom_models.html#multiswag">MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../utils/losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utils/losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utils/metrics.html">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="model.html">Model</a> &raquo;</li>
+      <li>Custom Activations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/model/custom_activations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="custom-activations">
+<h1>Custom Activations<a class="headerlink" href="#custom-activations" title="Permalink to this heading">¶</a></h1>
+<p>Implementation of new stochastic <code class="docutils literal notranslate"><span class="pre">activations</span></code>. At present, there is only one
+activation functions but it will be easy in the future to add more possibility.</p>
+<p>There are often used with the last layer of a network. For example, the <code class="xref py py-class docutils literal notranslate"><span class="pre">MeanVarianceActivation</span></code>
+is especially used with the <code class="xref py py-class docutils literal notranslate"><span class="pre">Dense2Dto3D</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Dense3Dto4D</span></code> layers :</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Dense2Dto3D</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Dense3Dto3D</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense3Dto4D</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">MeanVarianceActivation</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here is the list of the new activations :</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#meanvarianceactivation" id="id5">MeanVarianceActivation</a></p></li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>In order to specify the parameters of a custom activation, you can use the following syntaxes :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">model.add(Activation(lambda</span> <span class="pre">x:</span> <span class="pre">MeanVarianceActivation(x,</span> <span class="pre">activation=&quot;relu&quot;)))</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Dense3Dto4D(4,</span> <span class="pre">2,</span> <span class="pre">activation=lambda</span> <span class="pre">x:</span> <span class="pre">MeanVarianceActivation(x,</span> <span class="pre">activation=&quot;relu&quot;))</span></code></p></li>
+</ul>
+</div></blockquote>
+</div>
+<section id="meanvarianceactivation">
+<h2><a class="toc-backref" href="#id5">MeanVarianceActivation</a><a class="headerlink" href="#meanvarianceactivation" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="purestochastic.model.activations.MeanVarianceActivation">
+<span class="sig-prename descclassname"><span class="pre">purestochastic.model.activations.</span></span><span class="sig-name descname"><span class="pre">MeanVarianceActivation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/activations.html#MeanVarianceActivation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.activations.MeanVarianceActivation" title="Permalink to this definition">¶</a></dt>
+<dd><p>An activation function used for the mean and variance pair.</p>
+<p>This activation function supposes that the last dimension of x is of length 2 with
+the first part for the <code class="docutils literal notranslate"><span class="pre">mean</span></code> and the second part for the <code class="docutils literal notranslate"><span class="pre">variance</span></code> :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\hat{\mu} = x[ : , \cdots , :  , 0]\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{\sigma}^2 = x[ : , \cdots , : , 1]\)</span></p></li>
+</ul>
+</div></blockquote>
+<p>It applies the activation given in argument for the mean and the exponential activation function
+for the variance so that it’s positive.</p>
+<p>It’s especially used when it’s necessary to output the mean and the variance of a gaussian distribution
+at the end of the network like in the Mean Variance Estimation Method <a class="footnote-reference brackets" href="#id3" id="id1">1</a> <a class="footnote-reference brackets" href="#id4" id="id2">2</a> .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>ndarray or Tensor</em>) – Input tensors.</p></li>
+<li><p><strong>activation</strong> (<em>func or str, optional</em>) – Activation function to use. If you don’t specify anything,
+no activation is applied (ie. “linear” activation: <cite>a(x) = x</cite>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>A new tensor to which the activation function has been applied.</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Abbas Khosravi et al. « Comprehensive Review of Neural Network-Based Prediction Intervals
+and New Advances ». In : IEEE Transactions on Neural Networks 22.9 (2011), p. 1341-1356.
+doi : 10.1109/TNN.2011.2162110.</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>D.A. Nix et A.S. Weigend. « Estimating the mean and variance of the target probability
+distribution ». In : Proceedings of 1994 IEEE International Conference on Neural Networks
+(ICNN94). T. 1. 1994, 55-60 vol.1. doi : 10.1109/ICNN.1994.374138.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="custom_layers.html" class="btn btn-neutral float-left" title="Custom Layers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="custom_models.html" class="btn btn-neutral float-right" title="Custom Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

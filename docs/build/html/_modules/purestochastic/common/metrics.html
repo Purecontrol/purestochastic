@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>purestochastic.common.metrics &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> purestochastic
+            <img src="../../../_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#multiswag">5. MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../model/model.html">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/gaussian_regression.html">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_activations.html">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_activations.html#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_models.html">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#multiswag">MultiSWAG</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/metrics.html">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>purestochastic.common.metrics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for purestochastic.common.metrics</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">keras.metrics</span> <span class="kn">import</span> <span class="n">base_metric</span>
+<span class="kn">from</span> <span class="nn">keras.utils.generic_utils</span> <span class="kn">import</span> <span class="n">get_custom_objects</span>
+
+<div class="viewcode-block" id="PredictionIntervalCoverageProbability"><a class="viewcode-back" href="../../../utils/metrics.html#purestochastic.common.metrics.PredictionIntervalCoverageProbability">[docs]</a><span class="k">class</span> <span class="nc">PredictionIntervalCoverageProbability</span><span class="p">(</span><span class="n">base_metric</span><span class="o">.</span><span class="n">Mean</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Prediction Interval Coverage Probability metric.</span>
+<span class="sd">    </span>
+<span class="sd">    A prediction interval :math:`[\hat{\underline{y_i}}, \hat{\bar{y_i}}]` is constructed so that with </span>
+<span class="sd">    probability ``p``, :math:`y_i` is included in the interval. The PICP [1]_ (Prediction Interval Coverage </span>
+<span class="sd">    Probability) aims at computing the true percentage of values included in the interval. Mathematically,</span>
+<span class="sd">    it is defined as : </span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        PICP=\frac{1}{n} \displaystyle\sum_{i=1}^{n} c_j ~~\text{ avec } c_j = \left\{    \begin{array}{ll}</span>
+<span class="sd">        1 &amp;\text{ si }  y_i\in [\underline{\hat{y}_i} ,\overline{\hat{y}_i}]\\</span>
+<span class="sd">        0 &amp;\text{ si }  y_i \not \in [\underline{\hat{y}_i} ,\overline{\hat{y}_i}]</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right.</span>
+<span class="sd">            </span>
+<span class="sd">    The best PICP is a percentage that is equal to ``p``. If ``y`` is not a 1d array, the batch dimension needs </span>
+<span class="sd">    to be the first and the output value is the mean over all other dimensions. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str, default: &#39;picp&#39;</span>
+<span class="sd">        String name of the metric instance.</span>
+<span class="sd">    p : float, default: 0.95</span>
+<span class="sd">        Probability of values included in the interval associated </span>
+<span class="sd">        with the predicted parameters of the gaussian distribution.</span>
+<span class="sd">    input_type : {&quot;gaussian&quot;, &quot;pi&quot;}, default: &quot;gaussian&quot;</span>
+<span class="sd">        Type of input to the metric. If &quot;gaussian&quot;, the metric assumes the predictions are given in</span>
+<span class="sd">        the mean and the variance of a gaussian distribution. If &quot;pi&quot;, the metric assumes the predictions are</span>
+<span class="sd">        given in the lower and upper bound of the prediction interval.</span>
+<span class="sd">        </span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Abbas Khosravi, Saeid Nahavandi et Doug Creighton. « A prediction interval-based ap-</span>
+<span class="sd">        proach to determine optimal structures of neural network metamodels ». In : Expert Syst. Appl.</span>
+<span class="sd">        37 (mars 2010), p. 2377-2387. doi : 10.1016/j.eswa.2009.07.059.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;picp&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">&quot;gaussian&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PredictionIntervalCoverageProbability</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+
+        <span class="c1"># Compute the quantile associated with p if input_type=&quot;gaussian&quot; or set q_p to None if input_type=&quot;pi&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;gaussian&quot;</span> <span class="k">else</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="PredictionIntervalCoverageProbability.update_state"><a class="viewcode-back" href="../../../utils/metrics.html#purestochastic.common.metrics.PredictionIntervalCoverageProbability.update_state">[docs]</a>    <span class="k">def</span> <span class="nf">update_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Accumulates picp statistics.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_true : shape= ``[batch size, d_0, ...,  d_N]``</span>
+<span class="sd">            The ground truth values.</span>
+<span class="sd">        predictions : shape= ``[batch size, d_0, ...,  d_N, 2]``</span>
+<span class="sd">            The predicted values.</span>
+<span class="sd">        sample_weight : optional</span>
+<span class="sd">            Optional weighting of each example.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            Update op.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># If input_type=&quot;gaussian&quot;, compute the prediction interval associated with the predicted parameters</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            
+            <span class="c1"># Separate the mean and the variance</span>
+            <span class="n">y_pred</span><span class="p">,</span> <span class="n">var_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> 
+
+            <span class="c1"># Compute the bound of the prediction interval</span>
+            <span class="n">y_lower_pred</span> <span class="o">=</span> <span class="n">y_pred</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_pred</span><span class="p">)</span>
+            <span class="n">y_upper_pred</span> <span class="o">=</span> <span class="n">y_pred</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_pred</span><span class="p">)</span>
+
+        <span class="c1"># Otherwise retrieve the prediction interval from the predictions</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1"># Separate the lower and upper bounds</span>
+            <span class="n">y_lower_pred</span><span class="p">,</span> <span class="n">y_upper_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> 
+
+        <span class="c1"># Boolean array indicated wheter each value of y_true is in the interval</span>
+        <span class="n">in_out_interval</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">y_lower_pred</span> <span class="o">&lt;=</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">y_true</span> <span class="o">&lt;=</span> <span class="n">y_upper_pred</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">PredictionIntervalCoverageProbability</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">in_out_interval</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="PredictionIntervalNormalizedAverageWidth"><a class="viewcode-back" href="../../../utils/metrics.html#purestochastic.common.metrics.PredictionIntervalNormalizedAverageWidth">[docs]</a><span class="k">class</span> <span class="nc">PredictionIntervalNormalizedAverageWidth</span><span class="p">(</span><span class="n">base_metric</span><span class="o">.</span><span class="n">Mean</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Prediction Interval Normalized Average Width metric.</span>
+<span class="sd">    </span>
+<span class="sd">    The PINAW [2]_ (Prediction Interval Normalized Average Width) computes the average </span>
+<span class="sd">    width of prediction intervals (:math:`[\hat{\underline{y_i}}, \hat{\bar{y_i}}]`) </span>
+<span class="sd">    normalized by a the distance between the maximum and minimum value of y. </span>
+<span class="sd">    Mathematically, it is defined as : </span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">        PINAW=\frac{1}{R*n}\displaystyle\sum_{i=1}^n[\overline{\hat{y}_i}- \underline{\hat{y}_i}] </span>
+
+<span class="sd">    avec :math:`R=\max(y)-\min(y)`.</span>
+<span class="sd">    </span>
+<span class="sd">    The best PINAW is the minimum value. If ``y`` is not a 1d array, the batch dimension needs </span>
+<span class="sd">    to be the first and the output value is the mean over all other dimensions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str, default: &#39;pinaw&#39;</span>
+<span class="sd">        String name of the metric instance.</span>
+<span class="sd">    p : float, default: 0.95</span>
+<span class="sd">        Probability of values included in the interval associated </span>
+<span class="sd">        with the predicted parameters of the gaussian distribution.</span>
+<span class="sd">    input_type : {&quot;gaussian&quot;, &quot;pi&quot;}, default: &quot;gaussian&quot;</span>
+<span class="sd">        Type of input to the metric. If &quot;gaussian&quot;, the metric assumes the predictions are given in</span>
+<span class="sd">        the mean and the variance of a gaussian distribution. If &quot;pi&quot;, the metric assumes the predictions are</span>
+<span class="sd">        given in the lower and upper bound of the prediction interval.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    -----------</span>
+<span class="sd">    .. [2] Abbas Khosravi et al. « Comprehensive Review of Neural Network-Based Prediction Intervals</span>
+<span class="sd">        and New Advances ». In : IEEE Transactions on Neural Networks 22.9 (2011), p. 1341-1356.</span>
+<span class="sd">        doi : 10.1109/TNN.2011.2162110.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pinaw&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">&quot;gaussian&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PredictionIntervalNormalizedAverageWidth</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+
+        <span class="c1"># Compute the quantile associated with p if input_type=&quot;gaussian&quot; or set q_p to None if input_type=&quot;pi&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;gaussian&quot;</span> <span class="k">else</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="PredictionIntervalNormalizedAverageWidth.update_state"><a class="viewcode-back" href="../../../utils/metrics.html#purestochastic.common.metrics.PredictionIntervalNormalizedAverageWidth.update_state">[docs]</a>    <span class="k">def</span> <span class="nf">update_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Accumulates pinaw statistics.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_true : shape= ``[batch size, d_0, ...,  d_N]``</span>
+<span class="sd">            The ground truth values.</span>
+<span class="sd">        predictions : shape= ``[batch size, d_0, ...,  d_N, 2]``</span>
+<span class="sd">            The predicted values.</span>
+<span class="sd">        sample_weight : optional</span>
+<span class="sd">            Optional weighting of each example.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            Update op.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># If input_type=&quot;gaussian&quot;, compute the prediction interval associated with the predicted parameters</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            
+            <span class="c1"># Separate the mean and the variance</span>
+            <span class="n">y_pred</span><span class="p">,</span> <span class="n">var_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> 
+
+            <span class="c1"># Compute the bound of the prediction interval</span>
+            <span class="n">y_lower_pred</span> <span class="o">=</span> <span class="n">y_pred</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_pred</span><span class="p">)</span>
+            <span class="n">y_upper_pred</span> <span class="o">=</span> <span class="n">y_pred</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_pred</span><span class="p">)</span>
+
+        <span class="c1"># Otherwise retrieve the prediction interval from the predictions</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1"># Separate the lower and upper bounds</span>
+            <span class="n">y_lower_pred</span><span class="p">,</span> <span class="n">y_upper_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> 
+
+        <span class="c1"># L1 Distance between the maximum and minimum value of y</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_min</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Compute the average width of all the prediction intervals</span>
+        <span class="n">normalized_width</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_upper_pred</span> <span class="o">-</span> <span class="n">y_lower_pred</span><span class="p">)</span><span class="o">/</span><span class="n">R</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">PredictionIntervalNormalizedAverageWidth</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">normalized_width</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="CoverageWidthBasedCriterion"><a class="viewcode-back" href="../../../utils/metrics.html#purestochastic.common.metrics.CoverageWidthBasedCriterion">[docs]</a><span class="k">class</span> <span class="nc">CoverageWidthBasedCriterion</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">Metric</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Coverage Width Based Criterion metric.</span>
+
+<span class="sd">    The CWC [3]_ (Coverage Width Based Criterion) was defined to find a trade-off between </span>
+<span class="sd">    the PICP and the PINAW. Mathematically, it is defined as :</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        CWC = PINAW(1+\gamma(PICP)e^{\eta(\mu-PICP)} ) ~~ \text{ avec } \gamma(PICP) = \left\{    \begin{array}{ll}</span>
+<span class="sd">        1 &amp;\text{ si } ~~ PICP &lt; \mu\\</span>
+<span class="sd">        0 &amp;\text{ si }~~  PICP \geq \mu</span>
+<span class="sd">        \end{array}</span>
+<span class="sd">        \right.</span>
+
+<span class="sd">    The operation can be explained in two parts : </span>
+
+<span class="sd">        * If the PICP is higher than p, the CWC is equaled to the PINAW metric so that the size of the prediction interval decreases.</span>
+
+<span class="sd">        * If the PICP is lower than p, the exponential term becomes very large and the most influent criterion is the PICP that the size of the prediction interval increases.</span>
+
+<span class="sd">    The best CWC is the minimum value. If ``y`` is not a 1d array, the batch dimension needs </span>
+<span class="sd">    to be the first and the output value is the mean over all other dimensions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str, default: &#39;cwc&#39;</span>
+<span class="sd">        String name of the metric instance.</span>
+<span class="sd">    p : float, default: 0.95</span>
+<span class="sd">        Probability of values included in the interval associated </span>
+<span class="sd">        with the predicted parameters of the gaussian distribution.</span>
+<span class="sd">    eta : positive float, default: 50</span>
+<span class="sd">        Penalty value when the PICP is lower than p.</span>
+<span class="sd">    input_type : {&quot;gaussian&quot;, &quot;pi&quot;}, default: &quot;gaussian&quot;</span>
+<span class="sd">        Type of input to the metric. If &quot;gaussian&quot;, the metric assumes the predictions are given in</span>
+<span class="sd">        the mean and the variance of a gaussian distribution. If &quot;pi&quot;, the metric assumes the predictions are</span>
+<span class="sd">        given in the lower and upper bound of the prediction interval.</span>
+
+<span class="sd">    Warning</span>
+<span class="sd">    --------</span>
+<span class="sd">    If ``input_type=&quot;pi&quot;``, it&#39;s important that the ``p`` specified in the constructor is the same as the one used to</span>
+<span class="sd">    construct the prediction interval. Otherwise, the CWC will be wrong.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    -----------</span>
+<span class="sd">    .. [3] Abbas Khosravi et al. « Comprehensive Review of Neural Network-Based Prediction Intervals</span>
+<span class="sd">        and New Advances ». In : IEEE Transactions on Neural Networks 22.9 (2011), p. 1341-1356.</span>
+<span class="sd">        doi : 10.1109/TNN.2011.2162110.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_target</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cwc&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">input_type</span><span class="o">=</span><span class="s2">&quot;gaussian&quot;</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CoverageWidthBasedCriterion</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Store the parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">eta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+
+        <span class="c1"># Compute the quantile associated with p if input_type=&quot;gaussian&quot; or set q_p to None if input_type=&quot;pi&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;gaussian&quot;</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="c1"># Add tf.Variable in order to store the metrics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_target</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;picp&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pinaw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">num_target</span><span class="p">,),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pinaw&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CoverageWidthBasedCriterion.update_state"><a class="viewcode-back" href="../../../utils/metrics.html#purestochastic.common.metrics.CoverageWidthBasedCriterion.update_state">[docs]</a>    <span class="k">def</span> <span class="nf">update_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Accumulates cwc statistics.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_true : shape= ``[batch size, d_0, ... ,  d_N]``</span>
+<span class="sd">            The ground truth values.</span>
+<span class="sd">        predictions : shape= ``[batch size, d_0, ... ,  d_N, 2]``</span>
+<span class="sd">            The predicted values.</span>
+<span class="sd">        sample_weight : optional</span>
+<span class="sd">            Optional weighting of each example.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># If input_type=&quot;gaussian&quot;, compute the prediction interval associated with the predicted parameters</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            
+            <span class="c1"># Separate the mean and the variance</span>
+            <span class="n">y_pred</span><span class="p">,</span> <span class="n">var_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> 
+
+            <span class="c1"># Compute the bound of the prediction interval</span>
+            <span class="n">y_lower_pred</span> <span class="o">=</span> <span class="n">y_pred</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_pred</span><span class="p">)</span>
+            <span class="n">y_upper_pred</span> <span class="o">=</span> <span class="n">y_pred</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_p</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_pred</span><span class="p">)</span>
+
+        <span class="c1"># Otherwise retrieve the prediction interval from the predictions</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1"># Separate the lower and upper bounds</span>
+            <span class="n">y_lower_pred</span><span class="p">,</span> <span class="n">y_upper_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> 
+
+        <span class="c1"># Compute the PICP and the PINAW</span>
+        <span class="n">value_picp</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">y_lower_pred</span> <span class="o">&lt;=</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">y_true</span> <span class="o">&lt;=</span> <span class="n">y_upper_pred</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">picp</span><span class="o">.</span><span class="n">assign_add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">value_picp</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pinaw</span><span class="o">.</span><span class="n">assign_add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">((</span><span class="n">y_upper_pred</span> <span class="o">-</span> <span class="n">y_lower_pred</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_min</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="c1"># Increase the counter with the batch_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">assign_add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">value_picp</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">result</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">pinaw</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(((</span><span class="bp">self</span><span class="o">.</span><span class="n">picp</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">eta</span><span class="o">*</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">picp</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">))))</span>
+
+    <span class="k">def</span> <span class="nf">reset_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">picp</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">picp</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pinaw</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pinaw</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<span class="n">get_custom_objects</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;picp&#39;</span><span class="p">:</span> <span class="n">PredictionIntervalCoverageProbability</span><span class="p">})</span>
+<span class="n">get_custom_objects</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;pinaw&#39;</span><span class="p">:</span> <span class="n">PredictionIntervalNormalizedAverageWidth</span><span class="p">})</span>
+<span class="n">get_custom_objects</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;cwc&#39;</span><span class="p">:</span> <span class="n">CoverageWidthBasedCriterion</span><span class="p">})</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
