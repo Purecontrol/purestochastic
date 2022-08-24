@@ -91,5 +91,6 @@ The repository is organized as follows :
     * `base_uncertainty_models.py` custom class StochasticModel and GaussianRegression
     * `deep_ensemble.py` tools for the Deep Ensemble model
     * `swag.py` tools for the SWAG and the MultiSWAG model
+    * `orthonormal_certificates.py` tools for Orthonormal Certificates model
 * `requirements.txt` all the package you need to install so that you can use the project on your own
 
