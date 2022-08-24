@@ -47,6 +47,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples.html#swag">4. SWAG</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../examples.html#multiswag">5. MultiSWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#orthonormal-certificates">6. Orthonormal Certificates</a></li>
 </ul>
 </li>
 </ul>
@@ -84,6 +85,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#picp">PICP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#pinaw">PINAW</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/regularizers.html">Regularizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/regularizers.html#orthonormality">Orthonormality</a></li>
 </ul>
 </li>
 </ul>
@@ -361,7 +366,10 @@
         <span class="n">preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># Unstandardize target values (different case according to the activation function)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unstandardize_prediction</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>  <span class="c1"># equivalent to tf.unstack(preds, axis=-1)</span></div>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">StochasticModel</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unstandardize_prediction</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>  <span class="c1"># equivalent to tf.unstack(preds, axis=-1)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unstandardize_prediction</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span></div>
  
 <div class="viewcode-block" id="GaussianRegression.unstandardize_prediction"><a class="viewcode-back" href="../../../model/gaussian_regression.html#purestochastic.model.base_uncertainty_models.GaussianRegression.unstandardize_prediction">[docs]</a>    <span class="k">def</span> <span class="nf">unstandardize_prediction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mean</span> <span class="p">,</span> <span class="n">variance_epi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variance_alea</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -402,7 +410,7 @@
             <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">variance_alea</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
                 <span class="n">output_values</span> <span class="o">+=</span> <span class="p">(</span><span class="n">variance_alea</span><span class="p">,)</span>
 
-        <span class="k">return</span> <span class="n">output_values</span></div>
+        <span class="k">return</span> <span class="n">output_values</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">output_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="GaussianRegression.evaluate"><a class="viewcode-back" href="../../../model/gaussian_regression.html#purestochastic.model.base_uncertainty_models.GaussianRegression.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stochastic_metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -514,237 +522,6 @@
 
         <span class="c1"># Load the model&#39;s weights</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
-
-<span class="c1"># class TimeSeriesTask(Task):</span>
-
-<span class="c1">#     def __init__(self, model, operator):</span>
-
-<span class="c1">#         super(TimeSeriesModel, self).__init__(model)</span>
-
-<span class="c1">#         # Specify if the model predict the mean and the variance or just the mean</span>
-<span class="c1">#         if len(self.model.get_layer(index=-1).output_shape) &gt;= 3 or (isinstance(self.model, (DeepEnsembleModel, SWAGModel, MultiSWAGModel))):</span>
-<span class="c1">#             self.var_output = True</span>
-<span class="c1">#         else:</span>
-<span class="c1">#             self.var_output = False</span>
-
-<span class="c1">#         # Specifying how to discretize the derivative</span>
-<span class="c1">#         self.operator = operator</span>
-
-<span class="c1">#     def fit(self, df, c_target, c_exogen, c_control, H=1, order=1, standardize=True, batch_size=16, epochs=1, tensorboard_path=None, verbose=0, **kwargs):</span>
-
-<span class="c1">#         # If standardize is set to true, standardize input and target values</span>
-<span class="c1">#         self.standardize = standardize</span>
-<span class="c1">#         if self.standardize:</span>
-<span class="c1">#             pro_df, self.scaler = normalize_df(df)</span>
-
-<span class="c1">#         self.order = order</span>
-<span class="c1">#         if H == 1: # and isinstance(self.model, (DeepEnsembleModel, SWAGModel, MultiSWAGModel)):</span>
-<span class="c1">#             X, y = convert_df_into_data(pro_df, c_target, c_exogen, c_control, operator=self.operator, order=self.order)</span>
-
-<span class="c1">#             return self.model.fit(X, y, epochs=epochs, batch_size=batch_size, verbose=verbose, **kwargs)</span>
-<span class="c1">#         else:</span>
-<span class="c1">#             # Generate Integrated Data</span>
-<span class="c1">#             X_init, U, X = convert_df_into_integrated_data(pro_df, H, c_target, c_exogen, c_control)</span>
-
-<span class="c1">#             # Split dataset into batches</span>
-<span class="c1">#             train_dataset = tf.data.Dataset.from_tensor_slices((X_init, U, X))</span>
-<span class="c1">#             train_dataset = train_dataset.shuffle(buffer_size=1024).batch(batch_size)</span>
-
-<span class="c1">#             # Initialize tensorboard if specified</span>
-<span class="c1">#             if tensorboard_path is not None:</span>
-<span class="c1">#                 summary_writer = tf.summary.create_file_writer(tensorboard_path)</span>
-
-<span class="c1">#             # Train model</span>
-<span class="c1">#             for epoch in range(epochs):</span>
-
-<span class="c1">#                 if verbose:</span>
-<span class="c1">#                     print(&quot;\n####### Start of epoch %d #######&quot; % (epoch+1,))</span>
-
-<span class="c1">#                 # Initialize loss</span>
-<span class="c1">#                 total_loss = 0</span>
-
-<span class="c1">#                 # Iterate over the batches of the dataset.</span>
-<span class="c1">#                 for step, (X_init_batch, U_batch, X_batch) in enumerate(train_dataset):</span>
-
-<span class="c1">#                     #Initialize predictions</span>
-<span class="c1">#                     X_pred = tf.zeros(X_batch.shape)</span>
-<span class="c1">#                     input_val = tf.concat([X_init_batch,U_batch[:,0,:]],1)</span>
-
-<span class="c1">#                     #Forward and backward pass</span>
-<span class="c1">#                     with tf.GradientTape() as tape:</span>
-
-<span class="c1">#                         # Watch the matrix of predictions and the input values</span>
-<span class="c1">#                         tape.watch(X_pred)</span>
-<span class="c1">#                         tape.watch(input_val)</span>
-
-<span class="c1">#                         # First pass of single step</span>
-<span class="c1">#                         output = self.model(input_val, training=True, **kwargs)</span>
-<span class="c1">#                         if self.operator == &quot;shift&quot;:</span>
-<span class="c1">#                             X_pred = X_pred + tf.transpose(tf.stack( [tf.zeros_like(output),]*0 + [ X_init_batch + output,]+  [tf.zeros_like(output),]*(H-1)  ), (1,0,2))</span>
-<span class="c1">#                         elif self.operator == &quot;delta&quot;:</span>
-<span class="c1">#                             X_pred = X_pred + tf.transpose(tf.stack( [tf.zeros_like(output),]*0 + [ output,]+  [tf.zeros_like(output),]*(H-1)  ), (1,0,2))</span>
-                        
-<span class="c1">#                         # Iterate the H-1 pass of single step</span>
-<span class="c1">#                         for i in range(1,H):</span>
-
-<span class="c1">#                             # Format input val</span>
-<span class="c1">#                             input_val = tf.concat([X_pred[:,i-1,:],U_batch[:,i,:]],1)</span>
-
-<span class="c1">#                             # One pass of single step</span>
-<span class="c1">#                             output = self.model(input_val, training=True)</span>
-<span class="c1">#                             if self.operator == &quot;shift&quot;:</span>
-<span class="c1">#                                 X_pred = X_pred + tf.transpose(tf.stack( [tf.zeros_like(output),]*i + [X_pred[:,i-1,:] + output,]+  [tf.zeros_like(output),]*(H-i-1)  ), (1,0,2))</span>
-<span class="c1">#                             elif self.operator == &quot;delta&quot;:</span>
-<span class="c1">#                                 X_pred = X_pred + tf.transpose(tf.stack( [tf.zeros_like(output),]*i + [output,]+  [tf.zeros_like(output),]*(H-i-1)  ), (1,0,2))</span>
-                            
-<span class="c1">#                         # Compute the loss value of the batch</span>
-<span class="c1">#                         loss_value = self.model.loss(X_pred, X_batch)</span>
-                        
-<span class="c1">#                     # Add the batch loss to the loss</span>
-<span class="c1">#                     total_loss += loss_value</span>
-
-<span class="c1">#                     # Compute gradients and make one gradient step</span>
-<span class="c1">#                     grads = tape.gradient(loss_value, self.model.trainable_weights)</span>
-<span class="c1">#                     self.model.optimizer.apply_gradients(zip(grads, self.model.trainable_weights))</span>
-
-<span class="c1">#                     # Log every 200 batches.</span>
-<span class="c1">#                     if step % 200 == 0 and verbose:</span>
-<span class="c1">#                         print(</span>
-<span class="c1">#                             &quot;Training loss (for one batch) at step %d: %.4f&quot;</span>
-<span class="c1">#                             % (step, float(loss_value))</span>
-<span class="c1">#                         )</span>
-<span class="c1">#                         print(&quot;Seen so far: %d samples&quot; % ((step + 1) * batch_size))</span>
-
-<span class="c1">#                 # Log every epochs</span>
-<span class="c1">#                 if verbose:</span>
-<span class="c1">#                     print(f&quot;\n # Total loss at epoch {epoch+1} : {total_loss}.&quot;)</span>
-
-<span class="c1">#                 # Save model loss to tensorboard</span>
-<span class="c1">#                 if tensorboard_path is not None:</span>
-<span class="c1">#                     with summary_writer.as_default():</span>
-<span class="c1">#                         tf.summary.scalar(&quot;epoch_loss&quot;, total_loss, step=epoch)</span>
-
-<span class="c1">#                 # Save model weights to tensorboard</span>
-<span class="c1">#                 if tensorboard_path is not None:</span>
-<span class="c1">#                     with summary_writer.as_default():</span>
-<span class="c1">#                         for weight in self.model.trainable_weights:</span>
-<span class="c1">#                             tf.summary.histogram(weight.name, weight, step=epoch)</span>
-            
-<span class="c1">#     def predict(self, df, c_target, c_exogen, c_control, H=1, type_var=&quot;sum&quot;):</span>
-        
-<span class="c1">#         # Scale data</span>
-<span class="c1">#         if self.standardize:</span>
-<span class="c1">#             pro_df = df.copy()</span>
-<span class="c1">#             pro_df.iloc[:,:] = self.scaler.transform(df.iloc[:,:])</span>
-
-<span class="c1">#         # Create matrices of input and output</span>
-<span class="c1">#         X, _ = convert_df_into_data(pro_df, c_target, c_exogen, c_control, operator=self.operator, order=self.order)</span>
-
-<span class="c1">#         # Store the number of prediction to make</span>
-<span class="c1">#         N, _ = df.shape</span>
-
-<span class="c1">#         # Initialization of the indexes and prediction</span>
-<span class="c1">#         indexes = np.array([i for i in range(N-self.order) if i%H == 0])</span>
-<span class="c1">#         prediction = np.zeros((N-self.order,len(c_target)))</span>
-<span class="c1">#         if self.var_output:</span>
-<span class="c1">#             variance_epistemic = np.zeros((N-self.order,len(c_target)))</span>
-<span class="c1">#             variance_aleatoric = np.zeros((N-self.order,len(c_target)))</span>
-
-<span class="c1">#         for i in range(0,H):</span>
-
-<span class="c1">#             # Recovery of specific inputs of the model for the interation</span>
-<span class="c1">#             X_batch = X[indexes,:]</span>
-
-<span class="c1">#             # If it&#39;s not the first prediction, use the prediction made at the precedent iteration for the input of the model</span>
-<span class="c1">#             for j in range(min(i,self.order)):</span>
-<span class="c1">#                 X_batch[:,j*len(c_target):((j+1)*len(c_target))] = prediction[indexes-(j+1),:] </span>
-
-<span class="c1">#             # If it&#39;s the first prediction of the block, use the true value of the target</span>
-<span class="c1">#             if i==0:</span>
-<span class="c1">#                 preds = self.model.predict( X_batch, verbose=0) #A la base pas le .predict mais ne prend pas la fontion predict dans les classes sinon</span>
-<span class="c1">#                 if self.operator == &quot;shift&quot;:</span>
-
-<span class="c1">#                     # If the model predict uncertanties, store the variance</span>
-<span class="c1">#                     if self.var_output:</span>
-<span class="c1">#                         if preds.shape[2] == 2:</span>
-<span class="c1">#                             prediction[indexes], variance_epistemic[indexes] = preds[:,:,0] + X_batch[:,:len(c_target)], preds[:,:,1]</span>
-<span class="c1">#                         else:</span>
-<span class="c1">#                             prediction[indexes], variance_epistemic[indexes], variance_aleatoric[indexes] = preds[:,:,0] + X_batch[:,:len(c_target)], preds[:,:,1], preds[:,:,2]</span>
-<span class="c1">#                     else:</span>
-<span class="c1">#                         prediction[indexes] = preds + X_batch[:,c_target]</span>
-
-<span class="c1">#                 elif self.operator == &quot;delta&quot;:</span>
-                    
-<span class="c1">#                     # If the model predict uncertanties, store the variance</span>
-<span class="c1">#                     if self.var_output:</span>
-<span class="c1">#                         if preds.shape[2] == 2:</span>
-<span class="c1">#                             prediction[indexes], variance_epistemic[indexes] = preds[:,:,0], preds[:,:,1]</span>
-<span class="c1">#                         else:</span>
-<span class="c1">#                             prediction[indexes], variance_epistemic[indexes], variance_aleatoric[indexes] = preds[:,:,0], preds[:,:,1], preds[:,:,2]</span>
-<span class="c1">#                     else:</span>
-<span class="c1">#                         prediction[indexes] = preds</span>
-
-<span class="c1">#             # Otherwise, use the prediction made at the precedent iteration</span>
-<span class="c1">#             else:</span>
-<span class="c1">#                 preds = self.model.predict( X_batch , verbose=0)</span>
-<span class="c1">#                 if self.operator == &quot;shift&quot;:</span>
-
-<span class="c1">#                     # If the model predict uncertanties, store the variance</span>
-<span class="c1">#                     if self.var_output:</span>
-<span class="c1">#                         if preds.shape[2] == 2:</span>
-<span class="c1">#                             prediction[indexes], variance_epistemic[indexes] = preds[:,:,0] + prediction[indexes-1], preds[:,:,1]</span>
-<span class="c1">#                         else:</span>
-<span class="c1">#                             prediction[indexes], variance_epistemic[indexes], variance_aleatoric[indexes] = preds[:,:,0] + prediction[indexes-1], preds[:,:,1], preds[:,:,2]</span>
-<span class="c1">#                     else:</span>
-<span class="c1">#                         prediction[indexes] = prediction[indexes-1] + preds</span>
-                
-<span class="c1">#                 elif self.operator == &quot;delta&quot;:</span>
-                    
-<span class="c1">#                     # If the model predict uncertanties, store the variance</span>
-<span class="c1">#                     if self.var_output:</span>
-<span class="c1">#                         if preds.shape[2] == 2:</span>
-<span class="c1">#                             prediction[indexes], variance_epistemic[indexes] = preds[:,:,0], preds[:,:,1]</span>
-<span class="c1">#                         else:</span>
-<span class="c1">#                             prediction[indexes], variance_epistemic[indexes], variance_aleatoric[indexes] = preds[:,:,0], preds[:,:,1], preds[:,:,2]</span>
-<span class="c1">#                     else:</span>
-<span class="c1">#                         prediction[indexes] = preds</span>
-            
-<span class="c1">#             # Update the indexes and remove the last index if it&#39;s too high</span>
-<span class="c1">#             indexes = indexes + 1</span>
-<span class="c1">#             if indexes[-1] &gt;= (N-self.order):</span>
-<span class="c1">#                 indexes = indexes[:-1]</span>
-
-<span class="c1">#         # Rescale all the values</span>
-<span class="c1">#         if self.standardize:</span>
-<span class="c1">#             prediction = prediction*self.scaler.scale_[c_target] + self.scaler.mean_[c_target] </span>
-<span class="c1">#             if self.var_output:</span>
-<span class="c1">#                 if self.operator == &quot;delta&quot;:</span>
-<span class="c1">#                     variance_epistemic = variance_epistemic*(self.scaler.scale_[c_target]**2)</span>
-<span class="c1">#                     variance_aleatoric = variance_aleatoric*(self.scaler.scale_[c_target]**2)</span>
-<span class="c1">#                 elif self.operator == &quot;shift&quot;:</span>
-<span class="c1">#                     variance_epistemic = variance_epistemic*(self.scaler.scale_[c_target]**2)/2</span>
-<span class="c1">#                     variance_aleatoric = variance_aleatoric*(self.scaler.scale_[c_target]**2)/2</span>
-
-<span class="c1">#         # Return the prediction and the variance only if the model predict uncertanties</span>
-<span class="c1">#         prediction = np.vstack((np.repeat(np.NaN,len(c_target)*self.order).reshape(self.order,-1),prediction))</span>
-<span class="c1">#         if self.var_output:</span>
-<span class="c1">#             variance_epistemic = np.vstack((np.repeat(np.NaN,len(c_target)*self.order).reshape(self.order,-1),variance_epistemic))</span>
-<span class="c1">#             variance_aleatoric = np.vstack((np.repeat(np.NaN,len(c_target)*self.order).reshape(self.order,-1),variance_aleatoric))</span>
-
-        
-<span class="c1">#         if self.var_output:</span>
-<span class="c1">#             if preds.shape[2] == 2:</span>
-<span class="c1">#                 return prediction, variance_epistemic</span>
-<span class="c1">#             else:</span>
-<span class="c1">#                 if type_var == &quot;sum&quot;:</span>
-<span class="c1">#                     return prediction, variance_epistemic + variance_aleatoric</span>
-<span class="c1">#                 elif type_var == &quot;sep&quot;:</span>
-<span class="c1">#                     return prediction, variance_epistemic, variance_aleatoric</span>
-<span class="c1">#         else:</span>
-<span class="c1">#             return prediction  </span>
-
-<span class="c1">#     def evaluate(self):</span>
-<span class="c1">#         pass</span>
 
 </pre></div>
 

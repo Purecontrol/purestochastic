@@ -47,6 +47,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#swag">4. SWAG</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#multiswag">5. MultiSWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#orthonormal-certificates">6. Orthonormal Certificates</a></li>
 </ul>
 </li>
 </ul>
@@ -71,6 +72,7 @@
 <li class="toctree-l3"><a class="reference internal" href="model/custom_models.html#deepensemble">DeepEnsemble</a></li>
 <li class="toctree-l3"><a class="reference internal" href="model/custom_models.html#swag">SWAG</a></li>
 <li class="toctree-l3"><a class="reference internal" href="model/custom_models.html#multiswag">MultiSWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="model/custom_models.html#orthonormal-certificates">Orthonormal Certificates</a></li>
 </ul>
 </li>
 </ul>
@@ -84,6 +86,10 @@
 <li class="toctree-l3"><a class="reference internal" href="utils/metrics.html#picp">PICP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils/metrics.html#pinaw">PINAW</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/regularizers.html">Regularizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/regularizers.html#orthonormality">Orthonormality</a></li>
 </ul>
 </li>
 </ul>
@@ -168,6 +174,8 @@
       <ul>
         <li><a href="model/custom_models.html#purestochastic.model.deep_ensemble.DeepEnsembleModel.compute_metrics">(purestochastic.model.deep_ensemble.DeepEnsembleModel method)</a>
 </li>
+        <li><a href="model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.compute_metrics">(purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel method)</a>
+</li>
         <li><a href="model/custom_models.html#purestochastic.model.swag.MultiSWAGModel.compute_metrics">(purestochastic.model.swag.MultiSWAGModel method)</a>
 </li>
         <li><a href="model/custom_models.html#purestochastic.model.swag.SWAGModel.compute_metrics">(purestochastic.model.swag.SWAGModel method)</a>
@@ -215,14 +223,22 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.find_loss">find_loss() (purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel method)</a>
+</li>
       <li><a href="model/gaussian_regression.html#purestochastic.model.base_uncertainty_models.GaussianRegression.fit">fit() (purestochastic.model.base_uncertainty_models.GaussianRegression method)</a>
 
       <ul>
+        <li><a href="model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.fit">(purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel method)</a>
+</li>
         <li><a href="model/custom_models.html#purestochastic.model.swag.MultiSWAGModel.fit">(purestochastic.model.swag.MultiSWAGModel method)</a>
 </li>
         <li><a href="model/custom_models.html#purestochastic.model.swag.SWAGModel.fit">(purestochastic.model.swag.SWAGModel method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.fit_oc">fit_oc() (purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -263,9 +279,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="model/custom_models.html#purestochastic.model.swag.SWAGCallback.on_epoch_end">on_epoch_end() (purestochastic.model.swag.SWAGCallback method)</a>
 </li>
+      <li><a href="model/custom_models.html#purestochastic.model.swag.SWAGCallback.on_train_end">on_train_end() (purestochastic.model.swag.SWAGCallback method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="model/custom_models.html#purestochastic.model.swag.SWAGCallback.on_train_end">on_train_end() (purestochastic.model.swag.SWAGCallback method)</a>
+      <li><a href="model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel">OrthonormalCertificatesModel (class in purestochastic.model.orthonormal_certificates)</a>
+</li>
+      <li><a href="utils/regularizers.html#purestochastic.common.regularizers.Orthonormality">Orthonormality() (in module purestochastic.common.regularizers)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -277,6 +297,8 @@
 
       <ul>
         <li><a href="model/custom_models.html#purestochastic.model.deep_ensemble.DeepEnsembleModel.predict">(purestochastic.model.deep_ensemble.DeepEnsembleModel method)</a>
+</li>
+        <li><a href="model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.predict">(purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel method)</a>
 </li>
         <li><a href="model/custom_models.html#purestochastic.model.swag.MultiSWAGModel.predict">(purestochastic.model.swag.MultiSWAGModel method)</a>
 </li>
@@ -313,9 +335,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="model/custom_models.html#purestochastic.model.deep_ensemble.toDeepEnsemble">toDeepEnsemble() (in module purestochastic.model.deep_ensemble)</a>
 </li>
+      <li><a href="model/custom_models.html#purestochastic.model.swag.toMultiSWAG">toMultiSWAG() (in module purestochastic.model.swag)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="model/custom_models.html#purestochastic.model.swag.toMultiSWAG">toMultiSWAG() (in module purestochastic.model.swag)</a>
+      <li><a href="model/custom_models.html#purestochastic.model.orthonormal_certificates.toOrthonormalCertificates">toOrthonormalCertificates() (in module purestochastic.model.orthonormal_certificates)</a>
 </li>
       <li><a href="model/custom_models.html#purestochastic.model.swag.toSWAG">toSWAG() (in module purestochastic.model.swag)</a>
 </li>

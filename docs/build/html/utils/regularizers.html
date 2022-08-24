@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Utils &mdash; purestochastic 0.1 documentation</title>
+  <title>Regularizers &mdash; purestochastic 0.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/logo.png"/>
@@ -17,11 +17,11 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Losses" href="losses.html" />
-    <link rel="prev" title="Custom Models" href="../model/custom_models.html" /> 
+    <link rel="prev" title="Metrics" href="metrics.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -80,7 +80,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Utils</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="utils.html">Utils</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="losses.html">Losses</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
 </ul>
@@ -91,8 +91,8 @@
 <li class="toctree-l3"><a class="reference internal" href="metrics.html#cwc">CWC</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="regularizers.html">Regularizers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="regularizers.html#orthonormality">Orthonormality</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Regularizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#orthonormality">Orthonormality</a></li>
 </ul>
 </li>
 </ul>
@@ -113,9 +113,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Utils</li>
+          <li><a href="utils.html">Utils</a> &raquo;</li>
+      <li>Regularizers</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/utils/utils.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/utils/regularizers.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -123,36 +124,68 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="utils">
-<h1>Utils<a class="headerlink" href="#utils" title="Permalink to this heading">¶</a></h1>
-<p>This part of the modules contains all the new metrics and loss functions
-implemented for stochastic modelling.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="losses.html">Losses</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
-</ul>
+  <section id="regularizers">
+<h1>Regularizers<a class="headerlink" href="#regularizers" title="Permalink to this heading">¶</a></h1>
+<p>Implementation of new regularizers. The package is also compatible with  all the regularizer functions from
+<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/regularizers">tensorflow</a> as well as custom regularizer
+functions. There are two main ways to use loss functions in tensorflow :</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p>Use the string identifiant :</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dense</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="s1">&#39;orthonormality&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="metrics.html">Metrics</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="metrics.html#picp">PICP</a></li>
-<li class="toctree-l2"><a class="reference internal" href="metrics.html#pinaw">PINAW</a></li>
-<li class="toctree-l2"><a class="reference internal" href="metrics.html#cwc">CWC</a></li>
-</ul>
+<li><p>Use the class to specify parameters</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dense</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">Orthonormality</span><span class="p">(</span><span class="n">lambda_coeff</span><span class="o">=</span><span class="mf">0.01</span><span class="p">))</span>
+</pre></div>
+</div>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="regularizers.html">Regularizers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="regularizers.html#orthonormality">Orthonormality</a></li>
-</ul>
-</li>
+</ol>
+</div></blockquote>
+<p>Here is the list of the new regularizers :</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#orthonormality" id="id3">Orthonormality</a></p></li>
 </ul>
 </div>
+<section id="orthonormality">
+<h2><a class="toc-backref" href="#id3">Orthonormality</a><a class="headerlink" href="#orthonormality" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="purestochastic.common.regularizers.Orthonormality">
+<span class="sig-prename descclassname"><span class="pre">purestochastic.common.regularizers.</span></span><span class="sig-name descname"><span class="pre">Orthonormality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">miso</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_coeff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/common/regularizers.html#Orthonormality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.common.regularizers.Orthonormality" title="Permalink to this definition">¶</a></dt>
+<dd><p>A regularizer that applies a Orthonormality penalty <a class="footnote-reference brackets" href="#id2" id="id1">1</a> to 2D and 3D kernel.
+The penalty is computed as :</p>
+<div class="math notranslate nohighlight">
+\[\text{loss} = \text{lambda_coeff} \frac{1}{n} \sum_{i=1}^{K} \sum_{j=1}^{K} ((C^TC)_{i,j} - I_{i,j})\]</div>
+<p>with C, the kernel matrix. If C is a 3D tensor the operation is the mean over the new dimension.</p>
+<p>The penalty forces the kernel to be an orthonormal matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>miso</strong> (<em>boolean (default: True)</em>) – Tell the regularizer if the kernel is a 2D or 3D matrix.</p></li>
+<li><p><strong>lambda_coeff</strong> (<em>float (default : 1)</em>) – The regularization factor.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Tagasovska, Natasa and Lopez-Paz, David. « Single-model uncertainties for deep learning ».
+In : Advances in Neural Information Processing Systems 2019.Nips (2019), p. 1-12. issn : 10495258.
+arXiv : 1811.00908.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../model/custom_models.html" class="btn btn-neutral float-left" title="Custom Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="losses.html" class="btn btn-neutral float-right" title="Losses" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="metrics.html" class="btn btn-neutral float-left" title="Metrics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

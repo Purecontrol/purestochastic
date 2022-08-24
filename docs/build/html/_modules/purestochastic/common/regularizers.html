@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>purestochastic.common.losses &mdash; purestochastic 0.1 documentation</title>
+  <title>purestochastic.common.regularizers &mdash; purestochastic 0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="../../../_static/logo.png"/>
@@ -110,7 +110,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>purestochastic.common.losses</li>
+      <li>purestochastic.common.regularizers</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -119,67 +119,58 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for purestochastic.common.losses</h1><div class="highlight"><pre>
+  <h1>Source code for purestochastic.common.regularizers</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">from</span> <span class="nn">keras.regularizers</span> <span class="kn">import</span> <span class="n">Regularizer</span>
+<span class="kn">from</span> <span class="nn">keras.utils.generic_utils</span> <span class="kn">import</span> <span class="n">get_custom_objects</span>
 
-<div class="viewcode-block" id="gaussian_negative_log_likelihood"><a class="viewcode-back" href="../../../utils/losses.html#purestochastic.common.losses.gaussian_negative_log_likelihood">[docs]</a><span class="nd">@tf</span><span class="o">.</span><span class="n">function</span>
-<span class="k">def</span> <span class="nf">gaussian_negative_log_likelihood</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">prediction</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gaussian negative log likelihood loss function.</span>
-
-<span class="sd">    The loss function computes the gaussian negative log likelihood between the ground truth values </span>
-<span class="sd">    :math:`y=(y_1, \ldots, y_n)` and the predictions which are the mean and the variance of a gaussian</span>
-<span class="sd">    distribution : </span>
-<span class="sd">    </span>
-<span class="sd">        * :math:`\hat{\mu} = \text{prediction}[ : , \cdots , :  , 0]`</span>
-
-<span class="sd">        * :math:`\hat{\sigma}^2 = \text{prediction}[ : , \cdots , : , 1]`</span>
-<span class="sd">    </span>
-<span class="sd">    Mathematically, the loss function is defined as : </span>
+<div class="viewcode-block" id="Orthonormality"><a class="viewcode-back" href="../../../utils/regularizers.html#purestochastic.common.regularizers.Orthonormality">[docs]</a><span class="k">class</span> <span class="nc">Orthonormality</span><span class="p">(</span><span class="n">Regularizer</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A regularizer that applies a Orthonormality penalty [1]_ to 2D and 3D kernel.</span>
+<span class="sd">    The penalty is computed as : </span>
 
 <span class="sd">    .. math::</span>
-<span class="sd">        \mathcal{L}(y, \hat{\mu}, \hat{\sigma}^2) = \frac{1}{2n} \displaystyle\sum_{i=1}^{n} \Bigg[\ln(\hat{\sigma}^2(x_i,\theta))+\frac{(y_i-\hat{\mu}(x_i,\theta))^2}{\hat{\sigma}^2(x_i,\theta)} \Bigg] + \frac{1}{2}\log(2 \pi)</span>
-<span class="sd">    </span>
-<span class="sd">    If ``y`` is not a 1D array, the batch dimension needs to be the first and the output value is</span>
-<span class="sd">    the mean over all other dimensions.</span>
+<span class="sd">         \text{loss} = \text{lambda_coeff} \frac{1}{n} \sum_{i=1}^{K} \sum_{j=1}^{K} ((C^TC)_{i,j} - I_{i,j})</span>
 
+<span class="sd">    with C, the kernel matrix. If C is a 3D tensor the operation is the mean over the new dimension.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    y : tf.Tensor or np.ndarray</span>
-<span class="sd">        Ground truth values.</span>
-<span class="sd">    prediction : tf.Tensor or np.ndarray</span>
-<span class="sd">        The predicted values.</span>
+<span class="sd">    The penalty forces the kernel to be an orthonormal matrix.</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    tf.float32 </span>
-<span class="sd">        Value of the Gaussian negative log likelihood.</span>
+<span class="sd">    Arguments</span>
+<span class="sd">    ---------</span>
+<span class="sd">    miso : boolean (default: True)</span>
+<span class="sd">        Tell the regularizer if the kernel is a 2D or 3D matrix.</span>
+<span class="sd">    lambda_coeff : float (default : 1)</span>
+<span class="sd">        The regularization factor.</span>
 
-<span class="sd">    Input shape</span>
+<span class="sd">    References</span>
 <span class="sd">    -----------</span>
-<span class="sd">        (N+2)-D tensor with shape: ``[batch_size, d_0, ...,  d_N]``.</span>
+<span class="sd">    .. [1] Tagasovska, Natasa and Lopez-Paz, David. « Single-model uncertainties for deep learning ». </span>
+<span class="sd">        In : Advances in Neural Information Processing Systems 2019.Nips (2019), p. 1-12. issn : 10495258. </span>
+<span class="sd">        arXiv : 1811.00908.</span>
 
-<span class="sd">    Output shape</span>
-<span class="sd">    ------------</span>
-<span class="sd">        (N+3)-D tensor with shape: ``[batch_size, d_0, ..., d_N, 2]``.</span>
-
-<span class="sd">    Note</span>
-<span class="sd">    ----</span>
-<span class="sd">    The likelihood is a product of density functions and so the values can be between :math:`[0, \infty]`.</span>
-<span class="sd">    The negative log likelihood can thus be negative if the likelihood is greater than 1. Therefore, don&#39;t</span>
-<span class="sd">    worry if your loss function is negative, it&#39;s often the case.</span>
-<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Separate the mean and the variance</span>
-    <span class="n">mean</span><span class="p">,</span> <span class="n">var</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">miso</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lambda_coeff</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>  
 
-    <span class="c1"># Compute the Gaussian Negative Log Likelihood</span>
-    <span class="n">log_var</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-    <span class="n">squared_error</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">log_var</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">squared_error</span><span class="p">,</span><span class="n">var</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_coeff</span> <span class="o">=</span> <span class="n">lambda_coeff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">miso</span> <span class="o">=</span> <span class="n">miso</span>
 
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">miso</span><span class="p">:</span>
+            <span class="n">K</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_coeff</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">x</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">K</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">K</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_coeff</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijk, ijp -&gt; jkp&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">tf</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">K</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;miso&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">miso</span><span class="p">,</span> <span class="s1">&#39;lambda_coeff&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lambda_coeff</span><span class="p">)}</span></div>
+
+<span class="n">get_custom_objects</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;orthonormality&#39;</span><span class="p">:</span> <span class="n">Orthonormality</span><span class="p">})</span>
 </pre></div>
 
            </div>

@@ -51,6 +51,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples.html#swag">4. SWAG</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples.html#multiswag">5. MultiSWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples.html#orthonormal-certificates">6. Orthonormal Certificates</a></li>
 </ul>
 </li>
 </ul>
@@ -75,6 +76,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#deepensemble">DeepEnsemble</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#swag">SWAG</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#multiswag">MultiSWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#orthonormal-certificates">Orthonormal Certificates</a></li>
 </ul>
 </li>
 </ul>
@@ -88,6 +90,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#picp">PICP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#pinaw">PINAW</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../utils/regularizers.html">Regularizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utils/regularizers.html#orthonormality">Orthonormality</a></li>
 </ul>
 </li>
 </ul>
@@ -131,15 +137,16 @@ model.</p>
 <p>The list of available models is :</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><p><a class="reference internal" href="#stochastic-model" id="id13">Stochastic Model</a></p></li>
-<li><p><a class="reference internal" href="#mvem" id="id14">MVEM</a></p></li>
-<li><p><a class="reference internal" href="#deepensemble" id="id15">DeepEnsemble</a></p></li>
-<li><p><a class="reference internal" href="#swag" id="id16">SWAG</a></p></li>
-<li><p><a class="reference internal" href="#multiswag" id="id17">MultiSWAG</a></p></li>
+<li><p><a class="reference internal" href="#stochastic-model" id="id17">Stochastic Model</a></p></li>
+<li><p><a class="reference internal" href="#mvem" id="id18">MVEM</a></p></li>
+<li><p><a class="reference internal" href="#deepensemble" id="id19">DeepEnsemble</a></p></li>
+<li><p><a class="reference internal" href="#swag" id="id20">SWAG</a></p></li>
+<li><p><a class="reference internal" href="#multiswag" id="id21">MultiSWAG</a></p></li>
+<li><p><a class="reference internal" href="#orthonormal-certificates" id="id22">Orthonormal Certificates</a></p></li>
 </ul>
 </div>
 <section id="stochastic-model">
-<h2><a class="toc-backref" href="#id13">Stochastic Model</a><a class="headerlink" href="#stochastic-model" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id17">Stochastic Model</a><a class="headerlink" href="#stochastic-model" title="Permalink to this heading">¶</a></h2>
 <p><code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code> is a subclass of <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model">tf.keras.Model</a> that
 was defined in order to add stochastic metrics. It’s an abstract class that can’t be instanciate. All other custom models
 are subclasses of <code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticModel</span></code>.</p>
@@ -238,21 +245,21 @@ stochastic metrics.</p>
 
 </section>
 <section id="mvem">
-<h2><a class="toc-backref" href="#id14">MVEM</a><a class="headerlink" href="#mvem" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id18">MVEM</a><a class="headerlink" href="#mvem" title="Permalink to this heading">¶</a></h2>
 <div class="admonition-todo admonition" id="id2">
 <p class="admonition-title">Todo</p>
 <p>Add a class for MVEM which deals with compute_metrics</p>
 </div>
 </section>
 <section id="deepensemble">
-<h2><a class="toc-backref" href="#id15">DeepEnsemble</a><a class="headerlink" href="#deepensemble" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id19">DeepEnsemble</a><a class="headerlink" href="#deepensemble" title="Permalink to this heading">¶</a></h2>
 <p>The DeepEnsemble model is an ensemble of Deep Learning model. The idea is to train the same model multiple times with
 different random seeds and then average the results in order to have diverse predictions. It’s then possible to combine
 the predictions. For more details, see the papers <a class="reference external" href="https://arxiv.org/abs/1612.01474">Simple and Scalable Predictive Uncertainty Estimation using Deep Ensembles</a> or <a class="reference external" href="http://arxiv.org/abs/1912.02757">Deep Ensembles: A Loss Landscape Perspective</a>.</p>
-<figure class="align-center" id="id11">
+<figure class="align-center" id="id15">
 <a class="reference internal image-reference" href="../_images/DeepEnsemble.png"><img alt="../_images/DeepEnsemble.png" src="../_images/DeepEnsemble.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-text">Cartoon illustration of the performance of the DeepEnsemble model from the article <strong>Deep Ensembles: A Loss Landscape Perspective</strong>.</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Cartoon illustration of the performance of the DeepEnsemble model from the article <strong>Deep Ensembles: A Loss Landscape Perspective</strong>.</span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <div class="admonition tip">
@@ -465,7 +472,7 @@ implementation. Other architecture are just concatenated models.</p>
 
 </section>
 <section id="swag">
-<h2><a class="toc-backref" href="#id16">SWAG</a><a class="headerlink" href="#swag" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id20">SWAG</a><a class="headerlink" href="#swag" title="Permalink to this heading">¶</a></h2>
 <p>The SWAG model is a bayesian model and especially a bayesian model averaging with variational inference.
 The model fits a the posterio distribution of the parameter of the model during the training of the model
 exploiting specific properties of the optimization process. For more details, see the papers
@@ -826,14 +833,14 @@ matrix used in the covariance matrix is computed and saved in the attribute
 
 </section>
 <section id="multiswag">
-<h2><a class="toc-backref" href="#id17">MultiSWAG</a><a class="headerlink" href="#multiswag" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id21">MultiSWAG</a><a class="headerlink" href="#multiswag" title="Permalink to this heading">¶</a></h2>
 <p>The MultiSWAG model was developped in order to have the advantages of the SWAG model and the
 DeepEnsemble model. Therefore, it’s an ensemble of bayesian deep learning models. For more
 details, see <a class="reference external" href="https://arxiv.org/pdf/2002.08791.pdf">Bayesian deep learning and a probabilistic perspective of generalization</a>.</p>
-<figure class="align-center" id="id12">
+<figure class="align-center" id="id16">
 <a class="reference internal image-reference" href="../_images/MultiSWAG.png"><img alt="../_images/MultiSWAG.png" src="../_images/MultiSWAG.png" style="width: 500px;" /></a>
 <figcaption>
-<p><span class="caption-text">Cartoon illustration of comparison between the SWAG, DeepEnsemble model and the MultiSWAG model from the paper <strong>Bayesian deep learning and a probabilistic perspective of generalization</strong>.</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Cartoon illustration of comparison between the SWAG, DeepEnsemble model and the MultiSWAG model from the paper <strong>Bayesian deep learning and a probabilistic perspective of generalization</strong>.</span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Here are some <strong>examples</strong> using the <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiSWAGModel</span></code> :</p>
@@ -1132,6 +1139,236 @@ implementation. Other architecture are just concatenated models.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#purestochastic.model.swag.MultiSWAGModel" title="purestochastic.model.swag.MultiSWAGModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiSWAGModel</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="orthonormal-certificates">
+<h2><a class="toc-backref" href="#id22">Orthonormal Certificates</a><a class="headerlink" href="#orthonormal-certificates" title="Permalink to this heading">¶</a></h2>
+<p>The Orthonormal Certificates model was developped in order to quantify epistemic uncertainty
+with a single-model estimates. For more details, see
+<a class="reference external" href="https://arxiv.org/pdf/1811.00908.pdf">Single-model uncertainties for deep learning</a>.</p>
+<p>Here are some <strong>examples</strong> using the <code class="xref py py-class docutils literal notranslate"><span class="pre">OrthonormalCertificatesModel</span></code> :</p>
+<ul class="simple">
+<li><p>With <strong>high-level</strong> API (recommended usage) :</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,))</span>
+<span class="linenos">2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="linenos">3</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">output_dim</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="linenos">4</span> <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
+<span class="hll"><span class="linenos">5</span> <span class="n">DeepEnsemble</span> <span class="o">=</span> <span class="n">toOrthonormalCertificates</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">nb_layers_head</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<ul class="simple">
+<li><p>With <strong>low-level</strong> layers (not recommended) :</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,))</span>
+<span class="linenos">2</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="linenos">3</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">output_dim</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="hll"><span class="linenos">4</span> <span class="n">outputs2</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">Orthonormality</span><span class="p">())(</span><span class="n">x</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">5</span> <span class="n">model</span> <span class="o">=</span> <span class="n">OrthonormalCertificatesModel</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">outputs</span><span class="p">,</span> <span class="n">outputs2</span><span class="p">])</span>
+</span></pre></div>
+</div>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">OrthonormalCertificatesModel</span></code> and the method <code class="docutils literal notranslate"><span class="pre">toOrthonormalCertificates</span></code> are described above.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">purestochastic.model.orthonormal_certificates.</span></span><span class="sig-name descname"><span class="pre">OrthonormalCertificatesModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/orthonormal_certificates.html#OrthonormalCertificatesModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implementation of the Orthonormal Certificates model.</p>
+<p>The model was proposed in <a class="footnote-reference brackets" href="#id12" id="id11">4</a> . To estimate epistemic uncertainty, they propose Orthonormal Certificates (OCs),
+a collection of diverse non-constant functions that map all training samples to zero.</p>
+<p>The model can be constructed manually (not recommended) or it’s possible to use the method <code class="docutils literal notranslate"><span class="pre">toOrthonormalCertificates</span></code>
+to convert a simple <code class="xref py py-class docutils literal notranslate"><span class="pre">keras.Model</span></code> object into a <a class="reference internal" href="#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel" title="purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">OrthonormalCertificatesModel</span></code></a> object.</p>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">fit(X,</span> <span class="pre">y,</span> <span class="pre">epochs_oc=0,</span> <span class="pre">learning_rate_oc=0.001):</span></span></dt>
+<dd><p>Fit the initial and OC model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">fit_oc(X,</span> <span class="pre">y,</span> <span class="pre">learning_rate_oc=0.001):</span></span></dt>
+<dd><p>Fit the OC model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">compute_metrics(x,</span> <span class="pre">y,</span> <span class="pre">predictions,</span> <span class="pre">sample_weight):</span></span></dt>
+<dd><p>Specify the mean and stochastic part of the predictions to compute the metrics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">predict(data,</span> <span class="pre">S=5,</span> <span class="pre">verbose=0):</span></span></dt>
+<dd><p>Computes the predictions of the initial model and an epistemic score.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_loss():</span></span></dt>
+<dd><p>Returns the loss specified in <code class="docutils literal notranslate"><span class="pre">compile</span></code>.</p>
+</dd></dl>
+
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id12"><span class="brackets">4</span><span class="fn-backref">(<a href="#id11">1</a>,<a href="#id13">2</a>,<a href="#id14">3</a>)</span></dt>
+<dd><p>Tagasovska, Natasa and Lopez-Paz, David. « Single-model uncertainties for deep learning ».
+In : Advances in Neural Information Processing Systems 2019.Nips (2019), p. 1-12. issn : 10495258.
+arXiv : 1811.00908.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.compute_metrics">
+<span class="sig-name descname"><span class="pre">compute_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/orthonormal_certificates.html#OrthonormalCertificatesModel.compute_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.compute_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom <code class="docutils literal notranslate"><span class="pre">compute_metrics</span></code> method.</p>
+<p>As stated in the parent method <code class="docutils literal notranslate"><span class="pre">compute_metrics</span></code>, this method called the
+parent function with the appropriate <code class="docutils literal notranslate"><span class="pre">y_pred</span></code> and <code class="docutils literal notranslate"><span class="pre">stochastic_predictions</span></code>
+arguments.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">OrthonormalCertificatesModel</span></code>, the choice is to remove stochastic
+metrics because the certificates don’t have a real sense.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>y</strong> (<em>tf.Tensor</em>) – Target data.</p></li>
+<li><p><strong>predictions</strong> (<em>tf.Tensor</em>) – Predictions returned by the model (output of <cite>model(x)</cite>)</p></li>
+<li><p><strong>sample_weight</strong> (<em>optional</em>) – Sample weights for weighting the loss function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>See parent method.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.find_loss">
+<span class="sig-name descname"><span class="pre">find_loss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/orthonormal_certificates.html#OrthonormalCertificatesModel.find_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.find_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the loss specified in the <code class="docutils literal notranslate"><span class="pre">compile</span> <span class="pre">function</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the loss.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs_oc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate_oc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/orthonormal_certificates.html#OrthonormalCertificatesModel.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the model the initial model and the orthonormal certificates.</p>
+<p>The model is trained in two parts :</p>
+<ul class="simple">
+<li><p>During <code class="docutils literal notranslate"><span class="pre">epochs</span></code> epochs, the model is trained normally. It’s defined as
+the training of the initial model and the training uses the optimizer and
+learning rate specified in the <code class="docutils literal notranslate"><span class="pre">compile</span></code> function. The certificates are
+frozen.</p></li>
+<li><p>During <code class="docutils literal notranslate"><span class="pre">epochs_oc</span></code> epochs, all the layer are frozen except the certificates.
+The training is parametrized by <code class="docutils literal notranslate"><span class="pre">learning_rate_oc</span></code> and the sum of the loss
+function specified in the <code class="docutils literal notranslate"><span class="pre">compile</span></code> function and the Orthonormality loss.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, the parameter <code class="docutils literal notranslate"><span class="pre">epochs_oc</span></code> is set to 0, and the orthonormal certificates
+are not trained.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">purestochastic.common.regularizer.Orthonormality</span></code></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – The input data.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – The target data.</p></li>
+<li><p><strong>epoch_oc</strong> (<em>int (default : 0)</em>) – Number of epochs for the training of certificates.</p></li>
+<li><p><strong>learning_rate_oc</strong> (<em>float (default : 0.001)</em>) – Learning rate for the training of certificates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>History of the two trainings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.fit_oc">
+<span class="sig-name descname"><span class="pre">fit_oc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate_oc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/orthonormal_certificates.html#OrthonormalCertificatesModel.fit_oc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.fit_oc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the orthonormal certificates.</p>
+<p>All the layer are frozen except the orthonormal certificates. The model is trained
+with the optimizer specified in the <code class="docutils literal notranslate"><span class="pre">compile</span></code> function with the learning rate
+<code class="docutils literal notranslate"><span class="pre">learning_rate_oc</span></code>. The loss is the sum of the two following parts :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The loss function with predicted value set to the output of the orthonormal
+certificates and target value set to 0.</p></li>
+<li><p>The orthonormality regularizer added to the kernel so that the certificates
+are orthonormal. For more details, see :class:<code class="docutils literal notranslate"><span class="pre">purestochastic.common.regularizer.Orthonormality</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>The details of the method is detailled in <a class="footnote-reference brackets" href="#id12" id="id13">4</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – The input data.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – The target data.</p></li>
+<li><p><strong>learning_rate_oc</strong> (<em>float (default : 0.001)</em>) – Learning rate for the training of certificates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>History of the training.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/orthonormal_certificates.html#OrthonormalCertificatesModel.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute predictions.</p>
+<p>This method just called the parent’s method to compute the predictions of the initial model and
+the orthonormal certificates. The norm of the orthonormal certificates is computed in order to
+have a score for the epistemic uncertainty as defined in the article <a class="footnote-reference brackets" href="#id12" id="id14">4</a> .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>tf.Tensor</em>) – Input data.</p></li>
+<li><p><strong>kwargs</strong> (<em>optional</em>) – Other Arguments of the <cite>predict</cite> parent’s method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Predictions made by the Deep Ensemble model.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="purestochastic.model.orthonormal_certificates.toOrthonormalCertificates">
+<span class="sig-prename descclassname"><span class="pre">purestochastic.model.orthonormal_certificates.</span></span><span class="sig-name descname"><span class="pre">toOrthonormalCertificates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_layers_head</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiple_miso</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_coeff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/purestochastic/model/orthonormal_certificates.html#toOrthonormalCertificates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#purestochastic.model.orthonormal_certificates.toOrthonormalCertificates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a regular model into a Orthonormal Certificates model.</p>
+<p>This method intends to be high-level interface to construct
+a Orthonormal Certificates model from a regular model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>net</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tf.keras.Sequential</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">tf.keras.Model</span></code>) – a tensorflow model</p></li>
+<li><p><strong>nb_models</strong> (<em>int</em>) – the number of models</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a Orthonormal Certificates Model</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">class</span> <span class="pre">OrthonormalCertificatesModel</span></code></p>
 </dd>
 </dl>
 </dd></dl>

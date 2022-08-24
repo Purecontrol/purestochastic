@@ -289,6 +289,75 @@ know the values of the metrics at the end of the training with the method ``eval
 
 All the code to reproduce the example is available in :download:`multi_swag.py <../../examples/multi_swag.py>`. 
 
+6. Orthonormal Certificates
+---------------------------
+
+The Orthonormal Certificates model consists of adding a linear layer at the top of the featurizer in order to map all the training
+samples to zeros. It can be a good alternative because it's a single-model estimates. In other words, the training and inference 
+time are low. 
+
+As there is a loss function for the orthonormal certificates and the initial model, the training's display is different.
+When the initial model is trained, the real loss is ``output_initial_model_loss``. ``Loss`` is modified by the ``regularizer`` added
+to the certificates : 
+
+    >>> reg.fit(X, y, epochs=40, epochs_oc=40)
+    Epoch 1/40
+    1/1 [==============================] - 2s 2s/step - loss: 1.1486 - output_initial_model_loss: 1.1389
+    Epoch 2/40
+    1/1 [==============================] - 0s 11ms/step - loss: 0.8712 - output_initial_model_loss: 0.8616
+    Epoch 3/40
+    1/1 [==============================] - 0s 6ms/step - loss: 0.2924 - output_initial_model_loss: 0.2828
+    Epoch 4/40
+    1/1 [==============================] - 0s 4ms/step - loss: 0.2771 - output_initial_model_loss: 0.2675
+    Epoch 5/40
+    1/1 [==============================] - 0s 5ms/step - loss: 0.3879 - output_initial_model_loss: 0.3783
+    Epoch 6/40
+    1/1 [==============================] - 0s 4ms/step - loss: 0.3566 - output_initial_model_loss: 0.3469
+    Epoch 7/40
+    1/1 [==============================] - 0s 3ms/step - loss: 0.2578 - output_initial_model_loss: 0.2481
+    Epoch 8/40
+    1/1 [==============================] - 0s 8ms/step - loss: 0.1755 - output_initial_model_loss: 0.1659
+    Epoch 9/40
+    1/1 [==============================] - 0s 6ms/step - loss: 0.1925 - output_initial_model_loss: 0.1829
+    ...
+
+When the OC model is trained, ``output_oc_loss`` represent the loss whithout the regularizer added to the 
+certificates and ``loss`` is the total loss : 
+
+    >>> reg.fit(X, y, epochs=40, epochs_oc=40)
+    ...
+    Epoch 40/40
+    1/1 [==============================] - 0s 8ms/step - loss: 0.0248 - output_initial_model_loss: 0.0152
+    Epoch 1/40
+    1/1 [==============================] - 1s 573ms/step - loss: 0.0098 - output_oc_loss: 1.3532e-04
+    Epoch 2/40
+    1/1 [==============================] - 0s 4ms/step - loss: 0.0097 - output_oc_loss: 1.0131e-04
+    Epoch 3/40
+    1/1 [==============================] - 0s 8ms/step - loss: 0.0096 - output_oc_loss: 6.5591e-05
+    Epoch 4/40
+    1/1 [==============================] - 0s 4ms/step - loss: 0.0096 - output_oc_loss: 3.8611e-05
+    Epoch 5/40
+    1/1 [==============================] - 0s 5ms/step - loss: 0.0095 - output_oc_loss: 2.3374e-05
+    Epoch 6/40
+    1/1 [==============================] - 0s 4ms/step - loss: 0.0095 - output_oc_loss: 1.8150e-05
+    Epoch 7/40
+    1/1 [==============================] - 0s 6ms/step - loss: 0.0094 - output_oc_loss: 1.9198e-05
+    Epoch 8/40
+    1/1 [==============================] - 0s 5ms/step - loss: 0.0094 - output_oc_loss: 2.2717e-05
+    Epoch 9/40
+    1/1 [==============================] - 0s 4ms/step - loss: 0.0093 - output_oc_loss: 2.5952e-05
+    ...
+
+.. figure:: orthonormal_certificates.png
+    :align: center
+    :alt: Orthonormal Certificates
+    :width: 600px
+    
+    Predictions of the Orthonormal Certificates model on the Toy dataset.
+
+All the code to reproduce the example is available in :download:`orthonormal_certificates.py <../../examples/orthonormal_certificates.py>`. 
+
+
 .. raw:: html
 
    <h2>References</h2> 

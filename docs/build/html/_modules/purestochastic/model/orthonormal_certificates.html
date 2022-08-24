@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>purestochastic.model.orthonormal_certificates &mdash; purestochastic 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> purestochastic
+            <img src="../../../_static/logo2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../motivation.html">Motivations and Goals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Basic examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#toy-dataset">1. Toy dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-1">2. DeepEnsemble 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#deepensemble-2">3. DeepEnsemble 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#swag">4. SWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#multiswag">5. MultiSWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples.html#orthonormal-certificates">6. Orthonormal Certificates</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../model/model.html">Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/gaussian_regression.html">GaussianRegression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_layers.html">Custom Layers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense2dto3d">Dense2Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto3d">Dense3Dto3D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto2d">Dense3Dto2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_layers.html#dense3dto4d">Dense3Dto4D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_activations.html">Custom Activations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_activations.html#meanvarianceactivation">MeanVarianceActivation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../model/custom_models.html">Custom Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#stochastic-model">Stochastic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#mvem">MVEM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#deepensemble">DeepEnsemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#swag">SWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#multiswag">MultiSWAG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../model/custom_models.html#orthonormal-certificates">Orthonormal Certificates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/utils.html">Utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/losses.html">Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/losses.html#gaussian-negative-log-likelihood">Gaussian Negative Log Likelihood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/metrics.html">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#picp">PICP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#pinaw">PINAW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils/regularizers.html">Regularizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../utils/regularizers.html#orthonormality">Orthonormality</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">purestochastic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>purestochastic.model.orthonormal_certificates</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for purestochastic.model.orthonormal_certificates</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">purestochastic.model.layers</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">purestochastic.model.base_uncertainty_models</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">keras</span> <span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">K</span>
+<span class="kn">from</span> <span class="nn">purestochastic.common.regularizers</span> <span class="kn">import</span> <span class="n">Orthonormality</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+
+<div class="viewcode-block" id="OrthonormalCertificatesModel"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel">[docs]</a><span class="k">class</span> <span class="nc">OrthonormalCertificatesModel</span><span class="p">(</span><span class="n">StochasticModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Implementation of the Orthonormal Certificates model.</span>
+
+<span class="sd">    The model was proposed in [4]_ . To estimate epistemic uncertainty, they propose Orthonormal Certificates (OCs), </span>
+<span class="sd">    a collection of diverse non-constant functions that map all training samples to zero.</span>
+
+<span class="sd">    The model can be constructed manually (not recommended) or it&#39;s possible to use the method ``toOrthonormalCertificates``</span>
+<span class="sd">    to convert a simple :class:`keras.Model` object into a :class:`OrthonormalCertificatesModel` object. </span>
+<span class="sd">    </span>
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    fit(X, y, epochs_oc=0, learning_rate_oc=0.001):</span>
+<span class="sd">        Fit the initial and OC model.</span>
+<span class="sd">    fit_oc(X, y, learning_rate_oc=0.001):</span>
+<span class="sd">        Fit the OC model.</span>
+<span class="sd">    compute_metrics(x, y, predictions, sample_weight):</span>
+<span class="sd">        Specify the mean and stochastic part of the predictions to compute the metrics.</span>
+<span class="sd">    predict(data, S=5, verbose=0):</span>
+<span class="sd">        Computes the predictions of the initial model and an epistemic score.</span>
+<span class="sd">    find_loss():</span>
+<span class="sd">        Returns the loss specified in ``compile``.</span>
+
+
+<span class="sd">    References</span>
+<span class="sd">    ------------</span>
+<span class="sd">    .. [4] Tagasovska, Natasa and Lopez-Paz, David. « Single-model uncertainties for deep learning ». </span>
+<span class="sd">        In : Advances in Neural Information Processing Systems 2019.Nips (2019), p. 1-12. issn : 10495258. </span>
+<span class="sd">        arXiv : 1811.00908.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OrthonormalCertificatesModel.compute_metrics"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.compute_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">compute_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Custom ``compute_metrics`` method.</span>
+<span class="sd">        </span>
+<span class="sd">        As stated in the parent method ``compute_metrics``, this method called the </span>
+<span class="sd">        parent function with the appropriate ``y_pred`` and ``stochastic_predictions`` </span>
+<span class="sd">        arguments. </span>
+
+<span class="sd">        Warning</span>
+<span class="sd">        -------</span>
+<span class="sd">        For ``OrthonormalCertificatesModel``, the choice is to remove stochastic</span>
+<span class="sd">        metrics because the certificates don&#39;t have a real sense. </span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        x : tf.Tensor</span>
+<span class="sd">            Input data.</span>
+<span class="sd">        y : tf.Tensor</span>
+<span class="sd">            Target data.</span>
+<span class="sd">        predictions : tf.Tensor</span>
+<span class="sd">            Predictions returned by the model (output of `model(x)`)</span>
+<span class="sd">        sample_weight : optional</span>
+<span class="sd">           Sample weights for weighting the loss function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        See parent method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">StochasticModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">compute_metrics</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">predictions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sample_weight</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OrthonormalCertificatesModel.fit"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs_oc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">learning_rate_oc</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Train the model the initial model and the orthonormal certificates.</span>
+
+<span class="sd">        The model is trained in two parts : </span>
+
+<span class="sd">        * During ``epochs`` epochs, the model is trained normally. It&#39;s defined as </span>
+<span class="sd">          the training of the initial model and the training uses the optimizer and </span>
+<span class="sd">          learning rate specified in the ``compile`` function. The certificates are</span>
+<span class="sd">          frozen.</span>
+
+<span class="sd">        * During ``epochs_oc`` epochs, all the layer are frozen except the certificates.</span>
+<span class="sd">          The training is parametrized by ``learning_rate_oc`` and the sum of the loss </span>
+<span class="sd">          function specified in the ``compile`` function and the Orthonormality loss.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        -----</span>
+<span class="sd">        By default, the parameter ``epochs_oc`` is set to 0, and the orthonormal certificates</span>
+<span class="sd">        are not trained.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        ---------</span>
+<span class="sd">        purestochastic.common.regularizer.Orthonormality</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X: np.ndarray</span>
+<span class="sd">            The input data.</span>
+<span class="sd">        y: np.ndarray</span>
+<span class="sd">            The target data.</span>
+<span class="sd">        epoch_oc : int (default : 0)</span>
+<span class="sd">            Number of epochs for the training of certificates.</span>
+<span class="sd">        learning_rate_oc : float (default : 0.001)</span>
+<span class="sd">            Learning rate for the training of certificates.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        History of the two trainings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Freeze OC layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Train the basic model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">find_loss</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span> <span class="n">optimizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">compiled_metrics</span><span class="o">.</span><span class="n">_metrics</span><span class="p">,</span> <span class="n">stochastic_metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stochastic_metrics</span><span class="p">)</span>
+        <span class="n">training_history</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">OrthonormalCertificatesModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Train the OrthogonalCertificates model</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">epochs_oc</span>
+        <span class="n">training_history_oc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_oc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">learning_rate_oc</span><span class="o">=</span><span class="n">learning_rate_oc</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">training_history</span><span class="p">,</span> <span class="n">training_history_oc</span></div>
+
+<div class="viewcode-block" id="OrthonormalCertificatesModel.fit_oc"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.fit_oc">[docs]</a>    <span class="k">def</span> <span class="nf">fit_oc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">learning_rate_oc</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Train the orthonormal certificates.</span>
+
+<span class="sd">        All the layer are frozen except the orthonormal certificates. The model is trained </span>
+<span class="sd">        with the optimizer specified in the ``compile`` function with the learning rate</span>
+<span class="sd">        ``learning_rate_oc``. The loss is the sum of the two following parts : </span>
+
+<span class="sd">            * The loss function with predicted value set to the output of the orthonormal</span>
+<span class="sd">              certificates and target value set to 0.</span>
+
+<span class="sd">            * The orthonormality regularizer added to the kernel so that the certificates </span>
+<span class="sd">              are orthonormal. For more details, see :class:``purestochastic.common.regularizer.Orthonormality``.</span>
+
+<span class="sd">        The details of the method is detailled in [4]_.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X: np.ndarray</span>
+<span class="sd">            The input data.</span>
+<span class="sd">        y: np.ndarray</span>
+<span class="sd">            The target data.</span>
+<span class="sd">        learning_rate_oc : float (default : 0.001)</span>
+<span class="sd">            Learning rate for the training of certificates.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        History of the training.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#Freeze other layers and unfreeze OC layer</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">layer</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Update the loss function to OC loss function and None for the first part</span>
+        <span class="n">K</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">learning_rate_oc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_loss</span><span class="p">()],</span> <span class="n">optimizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">compiled_metrics</span><span class="o">.</span><span class="n">_metrics</span><span class="p">,</span> <span class="n">stochastic_metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stochastic_metrics</span><span class="p">)</span>
+
+        <span class="c1"># Fit OC model</span>
+        <span class="n">y_oc</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="n">training_history</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">OrthonormalCertificatesModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_oc</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1">#Unfreeze other layers and freeze OC layer</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">layer</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Recompile the model to put the loss a the good place and save frozen layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">find_loss</span><span class="p">(),</span> <span class="kc">None</span><span class="p">],</span> <span class="n">optimizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">compiled_metrics</span><span class="o">.</span><span class="n">_metrics</span><span class="p">,</span> <span class="n">stochastic_metrics</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stochastic_metrics</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">training_history</span></div>
+        
+<div class="viewcode-block" id="OrthonormalCertificatesModel.predict"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Compute predictions.</span>
+
+<span class="sd">        This method just called the parent&#39;s method to compute the predictions of the initial model and</span>
+<span class="sd">        the orthonormal certificates. The norm of the orthonormal certificates is computed in order to</span>
+<span class="sd">        have a score for the epistemic uncertainty as defined in the article [4]_ .</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : tf.Tensor</span>
+<span class="sd">            Input data.</span>
+<span class="sd">        kwargs : optional</span>
+<span class="sd">            Other Arguments of the `predict` parent&#39;s method.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Predictions made by the Deep Ensemble model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Compute the predictions</span>
+        <span class="n">predictions</span><span class="p">,</span> <span class="n">oc</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">OrthonormalCertificatesModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Compute scores and normalize them</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">oc</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># scores_epi = (scores - scores.min(axis=0)) / (scores.max(axis=0) - scores.min(axis=0))</span>
+
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">predictions</span><span class="p">,</span> <span class="n">scores</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="OrthonormalCertificatesModel.find_loss"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel.find_loss">[docs]</a>    <span class="k">def</span> <span class="nf">find_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns the loss specified in the ``compile function``.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        str</span>
+<span class="sd">            The name of the loss.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="toOrthonormalCertificates"><a class="viewcode-back" href="../../../model/custom_models.html#purestochastic.model.orthonormal_certificates.toOrthonormalCertificates">[docs]</a><span class="k">def</span> <span class="nf">toOrthonormalCertificates</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">nb_layers_head</span><span class="p">,</span> <span class="n">multiple_miso</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">lambda_coeff</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a regular model into a Orthonormal Certificates model.</span>
+
+<span class="sd">    This method intends to be high-level interface to construct</span>
+<span class="sd">    a Orthonormal Certificates model from a regular model. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    net : :class:`tf.keras.Sequential` or :class:`tf.keras.Model`</span>
+<span class="sd">        a tensorflow model</span>
+
+<span class="sd">    nb_models : int</span>
+<span class="sd">        the number of models</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    :class:`class OrthonormalCertificatesModel`</span>
+<span class="sd">        a Orthonormal Certificates Model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Create Orthonormal Certificates for Epistemic Uncertainties</span>
+    <span class="n">input_oc</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="p">(</span><span class="n">nb_layers_head</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">output</span>
+    <span class="k">if</span> <span class="n">multiple_miso</span><span class="p">:</span>
+        <span class="n">nb_outputs</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">output_oc</span> <span class="o">=</span> <span class="n">Dense2Dto3D</span><span class="p">(</span><span class="n">nb_outputs</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;output_oc&quot;</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">Orthonormality</span><span class="p">(</span><span class="n">miso</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lambda_coeff</span><span class="o">=</span><span class="n">lambda_coeff</span><span class="p">))(</span><span class="n">input_oc</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output_oc</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;output_oc&quot;</span><span class="p">,</span> <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">Orthonormality</span><span class="p">(</span><span class="n">lambda_coeff</span><span class="o">=</span><span class="n">lambda_coeff</span><span class="p">))(</span><span class="n">input_oc</span><span class="p">)</span> 
+
+    <span class="c1"># Change output name of model</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s2">&quot;output_initial_model&quot;</span>
+        
+    <span class="c1"># Create the new model</span>
+    <span class="k">return</span> <span class="n">OrthonormalCertificatesModel</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="p">[</span><span class="n">net</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="n">output_oc</span><span class="p">])</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Victor Bertret.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

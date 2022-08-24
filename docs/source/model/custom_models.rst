@@ -213,3 +213,43 @@ The :class:`MultiSWAGModel` and the method ``toMultiSWAG`` are described above.
     :members:
 
 .. autofunction:: purestochastic.model.swag.toMultiSWAG
+
+Orthonormal Certificates
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Orthonormal Certificates model was developped in order to quantify epistemic uncertainty
+with a single-model estimates. For more details, see 
+`Single-model uncertainties for deep learning <https://arxiv.org/pdf/1811.00908.pdf>`_.
+
+Here are some **examples** using the :class:`OrthonormalCertificatesModel` : 
+
+* With **high-level** API (recommended usage) : 
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 5
+
+    inputs = Input(shape=(input_dim,))
+    x = Dense(100, activation="relu")(inputs)
+    outputs = Dense(output_dim)(x)
+    model = Model(inputs=inputs, outputs=outputs)
+    DeepEnsemble = toOrthonormalCertificates(model, K=100, nb_layers_head=1)
+
+* With **low-level** layers (not recommended) : 
+
+.. code-block:: python
+   :linenos:
+   :emphasize-lines: 4, 5
+
+    inputs = Input(shape=(input_dim,))
+    x = Dense(100, activation="relu")(inputs)
+    outputs = Dense(output_dim)(x)
+    outputs2 = Dense(K, kernel_regularizer=Orthonormality())(x)
+    model = OrthonormalCertificatesModel(inputs=inputs, outputs=[outputs, outputs2])
+
+The :class:`OrthonormalCertificatesModel` and the method ``toOrthonormalCertificates`` are described above. 
+
+.. autoclass:: purestochastic.model.orthonormal_certificates.OrthonormalCertificatesModel
+    :members:
+
+.. autofunction:: purestochastic.model.orthonormal_certificates.toOrthonormalCertificates

@@ -51,6 +51,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#deepensemble-2">3. DeepEnsemble 2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#swag">4. SWAG</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multiswag">5. MultiSWAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#orthonormal-certificates">6. Orthonormal Certificates</a></li>
 </ul>
 </li>
 </ul>
@@ -88,6 +89,10 @@
 <li class="toctree-l3"><a class="reference internal" href="utils/metrics.html#picp">PICP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils/metrics.html#pinaw">PINAW</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils/metrics.html#cwc">CWC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils/regularizers.html">Regularizers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils/regularizers.html#orthonormality">Orthonormality</a></li>
 </ul>
 </li>
 </ul>
@@ -377,6 +382,71 @@ know the values of the metrics at the end of the training with the method <code 
 </figcaption>
 </figure>
 <p>All the code to reproduce the example is available in <a class="reference download internal" download="" href="_downloads/209d3fae77e00a10f3fffa00f1c14be9/multi_swag.py"><code class="xref download docutils literal notranslate"><span class="pre">multi_swag.py</span></code></a>.</p>
+</section>
+<section id="orthonormal-certificates">
+<h2>6. Orthonormal Certificates<a class="headerlink" href="#orthonormal-certificates" title="Permalink to this heading">¶</a></h2>
+<p>The Orthonormal Certificates model consists of adding a linear layer at the top of the featurizer in order to map all the training
+samples to zeros. It can be a good alternative because it’s a single-model estimates. In other words, the training and inference
+time are low.</p>
+<p>As there is a loss function for the orthonormal certificates and the initial model, the training’s display is different.
+When the initial model is trained, the real loss is <code class="docutils literal notranslate"><span class="pre">output_initial_model_loss</span></code>. <code class="docutils literal notranslate"><span class="pre">Loss</span></code> is modified by the <code class="docutils literal notranslate"><span class="pre">regularizer</span></code> added
+to the certificates :</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">epochs_oc</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="go">Epoch 1/40</span>
+<span class="go">1/1 [==============================] - 2s 2s/step - loss: 1.1486 - output_initial_model_loss: 1.1389</span>
+<span class="go">Epoch 2/40</span>
+<span class="go">1/1 [==============================] - 0s 11ms/step - loss: 0.8712 - output_initial_model_loss: 0.8616</span>
+<span class="go">Epoch 3/40</span>
+<span class="go">1/1 [==============================] - 0s 6ms/step - loss: 0.2924 - output_initial_model_loss: 0.2828</span>
+<span class="go">Epoch 4/40</span>
+<span class="go">1/1 [==============================] - 0s 4ms/step - loss: 0.2771 - output_initial_model_loss: 0.2675</span>
+<span class="go">Epoch 5/40</span>
+<span class="go">1/1 [==============================] - 0s 5ms/step - loss: 0.3879 - output_initial_model_loss: 0.3783</span>
+<span class="go">Epoch 6/40</span>
+<span class="go">1/1 [==============================] - 0s 4ms/step - loss: 0.3566 - output_initial_model_loss: 0.3469</span>
+<span class="go">Epoch 7/40</span>
+<span class="go">1/1 [==============================] - 0s 3ms/step - loss: 0.2578 - output_initial_model_loss: 0.2481</span>
+<span class="go">Epoch 8/40</span>
+<span class="go">1/1 [==============================] - 0s 8ms/step - loss: 0.1755 - output_initial_model_loss: 0.1659</span>
+<span class="go">Epoch 9/40</span>
+<span class="go">1/1 [==============================] - 0s 6ms/step - loss: 0.1925 - output_initial_model_loss: 0.1829</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>When the OC model is trained, <code class="docutils literal notranslate"><span class="pre">output_oc_loss</span></code> represent the loss whithout the regularizer added to the
+certificates and <code class="docutils literal notranslate"><span class="pre">loss</span></code> is the total loss :</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">epochs_oc</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">Epoch 40/40</span>
+<span class="go">1/1 [==============================] - 0s 8ms/step - loss: 0.0248 - output_initial_model_loss: 0.0152</span>
+<span class="go">Epoch 1/40</span>
+<span class="go">1/1 [==============================] - 1s 573ms/step - loss: 0.0098 - output_oc_loss: 1.3532e-04</span>
+<span class="go">Epoch 2/40</span>
+<span class="go">1/1 [==============================] - 0s 4ms/step - loss: 0.0097 - output_oc_loss: 1.0131e-04</span>
+<span class="go">Epoch 3/40</span>
+<span class="go">1/1 [==============================] - 0s 8ms/step - loss: 0.0096 - output_oc_loss: 6.5591e-05</span>
+<span class="go">Epoch 4/40</span>
+<span class="go">1/1 [==============================] - 0s 4ms/step - loss: 0.0096 - output_oc_loss: 3.8611e-05</span>
+<span class="go">Epoch 5/40</span>
+<span class="go">1/1 [==============================] - 0s 5ms/step - loss: 0.0095 - output_oc_loss: 2.3374e-05</span>
+<span class="go">Epoch 6/40</span>
+<span class="go">1/1 [==============================] - 0s 4ms/step - loss: 0.0095 - output_oc_loss: 1.8150e-05</span>
+<span class="go">Epoch 7/40</span>
+<span class="go">1/1 [==============================] - 0s 6ms/step - loss: 0.0094 - output_oc_loss: 1.9198e-05</span>
+<span class="go">Epoch 8/40</span>
+<span class="go">1/1 [==============================] - 0s 5ms/step - loss: 0.0094 - output_oc_loss: 2.2717e-05</span>
+<span class="go">Epoch 9/40</span>
+<span class="go">1/1 [==============================] - 0s 4ms/step - loss: 0.0093 - output_oc_loss: 2.5952e-05</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id9">
+<a class="reference internal image-reference" href="_images/orthonormal_certificates.png"><img alt="Orthonormal Certificates" src="_images/orthonormal_certificates.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-text">Predictions of the Orthonormal Certificates model on the Toy dataset.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>All the code to reproduce the example is available in <a class="reference download internal" download="" href="_downloads/2306086a9cce93d34ce6fc8b99a2c8fa/orthonormal_certificates.py"><code class="xref download docutils literal notranslate"><span class="pre">orthonormal_certificates.py</span></code></a>.</p>
 <h2>References</h2><dl class="footnote brackets">
 <dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>José Miguel Hernández-Lobato et Ryan P. Adams. « Probabilistic backpropagation for sca-

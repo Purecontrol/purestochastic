@@ -10,3 +10,4 @@ implemented for stochastic modelling.
 
    losses.rst
    metrics.rst
+   regularizers.rst
