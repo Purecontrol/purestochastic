@@ -244,7 +244,10 @@ class GaussianRegression(Task):
         preds = self.model.predict(X, **kwargs)
 
         # Unstandardize target values (different case according to the activation function)
-        return self.unstandardize_prediction(*np.moveaxis(preds, -1, 0))  # equivalent to tf.unstack(preds, axis=-1)
+        if isinstance(self.model, StochasticModel):
+            return self.unstandardize_prediction(*np.moveaxis(preds, -1, 0))  # equivalent to tf.unstack(preds, axis=-1)
+        else:
+            return self.unstandardize_prediction(preds)
  
     def unstandardize_prediction(self, mean , variance_epi=None, variance_alea=None):
         """
@@ -285,7 +288,7 @@ class GaussianRegression(Task):
             if not(variance_alea is None):
                 output_values += (variance_alea,)
 
-        return output_values
+        return output_values if len(output_values) > 1 else output_values[0]
 
     def evaluate(self, X, y, metrics=None, stochastic_metrics=None, **kwargs):
         """
